@@ -28,14 +28,15 @@ import com.watabou.utils.Bundle;
 
 public class Fragile extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
 	private int hits = 0;
 
 	@Override
-	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
-		//degrades from 100% to 25% damage over 150 hits
-		damage *= (1f - hits*0.005f);
-		if (hits < 150) hits++;
+	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
+		// degrades from 100% to 25% damage over 150 hits
+		damage *= (1f - hits * 0.005f);
+		if (hits < 150)
+			hits++;
 		return damage;
 	}
 
@@ -52,12 +53,12 @@ public class Fragile extends Weapon.Enchantment {
 	private static final String HITS = "hits";
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
+	public void restoreFromBundle(Bundle bundle) {
 		hits = bundle.getInt(HITS);
 	}
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
+	public void storeInBundle(Bundle bundle) {
 		bundle.put(HITS, hits);
 	}
 

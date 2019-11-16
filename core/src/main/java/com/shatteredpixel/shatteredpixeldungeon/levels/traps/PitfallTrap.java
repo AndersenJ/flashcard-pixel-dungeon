@@ -41,24 +41,24 @@ public class PitfallTrap extends Trap {
 
 	@Override
 	public void activate() {
-		
-		if( Dungeon.bossLevel() || Dungeon.depth > 25){
+
+		if (Dungeon.bossLevel() || Dungeon.depth > 25) {
 			GLog.w(Messages.get(this, "no_pit"));
 			return;
 		}
-		
-		Heap heap = Dungeon.level.heaps.get( pos );
 
-		if (heap != null){
-			for (Item item : heap.items){
+		Heap heap = Dungeon.level.heaps.get(pos);
+
+		if (heap != null) {
+			for (Item item : heap.items) {
 				Dungeon.dropToChasm(item);
 			}
 			heap.sprite.kill();
 			GameScene.discard(heap);
-			Dungeon.level.heaps.remove( pos );
+			Dungeon.level.heaps.remove(pos);
 		}
 
-		Char ch = Actor.findChar( pos );
+		Char ch = Actor.findChar(pos);
 
 		if (ch != null && !ch.flying) {
 			if (ch == Dungeon.hero) {
@@ -69,6 +69,7 @@ public class PitfallTrap extends Trap {
 		}
 	}
 
-	//TODO these used to become chasms when disarmed, but the functionality was problematic
-	//because it could block routes, perhaps some way to make this work elegantly?
+	// TODO these used to become chasms when disarmed, but the functionality was
+	// problematic
+	// because it could block routes, perhaps some way to make this work elegantly?
 }

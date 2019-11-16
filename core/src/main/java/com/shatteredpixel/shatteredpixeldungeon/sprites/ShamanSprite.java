@@ -30,32 +30,32 @@ import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 
 public class ShamanSprite extends MobSprite {
-	
+
 	public ShamanSprite() {
 		super();
-		
-		texture( Assets.SHAMAN );
-		
-		TextureFilm frames = new TextureFilm( texture, 12, 15 );
-		
-		idle = new Animation( 2, true );
-		idle.frames( frames, 0, 0, 0, 1, 0, 0, 1, 1 );
-		
-		run = new Animation( 12, true );
-		run.frames( frames, 4, 5, 6, 7 );
-		
-		attack = new Animation( 12, false );
-		attack.frames( frames, 2, 3, 0 );
-		
+
+		texture(Assets.SHAMAN);
+
+		TextureFilm frames = new TextureFilm(texture, 12, 15);
+
+		idle = new Animation(2, true);
+		idle.frames(frames, 0, 0, 0, 1, 0, 0, 1, 1);
+
+		run = new Animation(12, true);
+		run.frames(frames, 4, 5, 6, 7);
+
+		attack = new Animation(12, false);
+		attack.frames(frames, 2, 3, 0);
+
 		zap = attack.clone();
-		
-		die = new Animation( 12, false );
-		die.frames( frames, 8, 9, 10 );
-		
-		play( idle );
+
+		die = new Animation(12, false);
+		die.frames(frames, 8, 9, 10);
+
+		play(idle);
 	}
-	
-	public void zap( int pos ) {
+
+	public void zap(int pos) {
 
 		Char enemy = Actor.findChar(pos);
 
@@ -64,9 +64,9 @@ public class ShamanSprite extends MobSprite {
 		} else {
 			parent.add(new Lightning(center(), pos, (Shaman) ch));
 		}
-		Sample.INSTANCE.play( Assets.SND_LIGHTNING );
-		
-		turnTo( ch.pos, pos );
-		play( zap );
+		Sample.INSTANCE.play(Assets.SND_LIGHTNING);
+
+		turnTo(ch.pos, pos);
+		play(zap);
 	}
 }

@@ -29,22 +29,22 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.SpellSprite;
 import com.watabou.noosa.audio.Sample;
 
 public class ScrollOfForesight extends ExoticScroll {
-	
+
 	{
 		initials = 2;
 	}
-	
+
 	@Override
 	public void doRead() {
-		SpellSprite.show( curUser, SpellSprite.MAP );
-		Sample.INSTANCE.play( Assets.SND_READ );
+		SpellSprite.show(curUser, SpellSprite.MAP);
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
-		
+
 		Buff.affect(curUser, Foresight.class, 600f);
-		
+
 		setKnown();
-		
+
 		readAnimation();
 	}
-	
+
 }

@@ -30,13 +30,13 @@ public class PotionOfExperience extends Potion {
 
 		bones = true;
 	}
-	
+
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		hero.earnExp( hero.maxExp(), getClass() );
+		hero.earnExp(hero.maxExp(), getClass());
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 50 * quantity : super.price();

@@ -29,40 +29,38 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
 public class ThrowingKnife extends MissileWeapon {
-	
+
 	{
 		image = ItemSpriteSheet.THROWING_KNIFE;
-		
+
 		bones = false;
-		
+
 		tier = 1;
 		baseUses = 5;
 	}
-	
+
 	@Override
 	public int max(int lvl) {
-		return  6 * tier +                      //6 base, up from 5
-				(tier == 1 ? 2*lvl : tier*lvl); //scaling unchanged
+		return 6 * tier + // 6 base, up from 5
+				(tier == 1 ? 2 * lvl : tier * lvl); // scaling unchanged
 	}
-	
+
 	private Char enemy;
-	
+
 	@Override
 	protected void onThrow(int cell) {
 		enemy = Actor.findChar(cell);
 		super.onThrow(cell);
 	}
-	
+
 	@Override
 	public int damageRoll(Char owner) {
 		if (owner instanceof Hero) {
-			Hero hero = (Hero)owner;
+			Hero hero = (Hero) owner;
 			if (enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)) {
-				//deals 75% toward max to max on surprise, instead of min to max.
+				// deals 75% toward max to max on surprise, instead of min to max.
 				int diff = max() - min();
-				int damage = augment.damageFactor(Random.NormalIntRange(
-						min() + Math.round(diff*0.75f),
-						max()));
+				int damage = augment.damageFactor(Random.NormalIntRange(min() + Math.round(diff * 0.75f), max()));
 				int exStr = hero.STR() - STRReq();
 				if (exStr > 0) {
 					damage += Random.IntRange(0, exStr);

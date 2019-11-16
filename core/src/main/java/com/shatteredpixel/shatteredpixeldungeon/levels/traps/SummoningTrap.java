@@ -30,6 +30,7 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SummoningTrap extends Trap {
 
@@ -44,32 +45,32 @@ public class SummoningTrap extends Trap {
 	public void activate() {
 
 		int nMobs = 1;
-		if (Random.Int( 2 ) == 0) {
+		if (Random.Int(2) == 0) {
 			nMobs++;
-			if (Random.Int( 2 ) == 0) {
+			if (Random.Int(2) == 0) {
 				nMobs++;
 			}
 		}
 
-		ArrayList<Integer> candidates = new ArrayList<>();
+		List<Integer> candidates = new ArrayList<>();
 
 		for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
 			int p = pos + PathFinder.NEIGHBOURS8[i];
-			if (Actor.findChar( p ) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
-				candidates.add( p );
+			if (Actor.findChar(p) == null && (Dungeon.level.passable[p] || Dungeon.level.avoid[p])) {
+				candidates.add(p);
 			}
 		}
 
-		ArrayList<Integer> respawnPoints = new ArrayList<>();
+		List<Integer> respawnPoints = new ArrayList<>();
 
 		while (nMobs > 0 && candidates.size() > 0) {
-			int index = Random.index( candidates );
+			int index = Random.index(candidates);
 
-			respawnPoints.add( candidates.remove( index ) );
+			respawnPoints.add(candidates.remove(index));
 			nMobs--;
 		}
 
-		ArrayList<Mob> mobs = new ArrayList<>();
+		List<Mob> mobs = new ArrayList<>();
 
 		for (Integer point : respawnPoints) {
 			Mob mob = Dungeon.level.createMob();
@@ -81,11 +82,12 @@ public class SummoningTrap extends Trap {
 			}
 		}
 
-		//important to process the visuals and pressing of cells last, so spawned mobs have a chance to occupy cells first
+		// important to process the visuals and pressing of cells last, so spawned mobs
+		// have a chance to occupy cells first
 		Trap t;
-		for (Mob mob : mobs){
-			//manually trigger traps first to avoid sfx spam
-			if ((t = Dungeon.level.traps.get(mob.pos)) != null && t.active){
+		for (Mob mob : mobs) {
+			// manually trigger traps first to avoid sfx spam
+			if ((t = Dungeon.level.traps.get(mob.pos)) != null && t.active) {
 				t.disarm();
 				t.reveal();
 				t.activate();

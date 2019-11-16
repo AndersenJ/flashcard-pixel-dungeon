@@ -28,8 +28,8 @@ import com.watabou.utils.Bundle;
 
 public class LockedFloor extends Buff {
 
-	//the amount of turns remaining before beneficial passive effects turn off
-	private float left = 50; //starts at 50 turns
+	// the amount of turns remaining before beneficial passive effects turn off
+	private float left = 50; // starts at 50 turns
 
 	@Override
 	public boolean act() {
@@ -39,16 +39,16 @@ public class LockedFloor extends Buff {
 			detach();
 
 		if (left >= 1)
-			left --;
+			left--;
 
 		return true;
 	}
 
-	public void addTime(float time){
+	public void addTime(float time) {
 		left += time;
 	}
 
-	public boolean regenOn(){
+	public boolean regenOn() {
 		return left >= 1;
 	}
 
@@ -57,13 +57,13 @@ public class LockedFloor extends Buff {
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put( LEFT, left );
+		bundle.put(LEFT, left);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		left = bundle.getFloat( LEFT );
+		left = bundle.getFloat(LEFT);
 	}
 
 	@Override

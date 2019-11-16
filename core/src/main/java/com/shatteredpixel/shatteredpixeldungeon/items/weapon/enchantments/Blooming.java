@@ -34,56 +34,60 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Blooming extends Weapon.Enchantment {
-	
-	private static ItemSprite.Glowing DARK_GREEN = new ItemSprite.Glowing( 0x008800 );
-	
+
+	private static ItemSprite.Glowing DARK_GREEN = new ItemSprite.Glowing(0x008800);
+
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
-		
+
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
-		int level = Math.max( 0, weapon.level() );
-		
-		if (Random.Int( level + 3 ) >= 2) {
-			
+		int level = Math.max(0, weapon.level());
+
+		if (Random.Int(level + 3) >= 2) {
+
 			boolean secondPlant = level > Random.Int(10);
-			if (plantGrass(defender.pos)){
-				if (secondPlant) secondPlant = false;
-				else return damage;
+			if (plantGrass(defender.pos)) {
+				if (secondPlant)
+					secondPlant = false;
+				else
+					return damage;
 			}
-			
-			ArrayList<Integer> positions = new ArrayList<>();
-			for (int i : PathFinder.NEIGHBOURS8){
+
+			List<Integer> positions = new ArrayList<>();
+			for (int i : PathFinder.NEIGHBOURS8) {
 				positions.add(i);
 			}
-			Random.shuffle( positions );
-			for (int i : positions){
-				if (plantGrass(defender.pos + i)){
-					if (secondPlant) secondPlant = false;
-					else return damage;
+			Random.shuffle(positions);
+			for (int i : positions) {
+				if (plantGrass(defender.pos + i)) {
+					if (secondPlant)
+						secondPlant = false;
+					else
+						return damage;
 				}
 			}
-			
+
 		}
-		
+
 		return damage;
 	}
-	
-	private boolean plantGrass(int cell){
+
+	private boolean plantGrass(int cell) {
 		int c = Dungeon.level.map[cell];
-		if ( c == Terrain.EMPTY || c == Terrain.EMPTY_DECO
-				|| c == Terrain.EMBERS || c == Terrain.GRASS){
+		if (c == Terrain.EMPTY || c == Terrain.EMPTY_DECO || c == Terrain.EMBERS || c == Terrain.GRASS) {
 			Level.set(cell, Terrain.HIGH_GRASS);
 			GameScene.updateMap(cell);
-			CellEmitter.get( cell ).burst( LeafParticle.LEVEL_SPECIFIC, 4 );
+			CellEmitter.get(cell).burst(LeafParticle.LEVEL_SPECIFIC, 4);
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return DARK_GREEN;

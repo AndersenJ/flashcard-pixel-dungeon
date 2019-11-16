@@ -36,33 +36,33 @@ import com.watabou.utils.Random;
 
 public class Metabolism extends Glyph {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
-	
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
+
 	@Override
-	public int proc( Armor armor, Char attacker, Char defender, int damage) {
+	public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-		if (Random.Int( 6 ) == 0 && defender instanceof Hero) {
+		if (Random.Int(6) == 0 && defender instanceof Hero) {
 
-			//assumes using up 10% of starving, and healing of 1 hp per 10 turns;
-			int healing = Math.min((int)Hunger.STARVING/100, defender.HT - defender.HP);
+			// assumes using up 10% of starving, and healing of 1 hp per 10 turns;
+			int healing = Math.min((int) Hunger.STARVING / 100, defender.HT - defender.HP);
 
 			if (healing > 0) {
-				
+
 				Hunger hunger = Buff.affect(defender, Hunger.class);
-				
+
 				if (hunger != null && !hunger.isStarving()) {
-					
-					hunger.reduceHunger( healing * -10 );
+
+					hunger.reduceHunger(healing * -10);
 					BuffIndicator.refreshHero();
-					
+
 					defender.HP += healing;
-					defender.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-					defender.sprite.showStatus( CharSprite.POSITIVE, Integer.toString( healing ) );
+					defender.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+					defender.sprite.showStatus(CharSprite.POSITIVE, Integer.toString(healing));
 				}
 			}
 
 		}
-		
+
 		return damage;
 	}
 

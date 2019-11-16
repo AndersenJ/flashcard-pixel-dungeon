@@ -42,6 +42,7 @@ import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SandalsOfNature extends Artifact {
 
@@ -60,30 +61,32 @@ public class SandalsOfNature extends Artifact {
 
 	protected WndBag.Mode mode = WndBag.Mode.SEED;
 
-	public ArrayList<Class> seeds = new ArrayList<>();
+	public List<Class<?>> seeds = new ArrayList<>();
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped( hero ) && level() < 3 && !cursed)
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
+		if (isEquipped(hero) && level() < 3 && !cursed)
 			actions.add(AC_FEED);
-		if (isEquipped( hero ) && charge > 0)
+		if (isEquipped(hero) && charge > 0)
 			actions.add(AC_ROOT);
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
 
-		if (action.equals(AC_FEED)){
+		if (action.equals(AC_FEED)) {
 
 			GameScene.selectItem(itemSelector, mode, Messages.get(this, "prompt"));
 
-		} else if (action.equals(AC_ROOT) && level() > 0){
+		} else if (action.equals(AC_ROOT) && level() > 0) {
 
-			if (!isEquipped( hero )) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (charge == 0)    GLog.i( Messages.get(this, "no_charge") );
+			if (!isEquipped(hero))
+				GLog.i(Messages.get(Artifact.class, "need_to_equip"));
+			else if (charge == 0)
+				GLog.i(Messages.get(this, "no_charge"));
 			else {
 				Buff.prolong(hero, Roots.class, 5);
 				Buff.affect(hero, Earthroot.Armor.class).level(charge);
@@ -99,7 +102,7 @@ public class SandalsOfNature extends Artifact {
 	protected ArtifactBuff passiveBuff() {
 		return new Naturalism();
 	}
-	
+
 	@Override
 	public void charge(Hero target) {
 		target.buff(Naturalism.class).charge();
@@ -107,9 +110,9 @@ public class SandalsOfNature extends Artifact {
 
 	@Override
 	public String desc() {
-		String desc = Messages.get(this, "desc_" + (level()+1));
+		String desc = Messages.get(this, "desc_" + (level() + 1));
 
-		if ( isEquipped ( Dungeon.hero ) ){
+		if (isEquipped(Dungeon.hero)) {
 			desc += "\n\n";
 
 			if (!cursed)
@@ -121,7 +124,7 @@ public class SandalsOfNature extends Artifact {
 				desc += "\n\n" + Messages.get(this, "desc_ability");
 		}
 
-		if (!seeds.isEmpty()){
+		if (!seeds.isEmpty()) {
 			desc += "\n\n" + Messages.get(this, "desc_seeds", seeds.size());
 		}
 
@@ -130,39 +133,46 @@ public class SandalsOfNature extends Artifact {
 
 	@Override
 	public Item upgrade() {
-		if (level() < 0)        image = ItemSpriteSheet.ARTIFACT_SANDALS;
-		else if (level() == 0)  image = ItemSpriteSheet.ARTIFACT_SHOES;
-		else if (level() == 1)  image = ItemSpriteSheet.ARTIFACT_BOOTS;
-		else if (level() >= 2)  image = ItemSpriteSheet.ARTIFACT_GREAVES;
-		name = Messages.get(this, "name_" + (level()+1));
+		if (level() < 0)
+			image = ItemSpriteSheet.ARTIFACT_SANDALS;
+		else if (level() == 0)
+			image = ItemSpriteSheet.ARTIFACT_SHOES;
+		else if (level() == 1)
+			image = ItemSpriteSheet.ARTIFACT_BOOTS;
+		else if (level() >= 2)
+			image = ItemSpriteSheet.ARTIFACT_GREAVES;
+		name = Messages.get(this, "name_" + (level() + 1));
 		return super.upgrade();
 	}
-
 
 	private static final String SEEDS = "seeds";
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
+	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(SEEDS, seeds.toArray(new Class[seeds.size()]));
 	}
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
+	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		if (level() > 0) name = Messages.get(this, "name_" + level());
+		if (level() > 0)
+			name = Messages.get(this, "name_" + level());
 		if (bundle.contains(SEEDS))
-			Collections.addAll(seeds , bundle.getClassArray(SEEDS));
-		if (level() == 1)  image = ItemSpriteSheet.ARTIFACT_SHOES;
-		else if (level() == 2)  image = ItemSpriteSheet.ARTIFACT_BOOTS;
-		else if (level() >= 3)  image = ItemSpriteSheet.ARTIFACT_GREAVES;
+			Collections.addAll(seeds, bundle.getClassArray(SEEDS));
+		if (level() == 1)
+			image = ItemSpriteSheet.ARTIFACT_SHOES;
+		else if (level() == 2)
+			image = ItemSpriteSheet.ARTIFACT_BOOTS;
+		else if (level() >= 3)
+			image = ItemSpriteSheet.ARTIFACT_GREAVES;
 	}
 
-	public class Naturalism extends ArtifactBuff{
+	public class Naturalism extends ArtifactBuff {
 		public void charge() {
-			if (level() > 0 && charge < target.HT){
-				//gain 1+(1*level)% of the difference between current charge and max HP.
-				charge+= (Math.round( (target.HT-charge) * (.01+ level()*0.01) ));
+			if (level() > 0 && charge < target.HT) {
+				// gain 1+(1*level)% of the difference between current charge and max HP.
+				charge += (Math.round((target.HT - charge) * (.01 + level() * 0.01)));
 				updateQuickslot();
 			}
 		}
@@ -170,27 +180,27 @@ public class SandalsOfNature extends Artifact {
 
 	protected WndBag.Listener itemSelector = new WndBag.Listener() {
 		@Override
-		public void onSelect( Item item ) {
+		public void onSelect(Item item) {
 			if (item != null && item instanceof Plant.Seed) {
-				if (seeds.contains(item.getClass())){
-					GLog.w( Messages.get(SandalsOfNature.class, "already_fed") );
+				if (seeds.contains(item.getClass())) {
+					GLog.w(Messages.get(SandalsOfNature.class, "already_fed"));
 				} else {
 					seeds.add(item.getClass());
 
 					Hero hero = Dungeon.hero;
-					hero.sprite.operate( hero.pos );
-					Sample.INSTANCE.play( Assets.SND_PLANT );
+					hero.sprite.operate(hero.pos);
+					Sample.INSTANCE.play(Assets.SND_PLANT);
 					hero.busy();
-					hero.spend( 2f );
-					if (seeds.size() >= 3+(level()*3)){
+					hero.spend(2f);
+					if (seeds.size() >= 3 + (level() * 3)) {
 						seeds.clear();
 						upgrade();
 						if (level() >= 1 && level() <= 3) {
-							GLog.p( Messages.get(SandalsOfNature.class, "levelup") );
+							GLog.p(Messages.get(SandalsOfNature.class, "levelup"));
 						}
 
 					} else {
-						GLog.i( Messages.get(SandalsOfNature.class, "absorb_seed") );
+						GLog.i(Messages.get(SandalsOfNature.class, "absorb_seed"));
 					}
 					item.detach(hero.belongings.backpack);
 				}

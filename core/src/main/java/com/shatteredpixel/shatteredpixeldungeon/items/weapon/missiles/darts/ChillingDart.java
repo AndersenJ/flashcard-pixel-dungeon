@@ -28,20 +28,20 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Chill;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ChillingDart extends TippedDart {
-	
+
 	{
 		image = ItemSpriteSheet.CHILLING_DART;
 	}
-	
+
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
-		
-		if (Dungeon.level.water[defender.pos]){
+
+		if (Dungeon.level.water[defender.pos]) {
 			Buff.prolong(defender, Chill.class, 10f);
 		} else {
 			Buff.prolong(defender, Chill.class, 6f);
 		}
-		
+
 		return super.proc(attacker, defender, damage);
 	}
 }

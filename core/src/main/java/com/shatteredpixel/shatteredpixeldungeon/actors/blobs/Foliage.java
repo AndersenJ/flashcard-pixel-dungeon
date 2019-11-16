@@ -33,18 +33,18 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 
 public class Foliage extends Blob {
-	
+
 	@Override
 	protected void evolve() {
 
 		int[] map = Dungeon.level.map;
-		
+
 		boolean visible = false;
 
 		int cell;
 		for (int i = area.left; i < area.right; i++) {
 			for (int j = area.top; j < area.bottom; j++) {
-				cell = i + j*Dungeon.level.width();
+				cell = i + j * Dungeon.level.width();
 				if (cur[cell] > 0) {
 
 					off[cell] = cur[cell];
@@ -62,23 +62,23 @@ public class Foliage extends Blob {
 				}
 			}
 		}
-		
+
 		Hero hero = Dungeon.hero;
 		if (hero.isAlive() && hero.visibleEnemies() == 0 && cur[hero.pos] > 0) {
-			Buff.affect( hero, Shadows.class ).prolong();
+			Buff.affect(hero, Shadows.class).prolong();
 		}
 
 		if (visible) {
-			Notes.add( Notes.Landmark.GARDEN );
+			Notes.add(Notes.Landmark.GARDEN);
 		}
 	}
-	
+
 	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
-		emitter.start( ShaftParticle.FACTORY, 0.9f, 0 );
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
+		emitter.start(ShaftParticle.FACTORY, 0.9f, 0);
 	}
-	
+
 	@Override
 	public String tileDesc() {
 		return Messages.get(this, "desc");

@@ -61,76 +61,76 @@ public class WandOfTransfusion extends Wand {
 	protected void onZap(Ballistica beam) {
 
 		for (int c : beam.subPath(0, beam.dist))
-			CellEmitter.center(c).burst( BloodParticle.BURST, 1 );
+			CellEmitter.center(c).burst(BloodParticle.BURST, 1);
 
 		int cell = beam.collisionPos;
 
 		Char ch = Actor.findChar(cell);
 
-		if (ch instanceof Mob){
-			
+		if (ch instanceof Mob) {
+
 			processSoulMark(ch, chargesPerCast());
-			
-			//this wand does different things depending on the target.
-			
-			//heals/shields an ally or a charmed enemy while damaging self
-			if (ch.alignment == Char.Alignment.ALLY || ch.buff(Charm.class) != null){
-				
+
+			// this wand does different things depending on the target.
+
+			// heals/shields an ally or a charmed enemy while damaging self
+			if (ch.alignment == Char.Alignment.ALLY || ch.buff(Charm.class) != null) {
+
 				// 10% of max hp
-				int selfDmg = Math.round(curUser.HT*0.10f);
-				
-				int healing = selfDmg + 3*level();
+				int selfDmg = Math.round(curUser.HT * 0.10f);
+
+				int healing = selfDmg + 3 * level();
 				int shielding = (ch.HP + healing) - ch.HT;
-				if (shielding > 0){
+				if (shielding > 0) {
 					healing -= shielding;
 					Buff.affect(ch, Barrier.class).setShield(shielding);
 				} else {
 					shielding = 0;
 				}
-				
+
 				ch.HP += healing;
-				
+
 				ch.sprite.emitter().burst(Speck.factory(Speck.HEALING), 2 + level() / 2);
 				ch.sprite.showStatus(CharSprite.POSITIVE, "+%dHP", healing + shielding);
-				
+
 				if (!freeCharge) {
 					damageHero(selfDmg);
 				} else {
 					freeCharge = false;
 				}
 
-			//for enemies...
+				// for enemies...
 			} else {
-				
-				//charms living enemies
+
+				// charms living enemies
 				if (!ch.properties().contains(Char.Property.UNDEAD)) {
 					Buff.affect(ch, Charm.class, 5).object = curUser.id();
-					ch.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 3 + level()/2 );
-				
-				//harms the undead
+					ch.sprite.centerEmitter().start(Speck.factory(Speck.HEART), 0.2f, 3 + level() / 2);
+
+					// harms the undead
 				} else {
-					ch.damage(Random.NormalIntRange(3 + level()/2, 6+level()), this);
+					ch.damage(Random.NormalIntRange(3 + level() / 2, 6 + level()), this);
 					ch.sprite.emitter().start(ShadowParticle.UP, 0.05f, 10 + level());
 					Sample.INSTANCE.play(Assets.SND_BURNING);
 				}
-				
-				//and grants a self shield
-				Buff.affect(curUser, Barrier.class).setShield((5 + 2*level()));
+
+				// and grants a self shield
+				Buff.affect(curUser, Barrier.class).setShield((5 + 2 * level()));
 
 			}
-			
+
 		}
-		
+
 	}
 
-	//this wand costs health too
-	private void damageHero(int damage){
-		
+	// this wand costs health too
+	private void damageHero(int damage) {
+
 		curUser.damage(damage, this);
 
-		if (!curUser.isAlive()){
-			Dungeon.fail( getClass() );
-			GLog.n( Messages.get(this, "ondeath") );
+		if (!curUser.isAlive()) {
+			Dungeon.fail(getClass());
+			GLog.n(Messages.get(this, "ondeath"));
 		}
 	}
 
@@ -144,28 +144,28 @@ public class WandOfTransfusion extends Wand {
 		// lvl 0 - 10%
 		// lvl 1 - 18%
 		// lvl 2 - 25%
-		if (Random.Int( level() + 10 ) >= 9){
-			//grants a free use of the staff
+		if (Random.Int(level() + 10) >= 9) {
+			// grants a free use of the staff
 			freeCharge = true;
-			GLog.p( Messages.get(this, "charged") );
+			GLog.p(Messages.get(this, "charged"));
 			attacker.sprite.emitter().burst(BloodParticle.BURST, 20);
 		}
 	}
 
 	@Override
 	protected void fx(Ballistica beam, Callback callback) {
-		curUser.sprite.parent.add(
-				new Beam.HealthRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
+		curUser.sprite.parent
+				.add(new Beam.HealthRay(curUser.sprite.center(), DungeonTilemap.raisedTileCenterToWorld(beam.collisionPos)));
 		callback.call();
 	}
 
 	@Override
 	public void staffFx(MagesStaff.StaffParticle particle) {
-		particle.color( 0xCC0000 );
+		particle.color(0xCC0000);
 		particle.am = 0.6f;
 		particle.setLifespan(1f);
-		particle.speed.polar( Random.Float(PointF.PI2), 2f );
-		particle.setSize( 1f, 2f);
+		particle.speed.polar(Random.Float(PointF.PI2), 2f);
+		particle.setSize(1f, 2f);
 		particle.radiateXY(0.5f);
 	}
 
@@ -174,13 +174,13 @@ public class WandOfTransfusion extends Wand {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		freeCharge = bundle.getBoolean( FREECHARGE );
+		freeCharge = bundle.getBoolean(FREECHARGE);
 	}
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put( FREECHARGE, freeCharge );
+		bundle.put(FREECHARGE, freeCharge);
 	}
 
 }

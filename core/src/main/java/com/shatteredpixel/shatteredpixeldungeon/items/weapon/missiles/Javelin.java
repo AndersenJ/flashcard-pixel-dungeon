@@ -27,8 +27,8 @@ public class Javelin extends MissileWeapon {
 
 	{
 		image = ItemSpriteSheet.JAVELIN;
-		
+
 		tier = 4;
 	}
-	
+
 }

@@ -36,10 +36,10 @@ public class Stormvine extends Plant {
 	}
 
 	@Override
-	public void activate( Char ch ) {
+	public void activate(Char ch) {
 
 		if (ch != null) {
-			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
+			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
 				Buff.affect(ch, Levitation.class, 10f);
 			} else {
 				Buff.affect(ch, Vertigo.class, Vertigo.DURATION);

@@ -39,22 +39,22 @@ public class PotionOfHealing extends Potion {
 
 		bones = true;
 	}
-	
+
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		//starts out healing 30 hp, equalizes with hero health total at level 11
-		Buff.affect( hero, Healing.class ).setHeal((int)(0.8f*hero.HT + 14), 0.25f, 0);
-		cure( hero );
-		GLog.p( Messages.get(this, "heal") );
+		// starts out healing 30 hp, equalizes with hero health total at level 11
+		Buff.affect(hero, Healing.class).setHeal((int) (0.8f * hero.HT + 14), 0.25f, 0);
+		cure(hero);
+		GLog.p(Messages.get(this, "heal"));
 	}
-	
-	public static void cure( Char ch ) {
-		Buff.detach( ch, Poison.class );
-		Buff.detach( ch, Cripple.class );
-		Buff.detach( ch, Weakness.class );
-		Buff.detach( ch, Bleeding.class );
-		
+
+	public static void cure(Char ch) {
+		Buff.detach(ch, Poison.class);
+		Buff.detach(ch, Cripple.class);
+		Buff.detach(ch, Weakness.class);
+		Buff.detach(ch, Bleeding.class);
+
 	}
 
 	@Override

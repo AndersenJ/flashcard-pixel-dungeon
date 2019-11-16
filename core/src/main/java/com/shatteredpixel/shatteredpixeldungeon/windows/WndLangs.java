@@ -35,6 +35,7 @@ import com.watabou.noosa.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class WndLangs extends Window {
@@ -47,23 +48,23 @@ public class WndLangs extends Window {
 	private int BTN_WIDTH = 50;
 	private int BTN_HEIGHT = 12;
 
-	public WndLangs(){
+	public WndLangs() {
 		super();
 
-		final ArrayList<Languages> langs = new ArrayList<>(Arrays.asList(Languages.values()));
+		final List<Languages> langs = new ArrayList<>(Arrays.asList(Languages.values()));
 
 		Languages nativeLang = Languages.matchLocale(Locale.getDefault());
 		langs.remove(nativeLang);
-		//move the native language to the top.
+		// move the native language to the top.
 		langs.add(0, nativeLang);
 
 		final Languages currLang = Messages.lang();
 
-		//language buttons layout
+		// language buttons layout
 		int y = 0;
-		for (int i = 0; i < langs.size(); i++){
+		for (int i = 0; i < langs.size(); i++) {
 			final int langIndex = i;
-			RedButton btn = new RedButton(Messages.titleCase(langs.get(i).nativeName())){
+			RedButton btn = new RedButton(Messages.titleCase(langs.get(i).nativeName())) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -74,32 +75,36 @@ public class WndLangs extends Window {
 							SPDSettings.language(langs.get(langIndex));
 							Game.platform.resetGenerators();
 						}
+
 						@Override
 						public void afterCreate() {
-							//do nothing
+							// do nothing
 						}
 					});
 				}
 			};
-			if (currLang == langs.get(i)){
+			if (currLang == langs.get(i)) {
 				btn.textColor(TITLE_COLOR);
 			} else {
 				switch (langs.get(i).status()) {
-					case INCOMPLETE:
-						btn.textColor(0x888888);
-						break;
-					case UNREVIEWED:
-						btn.textColor(0xBBBBBB);
-						break;
+				case INCOMPLETE:
+					btn.textColor(0x888888);
+					break;
+				case UNREVIEWED:
+					btn.textColor(0xBBBBBB);
+					break;
+				case REVIEWED:
+					break;
 				}
 			}
 			btn.setSize(BTN_WIDTH, BTN_HEIGHT);
-			if (SPDSettings.landscape() && i % 2 == 1){
-				btn.setPos(BTN_WIDTH+1, y-(BTN_HEIGHT + 1));
+			if (SPDSettings.landscape() && i % 2 == 1) {
+				btn.setPos(BTN_WIDTH + 1, y - (BTN_HEIGHT + 1));
 			} else {
 				btn.setPos(0, y);
 				y += BTN_HEIGHT;
-				if (SPDSettings.landscape()) y++;
+				if (SPDSettings.landscape())
+					y++;
 			}
 
 			add(btn);
@@ -114,14 +119,14 @@ public class WndLangs extends Window {
 		separator.x = textLeft - 2.5f;
 		add(separator);
 
-		//language info layout.
-		RenderedTextBlock title = PixelScene.renderTextBlock( Messages.titleCase(currLang.nativeName()) , 9 );
-		title.setPos( textLeft + (textWidth - title.width())/2f, 2 );
+		// language info layout.
+		RenderedTextBlock title = PixelScene.renderTextBlock(Messages.titleCase(currLang.nativeName()), 9);
+		title.setPos(textLeft + (textWidth - title.width()) / 2f, 2);
 		title.hardlight(TITLE_COLOR);
 		PixelScene.align(title);
 		add(title);
 
-		if (currLang == Languages.ENGLISH){
+		if (currLang == Languages.ENGLISH) {
 
 			RenderedTextBlock info = PixelScene.renderTextBlock(6);
 			info.text("This is the source language, written by the developer.", width - textLeft);
@@ -132,20 +137,20 @@ public class WndLangs extends Window {
 
 			RenderedTextBlock info = PixelScene.renderTextBlock(6);
 			switch (currLang.status()) {
-				case REVIEWED:
-					info.text(Messages.get(this, "completed"), width - textLeft);
-					break;
-				case UNREVIEWED:
-					info.text(Messages.get(this, "unreviewed"), width - textLeft);
-					break;
-				case INCOMPLETE:
-					info.text(Messages.get(this, "unfinished"), width - textLeft);
-					break;
+			case REVIEWED:
+				info.text(Messages.get(this, "completed"), width - textLeft);
+				break;
+			case UNREVIEWED:
+				info.text(Messages.get(this, "unreviewed"), width - textLeft);
+				break;
+			case INCOMPLETE:
+				info.text(Messages.get(this, "unfinished"), width - textLeft);
+				break;
 			}
 			info.setPos(textLeft, title.bottom() + 4);
 			add(info);
 
-			RedButton creditsBtn = new RedButton(Messages.titleCase(Messages.get(this, "credits"))){
+			RedButton creditsBtn = new RedButton(Messages.titleCase(Messages.get(this, "credits"))) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -153,18 +158,18 @@ public class WndLangs extends Window {
 					String creds2 = "";
 					String[] reviewers = currLang.reviewers();
 					String[] translators = currLang.translators();
-					
+
 					boolean wide = false;
-					if (SPDSettings.landscape() && (reviewers.length + translators.length) > 10){
+					if (SPDSettings.landscape() && (reviewers.length + translators.length) > 10) {
 						wide = true;
 					}
-					
+
 					int i;
-					if (reviewers.length > 0){
+					if (reviewers.length > 0) {
 						creds += Messages.titleCase(Messages.get(WndLangs.class, "reviewers")) + "\n";
 						creds2 += "";
-						for ( i = 0; i < reviewers.length; i++){
-							if (wide && i % 2 == 1){
+						for (i = 0; i < reviewers.length; i++) {
+							if (wide && i % 2 == 1) {
 								creds2 += "-" + reviewers[i] + "\n";
 							} else {
 								creds += "-" + reviewers[i] + "\n";
@@ -172,39 +177,40 @@ public class WndLangs extends Window {
 						}
 						creds += "\n";
 						creds2 += "\n";
-						if (i % 2 == 1) creds2 += "\n";
+						if (i % 2 == 1)
+							creds2 += "\n";
 					}
 
-					if (reviewers.length > 0 || translators.length > 0){
+					if (reviewers.length > 0 || translators.length > 0) {
 						creds += Messages.titleCase(Messages.get(WndLangs.class, "translators")) + "\n";
 						creds2 += "\n";
-						//reviewers are also translators
-						for ( i = 0; i < reviewers.length; i++){
-							if (wide && i % 2 == 1){
+						// reviewers are also translators
+						for (i = 0; i < reviewers.length; i++) {
+							if (wide && i % 2 == 1) {
 								creds2 += "-" + reviewers[i] + "\n";
 							} else {
 								creds += "-" + reviewers[i] + "\n";
 							}
 						}
-						for (int j = 0; j < translators.length; j++){
-							if (wide && (j + i) % 2 == 1){
+						for (int j = 0; j < translators.length; j++) {
+							if (wide && (j + i) % 2 == 1) {
 								creds2 += "-" + translators[j] + "\n";
 							} else {
 								creds += "-" + translators[j] + "\n";
 							}
 						}
 					}
-					
-					creds = creds.substring(0, creds.length()-1);
 
-					Window credits = new Window( 0, 0, 0, Chrome.get(Chrome.Type.TOAST) );
-					
-					int w = wide? 135 : 65;
+					creds = creds.substring(0, creds.length() - 1);
+
+					Window credits = new Window(0, 0, 0, Chrome.get(Chrome.Type.TOAST));
+
+					int w = wide ? 135 : 65;
 
 					RenderedTextBlock title = PixelScene.renderTextBlock(6);
-					title.text(Messages.titleCase(Messages.get(WndLangs.class, "credits")) , w);
+					title.text(Messages.titleCase(Messages.get(WndLangs.class, "credits")), w);
 					title.hardlight(SHPX_COLOR);
-					title.setPos((w - title.width())/2, 0);
+					title.setPos((w - title.width()) / 2, 0);
 					credits.add(title);
 
 					RenderedTextBlock text = PixelScene.renderTextBlock(5);
@@ -212,8 +218,8 @@ public class WndLangs extends Window {
 					text.text(creds, 65);
 					text.setPos(0, title.bottom() + 2);
 					credits.add(text);
-					
-					if (wide){
+
+					if (wide) {
 						RenderedTextBlock rightColumn = PixelScene.renderTextBlock(5);
 						rightColumn.setHightlighting(false);
 						rightColumn.text(creds2, 65);
@@ -221,7 +227,7 @@ public class WndLangs extends Window {
 						credits.add(rightColumn);
 					}
 
-					credits.resize(w, (int)text.bottom());
+					credits.resize(w, (int) text.bottom());
 					parent.add(credits);
 				}
 			};
@@ -237,19 +243,21 @@ public class WndLangs extends Window {
 		}
 
 	}
-	
+
 	@Override
 	public void hide() {
 		super.hide();
-		//resets generators because there's no need to retain chars for languages not selected
+		// resets generators because there's no need to retain chars for languages not
+		// selected
 		ShatteredPixelDungeon.seamlessResetScene(new Game.SceneChangeCallback() {
 			@Override
 			public void beforeCreate() {
 				Game.platform.resetGenerators();
 			}
+
 			@Override
 			public void afterCreate() {
-				//do nothing
+				// do nothing
 			}
 		});
 	}

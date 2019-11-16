@@ -26,15 +26,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 
 public class PotionOfHolyFuror extends ExoticPotion {
-	
+
 	{
 		initials = 0;
 	}
-	
+
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
 		Buff.prolong(hero, Bless.class, 100f);
 	}
-	
+
 }

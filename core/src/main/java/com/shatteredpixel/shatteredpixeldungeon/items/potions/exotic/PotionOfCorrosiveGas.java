@@ -29,21 +29,21 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Sample;
 
 public class PotionOfCorrosiveGas extends ExoticPotion {
-	
+
 	{
 		initials = 11;
 	}
-	
+
 	@Override
-	public void shatter( int cell ) {
-		
+	public void shatter(int cell) {
+
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		GameScene.add( Blob.seed( cell, 200, CorrosiveGas.class ).setStrength( 1 + Dungeon.depth/5));
+
+		GameScene.add(Blob.seed(cell, 200, CorrosiveGas.class).setStrength(1 + Dungeon.depth / 5));
 	}
 }

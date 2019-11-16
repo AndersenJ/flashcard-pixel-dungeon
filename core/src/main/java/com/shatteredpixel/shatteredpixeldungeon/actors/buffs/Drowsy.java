@@ -38,7 +38,7 @@ public class Drowsy extends Buff {
 		return BuffIndicator.DROWSY;
 	}
 
-	public boolean attachTo( Char target ) {
+	public boolean attachTo(Char target) {
 		if (!target.isImmune(Sleep.class) && super.attachTo(target)) {
 			if (cooldown() == 0)
 				spend(Random.Int(3, 6));
@@ -48,7 +48,7 @@ public class Drowsy extends Buff {
 	}
 
 	@Override
-	public boolean act(){
+	public boolean act() {
 		Buff.affect(target, MagicalSleep.class);
 
 		detach();
@@ -62,6 +62,6 @@ public class Drowsy extends Buff {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", dispTurns(cooldown()+1));
+		return Messages.get(this, "desc", dispTurns(cooldown() + 1));
 	}
 }

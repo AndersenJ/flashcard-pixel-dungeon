@@ -21,8 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.actors.blobs;
 
-
-
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.effects.BlobEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -30,10 +28,11 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.GooSprite;
 
 public class GooWarn extends Blob {
 
-	//cosmetic blob, used to warn noobs that goo's pump up should, infact, be avoided.
+	// cosmetic blob, used to warn noobs that goo's pump up should, infact, be
+	// avoided.
 
 	{
-		//this one needs to act after the Goo
+		// this one needs to act after the Goo
 		actPriority = MOB_PRIO - 1;
 	}
 
@@ -44,9 +43,9 @@ public class GooWarn extends Blob {
 
 		int cell;
 
-		for (int i = area.left; i < area.right; i++){
-			for (int j = area.top; j < area.bottom; j++){
-				cell = i + j*Dungeon.level.width();
+		for (int i = area.left; i < area.right; i++) {
+			for (int j = area.top; j < area.bottom; j++) {
+				cell = i + j * Dungeon.level.width();
 				off[cell] = cur[cell] > 0 ? cur[cell] - 1 : 0;
 
 				if (off[cell] > 0) {
@@ -58,9 +57,9 @@ public class GooWarn extends Blob {
 	}
 
 	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
-		emitter.pour(GooSprite.GooParticle.FACTORY, 0.03f );
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
+		emitter.pour(GooSprite.GooParticle.FACTORY, 0.03f);
 	}
 
 	@Override
@@ -68,4 +67,3 @@ public class GooWarn extends Blob {
 		return Messages.get(this, "desc");
 	}
 }
-

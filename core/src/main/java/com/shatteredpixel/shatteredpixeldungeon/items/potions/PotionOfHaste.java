@@ -28,19 +28,19 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class PotionOfHaste extends Potion {
-	
+
 	{
 		initials = 2;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
 		setKnown();
-		
-		GLog.w( Messages.get(this, "energetic") );
-		Buff.prolong( hero, Haste.class, Haste.DURATION);
+
+		GLog.w(Messages.get(this, "energetic"));
+		Buff.prolong(hero, Haste.class, Haste.DURATION);
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 40 * quantity : super.price();

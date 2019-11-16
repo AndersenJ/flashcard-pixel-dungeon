@@ -27,7 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Shopkeeper;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MerchantsBeacon extends Item {
 
@@ -44,8 +44,8 @@ public class MerchantsBeacon extends Item {
 	}
 
 	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
 		actions.add(AC_USE);
 		return actions;
 	}
@@ -56,9 +56,9 @@ public class MerchantsBeacon extends Item {
 		super.execute(hero, action);
 
 		if (action.equals(AC_USE)) {
-			detach( hero.belongings.backpack );
+			detach(hero.belongings.backpack);
 			Shopkeeper.sell();
-			Sample.INSTANCE.play( Assets.SND_BEACON );
+			Sample.INSTANCE.play(Assets.SND_BEACON);
 		}
 
 	}

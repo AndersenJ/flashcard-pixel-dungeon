@@ -34,32 +34,32 @@ public class Ooze extends Buff {
 		type = buffType.NEGATIVE;
 		announced = true;
 	}
-	
+
 	private float left;
-	private static final String LEFT	= "left";
-	
+	private static final String LEFT = "left";
+
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( LEFT, left );
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(LEFT, left);
 	}
-	
+
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
+	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		//pre-0.7.0
-		if (bundle.contains( LEFT )) {
+		// pre-0.7.0
+		if (bundle.contains(LEFT)) {
 			left = bundle.getFloat(LEFT);
 		} else {
 			left = 20;
 		}
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.OOZE;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
@@ -74,8 +74,8 @@ public class Ooze extends Buff {
 	public String desc() {
 		return Messages.get(this, "desc", dispTurns(left));
 	}
-	
-	public void set(float left){
+
+	public void set(float left) {
 		this.left = left;
 	}
 
@@ -83,16 +83,16 @@ public class Ooze extends Buff {
 	public boolean act() {
 		if (target.isAlive()) {
 			if (Dungeon.depth > 4)
-				target.damage( Dungeon.depth/5, this );
+				target.damage(Dungeon.depth / 5, this);
 			else if (Random.Int(2) == 0)
-				target.damage( 1, this );
+				target.damage(1, this);
 			if (!target.isAlive() && target == Dungeon.hero) {
-				Dungeon.fail( getClass() );
-				GLog.n( Messages.get(this, "ondeath") );
+				Dungeon.fail(getClass());
+				GLog.n(Messages.get(this, "ondeath"));
 			}
-			spend( TICK );
+			spend(TICK);
 			left -= TICK;
-			if (left <= 0){
+			if (left <= 0) {
 				detach();
 			}
 		} else {

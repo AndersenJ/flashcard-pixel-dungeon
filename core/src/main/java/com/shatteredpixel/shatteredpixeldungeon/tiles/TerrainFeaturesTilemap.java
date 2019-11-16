@@ -46,13 +46,13 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 		this.plants = plants;
 		this.traps = traps;
 
-		map( Dungeon.level.map, Dungeon.level.width() );
+		map(Dungeon.level.map, Dungeon.level.width());
 
 		instance = this;
 	}
 
-	protected int getTileVisual(int pos, int tile, boolean flat){
-		if (traps.get(pos) != null){
+	protected int getTileVisual(int pos, int tile, boolean flat) {
+		if (traps.get(pos) != null) {
 			Trap trap = traps.get(pos);
 			if (!trap.visible)
 				return -1;
@@ -60,52 +60,55 @@ public class TerrainFeaturesTilemap extends DungeonTilemap {
 				return (trap.active ? trap.color : Trap.BLACK) + (trap.shape * 16);
 		}
 
-		if (plants.get(pos) != null){
-			return plants.get(pos).image + 7*16;
+		if (plants.get(pos) != null) {
+			return plants.get(pos).image + 7 * 16;
 		}
 
-		int stage = (Dungeon.depth-1)/5;
-		if (Dungeon.depth == 21) stage--;
-		if (tile == Terrain.HIGH_GRASS){
-			return 9 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
-		} else if (tile == Terrain.FURROWED_GRASS){
-			//TODO
-			return 11 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+		int stage = (Dungeon.depth - 1) / 5;
+		if (Dungeon.depth == 21)
+			stage--;
+		if (tile == Terrain.HIGH_GRASS) {
+			return 9 + 16 * stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+		} else if (tile == Terrain.FURROWED_GRASS) {
+			// TODO
+			return 11 + 16 * stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.GRASS) {
-			return 13 + 16*stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 13 + 16 * stage + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		} else if (tile == Terrain.EMBERS) {
-			return 9 * (16*5) + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
+			return 9 * (16 * 5) + (DungeonTileSheet.tileVariance[pos] >= 50 ? 1 : 0);
 		}
 
 		return -1;
 	}
 
-	public static Image tile(int pos, int tile ) {
-		RectF uv = instance.tileset.get( instance.getTileVisual( pos, tile, true ) );
-		if (uv == null) return null;
-		
-		Image img = new Image( instance.texture );
+	public static Image tile(int pos, int tile) {
+		RectF uv = instance.tileset.get(instance.getTileVisual(pos, tile, true));
+		if (uv == null)
+			return null;
+
+		Image img = new Image(instance.texture);
 		img.frame(uv);
 		return img;
 	}
 
-	public void growPlant( final int pos ){
-		final Image plant = tile( pos, map[pos] );
-		if (plant == null) return;
-		
-		plant.origin.set( 8, 12 );
-		plant.scale.set( 0 );
-		plant.point( DungeonTilemap.tileToWorld( pos ) );
+	public void growPlant(final int pos) {
+		final Image plant = tile(pos, map[pos]);
+		if (plant == null)
+			return;
 
-		parent.add( plant );
+		plant.origin.set(8, 12);
+		plant.scale.set(0);
+		plant.point(DungeonTilemap.tileToWorld(pos));
 
-		parent.add( new ScaleTweener( plant, new PointF(1, 1), 0.2f ) {
+		parent.add(plant);
+
+		parent.add(new ScaleTweener(plant, new PointF(1, 1), 0.2f) {
 			protected void onComplete() {
 				plant.killAndErase();
 				killAndErase();
 				updateMapCell(pos);
 			}
-		} );
+		});
 	}
 
 }

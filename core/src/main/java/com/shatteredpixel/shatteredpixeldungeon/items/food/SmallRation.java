@@ -28,9 +28,9 @@ public class SmallRation extends Food {
 
 	{
 		image = ItemSpriteSheet.OVERPRICED;
-		energy = Hunger.HUNGRY/2f;
+		energy = Hunger.HUNGRY / 2f;
 	}
-	
+
 	@Override
 	public int price() {
 		return 10 * quantity;

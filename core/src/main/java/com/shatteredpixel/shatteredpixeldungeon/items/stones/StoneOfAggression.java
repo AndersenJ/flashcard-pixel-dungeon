@@ -37,56 +37,56 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
 public class StoneOfAggression extends Runestone {
-	
+
 	{
 		image = ItemSpriteSheet.STONE_AGGRESSION;
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
-		
-		Char ch = Actor.findChar( cell );
-		
+
+		Char ch = Actor.findChar(cell);
+
 		if (ch != null) {
 			if (ch.alignment == Char.Alignment.ENEMY) {
 				Buff.prolong(ch, Aggression.class, Aggression.DURATION / 5f);
 			} else {
 				Buff.prolong(ch, Aggression.class, Aggression.DURATION);
 			}
-			CellEmitter.center(cell).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-			Sample.INSTANCE.play( Assets.SND_READ );
+			CellEmitter.center(cell).start(Speck.factory(Speck.SCREAM), 0.3f, 3);
+			Sample.INSTANCE.play(Assets.SND_READ);
 		} else {
-			//Item.onThrow
-			Heap heap = Dungeon.level.drop( this, cell );
+			// Item.onThrow
+			Heap heap = Dungeon.level.drop(this, cell);
 			if (!heap.isEmpty()) {
-				heap.sprite.drop( cell );
+				heap.sprite.drop(cell);
 			}
 		}
-		
+
 	}
-	
+
 	public static class Aggression extends FlavourBuff {
-		
+
 		public static final float DURATION = 20f;
-		
+
 		{
 			type = buffType.NEGATIVE;
 			announced = true;
 		}
-		
+
 		@Override
-		public void storeInBundle( Bundle bundle ) {
+		public void storeInBundle(Bundle bundle) {
 			super.storeInBundle(bundle);
 		}
-		
+
 		@Override
-		public void restoreFromBundle( Bundle bundle ) {
-			super.restoreFromBundle( bundle );
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
 		}
-		
+
 		@Override
 		public void detach() {
-			//if our target is an enemy, reset the aggro of any enemies targeting it
+			// if our target is an enemy, reset the aggro of any enemies targeting it
 			if (target.isAlive()) {
 				if (target.alignment == Char.Alignment.ENEMY) {
 					for (Mob m : Dungeon.level.mobs) {
@@ -97,14 +97,14 @@ public class StoneOfAggression extends Runestone {
 				}
 			}
 			super.detach();
-			
+
 		}
-		
+
 		@Override
 		public String toString() {
 			return Messages.get(this, "name");
 		}
-		
+
 	}
-	
+
 }

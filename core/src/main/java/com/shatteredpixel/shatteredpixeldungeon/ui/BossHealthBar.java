@@ -69,7 +69,7 @@ public class BossHealthBar extends Component {
 		blood.pour(BloodParticle.FACTORY, 0.3f);
 		blood.autoKill = false;
 		blood.on = false;
-		add( blood );
+		add(blood);
 	}
 
 	@Override
@@ -77,46 +77,49 @@ public class BossHealthBar extends Component {
 		bar.x = x;
 		bar.y = y;
 
-		hp.x = bar.x+15;
-		hp.y = bar.y+6;
+		hp.x = bar.x + 15;
+		hp.y = bar.y + 6;
 
-		skull.x = bar.x+5;
-		skull.y = bar.y+5;
+		skull.x = bar.x + 5;
+		skull.y = bar.y + 5;
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		if (boss != null){
-			if (!boss.isAlive() || !Dungeon.level.mobs.contains(boss)){
+		if (boss != null) {
+			if (!boss.isAlive() || !Dungeon.level.mobs.contains(boss)) {
 				boss = null;
 				visible = active = false;
 			} else {
-				hp.scale.x = (float)boss.HP/boss.HT;
-				if (hp.scale.x < 0.25f) bleed( true );
+				hp.scale.x = (float) boss.HP / boss.HT;
+				if (hp.scale.x < 0.25f)
+					bleed(true);
 
-				if (bleeding != blood.on){
-					if (bleeding)   skull.tint( 0xcc0000, 0.6f );
-					else            skull.resetColor();
+				if (bleeding != blood.on) {
+					if (bleeding)
+						skull.tint(0xcc0000, 0.6f);
+					else
+						skull.resetColor();
 					blood.on = bleeding;
 				}
 			}
 		}
 	}
 
-	public static void assignBoss(Mob boss){
+	public static void assignBoss(Mob boss) {
 		BossHealthBar.boss = boss;
 		bleed(false);
 		if (instance != null) {
 			instance.visible = instance.active = true;
 		}
 	}
-	
-	public static boolean isAssigned(){
+
+	public static boolean isAssigned() {
 		return boss != null && boss.isAlive() && Dungeon.level.mobs.contains(boss);
 	}
 
-	public static void bleed(boolean value){
+	public static void bleed(boolean value) {
 		bleeding = value;
 	}
 

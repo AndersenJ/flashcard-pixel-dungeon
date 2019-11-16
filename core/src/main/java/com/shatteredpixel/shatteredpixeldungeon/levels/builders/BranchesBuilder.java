@@ -25,46 +25,47 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //A builder that creates only branches, very simple and very random
 public class BranchesBuilder extends RegularBuilder {
-	
+
 	@Override
-	public ArrayList<Room> build(ArrayList<Room> rooms) {
-		
-		setupRooms( rooms );
-		
-		if (entrance == null){
+	public List<Room> build(List<Room> rooms) {
+
+		setupRooms(rooms);
+
+		if (entrance == null) {
 			return null;
 		}
-		
-		ArrayList<Room> branchable = new ArrayList<>();
-		
+
+		List<Room> branchable = new ArrayList<>();
+
 		entrance.setSize();
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
-		
-		if (shop != null){
+
+		if (shop != null) {
 			placeRoom(branchable, entrance, shop, Random.Float(360f));
 		}
-		
-		ArrayList<Room> roomsToBranch = new ArrayList<>();
+
+		List<Room> roomsToBranch = new ArrayList<>();
 		roomsToBranch.addAll(multiConnections);
-		if (exit != null) roomsToBranch.add(exit);
+		if (exit != null)
+			roomsToBranch.add(exit);
 		roomsToBranch.addAll(singleConnections);
 		createBranches(rooms, branchable, roomsToBranch, branchTunnelChances);
-		
+
 		findNeighbours(rooms);
-		
-		for (Room r : rooms){
-			for (Room n : r.neigbours){
-				if (!n.connected.containsKey(r)
-						&& Random.Float() < extraConnectionChance){
+
+		for (Room r : rooms) {
+			for (Room n : r.neigbours) {
+				if (!n.connected.containsKey(r) && Random.Float() < extraConnectionChance) {
 					r.connect(n);
 				}
 			}
 		}
-		
+
 		return rooms;
 	}
 }

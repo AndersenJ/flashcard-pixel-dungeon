@@ -30,69 +30,69 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class InventoryStone extends Runestone {
-	
+
 	protected String inventoryTitle = Messages.get(this, "inv_title");
 	protected WndBag.Mode mode = WndBag.Mode.ALL;
-	
+
 	{
 		defaultAction = AC_USE;
 	}
-	
-	public static final String AC_USE	= "USE";
-	
+
+	public static final String AC_USE = "USE";
+
 	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions( hero );
-		actions.add( AC_USE );
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
+		actions.add(AC_USE);
 		return actions;
 	}
-	
+
 	@Override
 	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
-		if (action.equals(AC_USE)){
-			curItem = detach( hero.belongings.backpack );
+		if (action.equals(AC_USE)) {
+			curItem = detach(hero.belongings.backpack);
 			activate(curUser.pos);
 		}
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
-		GameScene.selectItem( itemSelector, mode, inventoryTitle );
+		GameScene.selectItem(itemSelector, mode, inventoryTitle);
 	}
-	
+
 	protected void useAnimation() {
-		curUser.spend( 1f );
+		curUser.spend(1f);
 		curUser.busy();
 		curUser.sprite.operate(curUser.pos);
-		
-		Sample.INSTANCE.play( Assets.SND_READ );
+
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
 	}
-	
-	protected abstract void onItemSelected( Item item );
-	
+
+	protected abstract void onItemSelected(Item item);
+
 	protected static WndBag.Listener itemSelector = new WndBag.Listener() {
 		@Override
-		public void onSelect( Item item ) {
-			
-			//FIXME this safety check shouldn't be necessary
-			//it would be better to eliminate the curItem static variable.
-			if (!(curItem instanceof InventoryStone)){
+		public void onSelect(Item item) {
+
+			// FIXME this safety check shouldn't be necessary
+			// it would be better to eliminate the curItem static variable.
+			if (!(curItem instanceof InventoryStone)) {
 				return;
 			}
-			
+
 			if (item != null) {
-				
-				((InventoryStone)curItem).onItemSelected( item );
-				
-			} else{
-				curItem.collect( curUser.belongings.backpack );
+
+				((InventoryStone) curItem).onItemSelected(item);
+
+			} else {
+				curItem.collect(curUser.belongings.backpack);
 			}
 		}
 	};
-	
+
 }

@@ -66,7 +66,7 @@ public class Surprise extends Image {
 		} else {
 			float p = time / TIME_TO_FADE;
 			alpha(p);
-			scale.y = 1 + p/2;
+			scale.y = 1 + p / 2;
 		}
 	}
 

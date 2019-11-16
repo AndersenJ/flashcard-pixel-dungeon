@@ -31,16 +31,16 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 
 public class ParalyticGas extends Blob {
-	
+
 	{
-		//acts after mobs, to give them a chance to resist paralysis
+		// acts after mobs, to give them a chance to resist paralysis
 		actPriority = MOB_PRIO - 1;
 	}
-	
+
 	@Override
 	protected void evolve() {
 		super.evolve();
-		
+
 		Char ch;
 		int cell;
 
@@ -54,14 +54,14 @@ public class ParalyticGas extends Blob {
 			}
 		}
 	}
-	
+
 	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
-		
-		emitter.pour( Speck.factory( Speck.PARALYSIS ), 0.4f );
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
+
+		emitter.pour(Speck.factory(Speck.PARALYSIS), 0.4f);
 	}
-	
+
 	@Override
 	public String tileDesc() {
 		return Messages.get(this, "desc");

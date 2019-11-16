@@ -36,54 +36,55 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 
 public class ElixirOfHoneyedHealing extends Elixir {
-	
+
 	{
 		image = ItemSpriteSheet.ELIXIR_HONEY;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
-		Buff.affect( hero, Healing.class ).setHeal((int)(0.8f*hero.HT + 14), 0.25f, 0);
+		Buff.affect(hero, Healing.class).setHeal((int) (0.8f * hero.HT + 14), 0.25f, 0);
 		PotionOfHealing.cure(hero);
-		Buff.affect(hero, Hunger.class).satisfy(Hunger.STARVING/5f);
+		Buff.affect(hero, Hunger.class).satisfy(Hunger.STARVING / 5f);
 	}
-	
+
 	@Override
 	public void shatter(int cell) {
 		if (Dungeon.level.heroFOV[cell]) {
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
-			splash( cell );
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
+			splash(cell);
 		}
-		
+
 		Char ch = Actor.findChar(cell);
-		if (ch != null){
-			Buff.affect( ch, Healing.class ).setHeal((int)(0.8f*ch.HT + 14), 0.25f, 0);
+		if (ch != null) {
+			Buff.affect(ch, Healing.class).setHeal((int) (0.8f * ch.HT + 14), 0.25f, 0);
 			PotionOfHealing.cure(ch);
-			if (ch instanceof Bee && ch.alignment != curUser.alignment){
+			if (ch instanceof Bee && ch.alignment != curUser.alignment) {
 				ch.alignment = Char.Alignment.ALLY;
-				((Bee)ch).setPotInfo(-1, null);
-				
+				((Bee) ch).setPotInfo(-1, null);
+
 			}
 		}
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (30 + 5);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfHealing.class, Honeypot.ShatteredPot.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfHealing.class, Honeypot.ShatteredPot.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 4;
-			
+
 			output = ElixirOfHoneyedHealing.class;
 			outQuantity = 1;
 		}
-		
+
 	}
 }

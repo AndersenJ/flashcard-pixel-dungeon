@@ -41,14 +41,14 @@ public class AlarmTrap extends Trap {
 	public void activate() {
 
 		for (Mob mob : Dungeon.level.mobs) {
-				mob.beckon( pos );
+			mob.beckon(pos);
 		}
 
 		if (Dungeon.level.heroFOV[pos]) {
-			GLog.w( Messages.get(this, "alarm") );
-			CellEmitter.center( pos ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
+			GLog.w(Messages.get(this, "alarm"));
+			CellEmitter.center(pos).start(Speck.factory(Speck.SCREAM), 0.3f, 3);
 		}
 
-		Sample.INSTANCE.play( Assets.SND_ALERT );
+		Sample.INSTANCE.play(Assets.SND_ALERT);
 	}
 }

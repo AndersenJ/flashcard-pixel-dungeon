@@ -26,20 +26,21 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
 
 public class Regeneration extends Buff {
-	
+
 	{
-		//unlike other buffs, this one acts after the hero and takes priority against other effects
-		//healing is much more useful if you get some of it off before taking damage
+		// unlike other buffs, this one acts after the hero and takes priority against
+		// other effects
+		// healing is much more useful if you get some of it off before taking damage
 		actPriority = HERO_PRIO - 1;
 	}
-	
+
 	private static final float REGENERATION_DELAY = 10;
-	
+
 	@Override
 	public boolean act() {
 		if (target.isAlive()) {
 
-			if (target.HP < regencap() && !((Hero)target).isStarving()) {
+			if (target.HP < regencap() && !((Hero) target).isStarving()) {
 				LockedFloor lock = target.buff(LockedFloor.class);
 				if (target.HP > 0 && (lock == null || lock.regenOn())) {
 					target.HP += 1;
@@ -49,26 +50,26 @@ public class Regeneration extends Buff {
 				}
 			}
 
-			ChaliceOfBlood.chaliceRegen regenBuff = Dungeon.hero.buff( ChaliceOfBlood.chaliceRegen.class);
+			ChaliceOfBlood.chaliceRegen regenBuff = Dungeon.hero.buff(ChaliceOfBlood.chaliceRegen.class);
 
 			if (regenBuff != null)
 				if (regenBuff.isCursed())
-					spend( REGENERATION_DELAY * 1.5f );
+					spend(REGENERATION_DELAY * 1.5f);
 				else
-					spend( REGENERATION_DELAY - regenBuff.itemLevel()*0.9f );
+					spend(REGENERATION_DELAY - regenBuff.itemLevel() * 0.9f);
 			else
-				spend( REGENERATION_DELAY );
-			
+				spend(REGENERATION_DELAY);
+
 		} else {
-			
+
 			diactivate();
-			
+
 		}
-		
+
 		return true;
 	}
-	
-	public int regencap(){
+
+	public int regencap() {
 		return target.HT;
 	}
 }

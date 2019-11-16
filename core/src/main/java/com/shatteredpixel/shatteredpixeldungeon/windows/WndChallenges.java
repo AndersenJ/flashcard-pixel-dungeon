@@ -33,67 +33,63 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WndChallenges extends Window {
 
-	private static final int WIDTH		= 120;
-	private static final int TTL_HEIGHT    = 18;
-	private static final int BTN_HEIGHT    = 18;
-	private static final int GAP        = 1;
+	private static final int WIDTH = 120;
+	private static final int TTL_HEIGHT = 18;
+	private static final int BTN_HEIGHT = 18;
+	private static final int GAP = 1;
 
 	private boolean editable;
-	private ArrayList<CheckBox> boxes;
+	private List<CheckBox> boxes;
 
-	public WndChallenges( int checked, boolean editable ) {
+	public WndChallenges(int checked, boolean editable) {
 
 		super();
 
 		this.editable = editable;
 
-		RenderedTextBlock title = PixelScene.renderTextBlock( Messages.get(this, "title"), 12 );
-		title.hardlight( TITLE_COLOR );
-		title.setPos(
-				(WIDTH - title.width()) / 2,
-				(TTL_HEIGHT - title.height()) / 2
-		);
+		RenderedTextBlock title = PixelScene.renderTextBlock(Messages.get(this, "title"), 12);
+		title.hardlight(TITLE_COLOR);
+		title.setPos((WIDTH - title.width()) / 2, (TTL_HEIGHT - title.height()) / 2);
 		PixelScene.align(title);
-		add( title );
+		add(title);
 
 		boxes = new ArrayList<>();
 
 		float pos = TTL_HEIGHT;
-		for (int i=0; i < Challenges.NAME_IDS.length; i++) {
+		for (int i = 0; i < Challenges.NAME_IDS.length; i++) {
 
 			final String challenge = Challenges.NAME_IDS[i];
-			
-			CheckBox cb = new CheckBox( Messages.get(Challenges.class, challenge) );
-			cb.checked( (checked & Challenges.MASKS[i]) != 0 );
+
+			CheckBox cb = new CheckBox(Messages.get(Challenges.class, challenge));
+			cb.checked((checked & Challenges.MASKS[i]) != 0);
 			cb.active = editable;
 
 			if (i > 0) {
 				pos += GAP;
 			}
-			cb.setRect( 0, pos, WIDTH-16, BTN_HEIGHT );
+			cb.setRect(0, pos, WIDTH - 16, BTN_HEIGHT);
 
-			add( cb );
-			boxes.add( cb );
-			
-			IconButton info = new IconButton(Icons.get(Icons.INFO)){
+			add(cb);
+			boxes.add(cb);
+
+			IconButton info = new IconButton(Icons.get(Icons.INFO)) {
 				@Override
 				protected void onClick() {
 					super.onClick();
-					ShatteredPixelDungeon.scene().add(
-							new WndMessage(Messages.get(Challenges.class, challenge+"_desc"))
-					);
+					ShatteredPixelDungeon.scene().add(new WndMessage(Messages.get(Challenges.class, challenge + "_desc")));
 				}
 			};
 			info.setRect(cb.right(), pos, 16, BTN_HEIGHT);
 			add(info);
-			
+
 			pos = cb.bottom();
 		}
 
-		resize( WIDTH, (int)pos );
+		resize(WIDTH, (int) pos);
 	}
 
 	@Override
@@ -101,12 +97,12 @@ public class WndChallenges extends Window {
 
 		if (editable) {
 			int value = 0;
-			for (int i=0; i < boxes.size(); i++) {
-				if (boxes.get( i ).checked()) {
+			for (int i = 0; i < boxes.size(); i++) {
+				if (boxes.get(i).checked()) {
 					value |= Challenges.MASKS[i];
 				}
 			}
-			SPDSettings.challenges( value );
+			SPDSettings.challenges(value);
 		}
 
 		super.onBackPressed();

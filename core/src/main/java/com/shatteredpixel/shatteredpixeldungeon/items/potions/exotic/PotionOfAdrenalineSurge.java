@@ -26,15 +26,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 
 public class PotionOfAdrenalineSurge extends ExoticPotion {
-	
+
 	{
 		initials = 10;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
 		setKnown();
 		Buff.affect(hero, AdrenalineSurge.class).reset(2, 800f);
 	}
-	
+
 }

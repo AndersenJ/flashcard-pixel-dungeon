@@ -31,28 +31,28 @@ public class Roots extends FlavourBuff {
 		type = buffType.NEGATIVE;
 		announced = true;
 	}
-	
+
 	@Override
-	public boolean attachTo( Char target ) {
-		if (!target.flying && super.attachTo( target )) {
+	public boolean attachTo(Char target) {
+		if (!target.flying && super.attachTo(target)) {
 			target.rooted = true;
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void detach() {
 		target.rooted = false;
 		super.detach();
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.ROOTS;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");

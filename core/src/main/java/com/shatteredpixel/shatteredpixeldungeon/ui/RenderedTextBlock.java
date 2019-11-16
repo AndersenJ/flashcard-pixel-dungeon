@@ -27,6 +27,7 @@ import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.ui.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RenderedTextBlock extends Component {
 
@@ -35,124 +36,132 @@ public class RenderedTextBlock extends Component {
 
 	private static final RenderedText SPACE = new RenderedText();
 	private static final RenderedText NEWLINE = new RenderedText();
-	
+
 	protected String text;
 	protected String[] tokens = null;
-	protected ArrayList<RenderedText> words = new ArrayList<>();
+	protected List<RenderedText> words = new ArrayList<>();
 	protected boolean multiline = false;
 
 	private int size;
 	private float zoom;
 	private int color = -1;
-	
+
 	private int hightlightColor = Window.TITLE_COLOR;
 	private boolean highlightingEnabled = true;
-	
-	public RenderedTextBlock(int size){
+
+	public RenderedTextBlock(int size) {
 		this.size = size;
 	}
 
-	public RenderedTextBlock(String text, int size){
+	public RenderedTextBlock(String text, int size) {
 		this.size = size;
 		text(text);
 	}
 
-	public void text(String text){
+	public void text(String text) {
 		this.text = text;
 
 		if (text != null && !text.equals("")) {
-			
+
 			tokens = Game.platform.splitforTextBlock(text, multiline);
-			
+
 			build();
 		}
 	}
 
-	public void text(String text, int maxWidth){
+	public void text(String text, int maxWidth) {
 		this.maxWidth = maxWidth;
 		multiline = true;
 		text(text);
 	}
 
-	public String text(){
+	public String text() {
 		return text;
 	}
 
-	public void maxWidth(int maxWidth){
-		if (this.maxWidth != maxWidth){
+	public void maxWidth(int maxWidth) {
+		if (this.maxWidth != maxWidth) {
 			this.maxWidth = maxWidth;
 			multiline = true;
 			text(text);
 		}
 	}
 
-	public int maxWidth(){
+	public int maxWidth() {
 		return maxWidth;
 	}
 
-	private synchronized void build(){
-		if (tokens == null) return;
-		
+	private synchronized void build() {
+		if (tokens == null)
+			return;
+
 		clear();
 		words = new ArrayList<>();
 		boolean highlighting = false;
-		for (String str : tokens){
-			
-			if (str.equals("_") && highlightingEnabled){
+		for (String str : tokens) {
+
+			if (str.equals("_") && highlightingEnabled) {
 				highlighting = !highlighting;
-			} else if (str.equals("\n")){
+			} else if (str.equals("\n")) {
 				words.add(NEWLINE);
-			} else if (str.equals(" ")){
+			} else if (str.equals(" ")) {
 				words.add(SPACE);
 			} else {
 				RenderedText word = new RenderedText(str, size);
-				
-				if (highlighting) word.hardlight(hightlightColor);
-				else if (color != -1) word.hardlight(color);
+
+				if (highlighting)
+					word.hardlight(hightlightColor);
+				else if (color != -1)
+					word.hardlight(color);
 				word.scale.set(zoom);
-				
+
 				words.add(word);
 				add(word);
-				
-				if (height < word.height()) height = word.height();
+
+				if (height < word.height())
+					height = word.height();
 			}
 		}
 		layout();
 	}
 
-	public synchronized void zoom(float zoom){
+	public synchronized void zoom(float zoom) {
 		this.zoom = zoom;
 		for (RenderedText word : words) {
-			if (word != null) word.scale.set(zoom);
+			if (word != null)
+				word.scale.set(zoom);
 		}
 		layout();
 	}
 
-	public synchronized void hardlight(int color){
+	public synchronized void hardlight(int color) {
 		this.color = color;
 		for (RenderedText word : words) {
-			if (word != null) word.hardlight( color );
+			if (word != null)
+				word.hardlight(color);
 		}
 	}
-	
-	public synchronized void resetColor(){
+
+	public synchronized void resetColor() {
 		this.color = -1;
 		for (RenderedText word : words) {
-			if (word != null) word.resetColor();
+			if (word != null)
+				word.resetColor();
 		}
 	}
-	
-	public synchronized void alpha(float value){
+
+	public synchronized void alpha(float value) {
 		for (RenderedText word : words) {
-			if (word != null) word.alpha( value );
+			if (word != null)
+				word.alpha(value);
 		}
 	}
-	
-	public synchronized void setHightlighting(boolean enabled){
+
+	public synchronized void setHightlighting(boolean enabled) {
 		setHightlighting(enabled, Window.TITLE_COLOR);
 	}
-	
-	public synchronized void setHightlighting(boolean enabled, int color){
+
+	public synchronized void setHightlighting(boolean enabled, int color) {
 		if (enabled != highlightingEnabled || color != hightlightColor) {
 			hightlightColor = color;
 			highlightingEnabled = enabled;
@@ -160,7 +169,7 @@ public class RenderedTextBlock extends Component {
 		}
 	}
 
-	public synchronized void invert(){
+	public synchronized void invert() {
 		if (words != null) {
 			for (RenderedText word : words) {
 				if (word != null) {
@@ -184,19 +193,20 @@ public class RenderedTextBlock extends Component {
 		nLines = 1;
 
 		width = 0;
-		for (RenderedText word : words){
-			if (word == SPACE){
+		for (RenderedText word : words) {
+			if (word == SPACE) {
 				x += 1.5f;
 			} else if (word == NEWLINE) {
-				//newline
-				y += height+2f;
+				// newline
+				y += height + 2f;
 				x = this.x;
 				nLines++;
 			} else {
-				if (word.height() > height) height = word.height();
+				if (word.height() > height)
+					height = word.height();
 
-				if ((x - this.x) + word.width() > maxWidth){
-					y += height+2f;
+				if ((x - this.x) + word.width() > maxWidth) {
+					y += height + 2f;
 					x = this.x;
 					nLines++;
 				}
@@ -206,10 +216,11 @@ public class RenderedTextBlock extends Component {
 				PixelScene.align(word);
 				x += word.width();
 
-				if ((x - this.x) > width) width = (x - this.x);
-				
-				//TODO spacing currently doesn't factor in halfwidth and fullwidth characters
-				//(e.g. Ideographic full stop)
+				if ((x - this.x) > width)
+					width = (x - this.x);
+
+				// TODO spacing currently doesn't factor in halfwidth and fullwidth characters
+				// (e.g. Ideographic full stop)
 				x -= 0.5f;
 
 			}

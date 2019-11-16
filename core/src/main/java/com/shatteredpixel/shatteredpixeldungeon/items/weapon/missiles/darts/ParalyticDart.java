@@ -27,15 +27,15 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Paralysis;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ParalyticDart extends TippedDart {
-	
+
 	{
 		image = ItemSpriteSheet.PARALYTIC_DART;
 	}
-	
+
 	@Override
-	public int proc( Char attacker, Char defender, int damage ) {
-		Buff.prolong( defender, Paralysis.class, 5f );
-		return super.proc( attacker, defender, damage );
+	public int proc(Char attacker, Char defender, int damage) {
+		Buff.prolong(defender, Paralysis.class, 5f);
+		return super.proc(attacker, defender, damage);
 	}
-	
+
 }

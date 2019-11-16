@@ -39,13 +39,13 @@ import com.watabou.utils.DeviceCompat;
 
 public class WndSettings extends WndTabbed {
 
-	private static final int WIDTH		    = 112;
-	private static final int HEIGHT         = 138;
-	private static final int SLIDER_HEIGHT	= 24;
-	private static final int BTN_HEIGHT	    = 18;
-	private static final int GAP_TINY 		= 2;
-	private static final int GAP_SML 		= 6;
-	private static final int GAP_LRG 		= 18;
+	private static final int WIDTH = 112;
+	private static final int HEIGHT = 138;
+	private static final int SLIDER_HEIGHT = 24;
+	private static final int BTN_HEIGHT = 18;
+	private static final int GAP_TINY = 2;
+	private static final int GAP_SML = 6;
+	private static final int GAP_LRG = 18;
 
 	private DisplayTab display;
 	private UITab ui;
@@ -57,38 +57,41 @@ public class WndSettings extends WndTabbed {
 		super();
 
 		display = new DisplayTab();
-		add( display );
+		add(display);
 
 		ui = new UITab();
-		add( ui );
+		add(ui);
 
 		audio = new AudioTab();
-		add( audio );
+		add(audio);
 
-		add( new LabeledTab(Messages.get(this, "display")){
+		add(new LabeledTab(Messages.get(this, "display")) {
 			@Override
 			protected void select(boolean value) {
 				super.select(value);
 				display.visible = display.active = value;
-				if (value) last_index = 0;
+				if (value)
+					last_index = 0;
 			}
 		});
 
-		add( new LabeledTab(Messages.get(this, "ui")){
+		add(new LabeledTab(Messages.get(this, "ui")) {
 			@Override
 			protected void select(boolean value) {
 				super.select(value);
 				ui.visible = ui.active = value;
-				if (value) last_index = 1;
+				if (value)
+					last_index = 1;
 			}
 		});
 
-		add( new LabeledTab(Messages.get(this, "audio")){
+		add(new LabeledTab(Messages.get(this, "audio")) {
 			@Override
 			protected void select(boolean value) {
 				super.select(value);
 				audio.visible = audio.active = value;
-				if (value) last_index = 2;
+				if (value)
+					last_index = 2;
 			}
 		});
 
@@ -105,11 +108,8 @@ public class WndSettings extends WndTabbed {
 		public DisplayTab() {
 			super();
 
-			OptionSlider scale = new OptionSlider(Messages.get(this, "scale"),
-					(int)Math.ceil(2* Game.density)+ "X",
-					PixelScene.maxDefaultZoom + "X",
-					(int)Math.ceil(2* Game.density),
-					PixelScene.maxDefaultZoom ) {
+			OptionSlider scale = new OptionSlider(Messages.get(this, "scale"), (int) Math.ceil(2 * Game.density) + "X",
+					PixelScene.maxDefaultZoom + "X", (int) Math.ceil(2 * Game.density), PixelScene.maxDefaultZoom) {
 				@Override
 				protected void onChange() {
 					if (getSelectedValue() != SPDSettings.scale()) {
@@ -118,31 +118,30 @@ public class WndSettings extends WndTabbed {
 					}
 				}
 			};
-			if ((int)Math.ceil(2* Game.density) < PixelScene.maxDefaultZoom) {
+			if ((int) Math.ceil(2 * Game.density) < PixelScene.maxDefaultZoom) {
 				scale.setSelectedValue(PixelScene.defaultZoom);
 				scale.setRect(0, 0, WIDTH, SLIDER_HEIGHT);
 				add(scale);
 			}
 
-			CheckBox chkSaver = new CheckBox( Messages.get(this, "saver") ) {
+			CheckBox chkSaver = new CheckBox(Messages.get(this, "saver")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
 					if (checked()) {
 						checked(!checked());
-						ShatteredPixelDungeon.scene().add(new WndOptions(
-								Messages.get(DisplayTab.class, "saver"),
-								Messages.get(DisplayTab.class, "saver_desc"),
-								Messages.get(DisplayTab.class, "okay"),
-								Messages.get(DisplayTab.class, "cancel")) {
-							@Override
-							protected void onSelect(int index) {
-								if (index == 0) {
-									checked(!checked());
-									SPDSettings.powerSaver(checked());
-								}
-							}
-						});
+						ShatteredPixelDungeon.scene()
+								.add(new WndOptions(Messages.get(DisplayTab.class, "saver"),
+										Messages.get(DisplayTab.class, "saver_desc"), Messages.get(DisplayTab.class, "okay"),
+										Messages.get(DisplayTab.class, "cancel")) {
+									@Override
+									protected void onSelect(int index) {
+										if (index == 0) {
+											checked(!checked());
+											SPDSettings.powerSaver(checked());
+										}
+									}
+								});
 					} else {
 						SPDSettings.powerSaver(checked());
 					}
@@ -154,20 +153,18 @@ public class WndSettings extends WndTabbed {
 				add(chkSaver);
 			}
 
-			RedButton btnOrientation = new RedButton( SPDSettings.landscape() ?
-					Messages.get(this, "portrait")
-					: Messages.get(this, "landscape") ) {
+			RedButton btnOrientation = new RedButton(
+					SPDSettings.landscape() ? Messages.get(this, "portrait") : Messages.get(this, "landscape")) {
 				@Override
 				protected void onClick() {
 					SPDSettings.landscape(!SPDSettings.landscape());
 				}
 			};
 			btnOrientation.setRect(0, chkSaver.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
-			add( btnOrientation );
+			add(btnOrientation);
 
-
-			OptionSlider brightness = new OptionSlider(Messages.get(this, "brightness"),
-					Messages.get(this, "dark"), Messages.get(this, "bright"), -2, 2) {
+			OptionSlider brightness = new OptionSlider(Messages.get(this, "brightness"), Messages.get(this, "dark"),
+					Messages.get(this, "bright"), -2, 2) {
 				@Override
 				protected void onChange() {
 					SPDSettings.brightness(getSelectedValue());
@@ -177,8 +174,8 @@ public class WndSettings extends WndTabbed {
 			brightness.setRect(0, btnOrientation.bottom() + GAP_LRG, WIDTH, SLIDER_HEIGHT);
 			add(brightness);
 
-			OptionSlider tileGrid = new OptionSlider(Messages.get(this, "visual_grid"),
-					Messages.get(this, "off"), Messages.get(this, "high"), -1, 3) {
+			OptionSlider tileGrid = new OptionSlider(Messages.get(this, "visual_grid"), Messages.get(this, "off"),
+					Messages.get(this, "high"), -1, 3) {
 				@Override
 				protected void onChange() {
 					SPDSettings.visualGrid(getSelectedValue());
@@ -188,51 +185,50 @@ public class WndSettings extends WndTabbed {
 			tileGrid.setRect(0, brightness.bottom() + GAP_TINY, WIDTH, SLIDER_HEIGHT);
 			add(tileGrid);
 
-
 		}
 	}
 
 	private class UITab extends Group {
 
-		public UITab(){
+		public UITab() {
 			super();
 
 			RenderedTextBlock barDesc = PixelScene.renderTextBlock(Messages.get(this, "mode"), 9);
-			barDesc.setPos((WIDTH-barDesc.width())/2f, GAP_TINY);
+			barDesc.setPos((WIDTH - barDesc.width()) / 2f, GAP_TINY);
 			PixelScene.align(barDesc);
 			add(barDesc);
 
-			RedButton btnSplit = new RedButton(Messages.get(this, "split")){
+			RedButton btnSplit = new RedButton(Messages.get(this, "split")) {
 				@Override
 				protected void onClick() {
 					SPDSettings.toolbarMode(Toolbar.Mode.SPLIT.name());
 					Toolbar.updateLayout();
 				}
 			};
-			btnSplit.setRect( 0, barDesc.bottom() + GAP_TINY, 36, 16);
+			btnSplit.setRect(0, barDesc.bottom() + GAP_TINY, 36, 16);
 			add(btnSplit);
 
-			RedButton btnGrouped = new RedButton(Messages.get(this, "group")){
+			RedButton btnGrouped = new RedButton(Messages.get(this, "group")) {
 				@Override
 				protected void onClick() {
 					SPDSettings.toolbarMode(Toolbar.Mode.GROUP.name());
 					Toolbar.updateLayout();
 				}
 			};
-			btnGrouped.setRect( btnSplit.right()+GAP_TINY, btnSplit.top(), 36, 16);
+			btnGrouped.setRect(btnSplit.right() + GAP_TINY, btnSplit.top(), 36, 16);
 			add(btnGrouped);
 
-			RedButton btnCentered = new RedButton(Messages.get(this, "center")){
+			RedButton btnCentered = new RedButton(Messages.get(this, "center")) {
 				@Override
 				protected void onClick() {
 					SPDSettings.toolbarMode(Toolbar.Mode.CENTER.name());
 					Toolbar.updateLayout();
 				}
 			};
-			btnCentered.setRect(btnGrouped.right()+GAP_TINY, btnSplit.top(), 36, 16);
+			btnCentered.setRect(btnGrouped.right() + GAP_TINY, btnSplit.top(), 36, 16);
 			add(btnCentered);
 
-			CheckBox chkFlipToolbar = new CheckBox(Messages.get(this, "flip_toolbar")){
+			CheckBox chkFlipToolbar = new CheckBox(Messages.get(this, "flip_toolbar")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -244,7 +240,7 @@ public class WndSettings extends WndTabbed {
 			chkFlipToolbar.checked(SPDSettings.flipToolbar());
 			add(chkFlipToolbar);
 
-			final CheckBox chkFlipTags = new CheckBox(Messages.get(this, "flip_indicators")){
+			final CheckBox chkFlipTags = new CheckBox(Messages.get(this, "flip_indicators")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -267,19 +263,19 @@ public class WndSettings extends WndTabbed {
 			slots.setRect(0, chkFlipTags.bottom() + GAP_TINY, WIDTH, SLIDER_HEIGHT);
 			add(slots);
 
-			CheckBox chkImmersive = new CheckBox( Messages.get(this, "nav_bar") ) {
+			CheckBox chkImmersive = new CheckBox(Messages.get(this, "nav_bar")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
 					SPDSettings.fullscreen(checked());
 				}
 			};
-			chkImmersive.setRect( 0, slots.bottom() + GAP_SML, WIDTH, BTN_HEIGHT );
+			chkImmersive.setRect(0, slots.bottom() + GAP_SML, WIDTH, BTN_HEIGHT);
 			chkImmersive.checked(SPDSettings.fullscreen());
 			chkImmersive.enable(DeviceCompat.supportsFullScreen());
 			add(chkImmersive);
 
-			CheckBox chkFont = new CheckBox(Messages.get(this, "system_font")){
+			CheckBox chkFont = new CheckBox(Messages.get(this, "system_font")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -291,7 +287,7 @@ public class WndSettings extends WndTabbed {
 
 						@Override
 						public void afterCreate() {
-							//do nothing
+							// do nothing
 						}
 					});
 				}
@@ -316,7 +312,7 @@ public class WndSettings extends WndTabbed {
 			musicVol.setRect(0, 0, WIDTH, SLIDER_HEIGHT);
 			add(musicVol);
 
-			CheckBox musicMute = new CheckBox(Messages.get(this, "music_mute")){
+			CheckBox musicMute = new CheckBox(Messages.get(this, "music_mute")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
@@ -326,7 +322,6 @@ public class WndSettings extends WndTabbed {
 			musicMute.setRect(0, musicVol.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 			musicMute.checked(!SPDSettings.music());
 			add(musicMute);
-
 
 			OptionSlider SFXVol = new OptionSlider(Messages.get(this, "sfx_vol"), "0", "10", 0, 10) {
 				@Override
@@ -338,19 +333,19 @@ public class WndSettings extends WndTabbed {
 			SFXVol.setRect(0, musicMute.bottom() + GAP_LRG, WIDTH, SLIDER_HEIGHT);
 			add(SFXVol);
 
-			CheckBox btnSound = new CheckBox( Messages.get(this, "sfx_mute") ) {
+			CheckBox btnSound = new CheckBox(Messages.get(this, "sfx_mute")) {
 				@Override
 				protected void onClick() {
 					super.onClick();
 					SPDSettings.soundFx(!checked());
-					Sample.INSTANCE.play( Assets.SND_CLICK );
+					Sample.INSTANCE.play(Assets.SND_CLICK);
 				}
 			};
 			btnSound.setRect(0, SFXVol.bottom() + GAP_TINY, WIDTH, BTN_HEIGHT);
 			btnSound.checked(!SPDSettings.soundFx());
-			add( btnSound );
+			add(btnSound);
 
-			resize( WIDTH, (int)btnSound.bottom());
+			resize(WIDTH, (int) btnSound.bottom());
 		}
 
 	}

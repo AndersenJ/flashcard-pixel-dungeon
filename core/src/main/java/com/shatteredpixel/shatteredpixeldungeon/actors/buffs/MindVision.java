@@ -30,24 +30,24 @@ import com.watabou.noosa.Image;
 public class MindVision extends FlavourBuff {
 
 	public static final float DURATION = 20f;
-	
+
 	public int distance = 2;
 
 	{
 		type = buffType.POSITIVE;
 		announced = true;
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.MIND_VISION;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 5f, cooldown());
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");

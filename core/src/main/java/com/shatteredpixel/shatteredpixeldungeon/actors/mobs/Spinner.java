@@ -68,18 +68,18 @@ public class Spinner extends Mob {
 	protected boolean act() {
 		boolean result = super.act();
 
-		if (state == FLEEING && buff( Terror.class ) == null &&
-				enemy != null && enemySeen && enemy.buff( Poison.class ) == null) {
-				state = HUNTING;
+		if (state == FLEEING && buff(Terror.class) == null && enemy != null && enemySeen
+				&& enemy.buff(Poison.class) == null) {
+			state = HUNTING;
 		}
 		return result;
 	}
 
 	@Override
 	public int attackProc(Char enemy, int damage) {
-		damage = super.attackProc( enemy, damage );
+		damage = super.attackProc(enemy, damage);
 		if (Random.Int(2) == 0) {
-			Buff.affect(enemy, Poison.class).set(Random.Int(7, 9) );
+			Buff.affect(enemy, Poison.class).set(Random.Int(7, 9));
 			state = FLEEING;
 		}
 
@@ -98,7 +98,7 @@ public class Spinner extends Mob {
 	{
 		resistances.add(Poison.class);
 	}
-	
+
 	{
 		immunities.add(Web.class);
 	}

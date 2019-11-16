@@ -34,15 +34,15 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.watabou.noosa.Image;
 
 public class WndInfoCell extends Window {
-	
-	private static final float GAP	= 2;
-	
+
+	private static final float GAP = 2;
+
 	private static final int WIDTH = 120;
-	
-	public WndInfoCell( int cell ) {
-		
+
+	public WndInfoCell(int cell) {
+
 		super();
-		
+
 		int tile = Dungeon.level.map[cell];
 		if (Dungeon.level.water[cell]) {
 			tile = Terrain.WATER;
@@ -54,9 +54,8 @@ public class WndInfoCell extends Window {
 		Image customImage = null;
 		int x = cell % Dungeon.level.width();
 		int y = cell / Dungeon.level.width();
-		for (CustomTilemap i : Dungeon.level.customTiles){
-			if ((x >= i.tileX && x < i.tileX+i.tileW) &&
-					(y >= i.tileY && y < i.tileY+i.tileH)){
+		for (CustomTilemap i : Dungeon.level.customTiles) {
+			if ((x >= i.tileX && x < i.tileX + i.tileW) && (y >= i.tileY && y < i.tileY + i.tileH)) {
 				if ((customImage = i.image(x - i.tileX, y - i.tileY)) != null) {
 					x -= i.tileX;
 					y -= i.tileY;
@@ -66,11 +65,10 @@ public class WndInfoCell extends Window {
 			}
 		}
 
-
 		String desc = "";
 
 		IconTitle titlebar = new IconTitle();
-		if (customTile != null){
+		if (customTile != null) {
 			titlebar.icon(customImage);
 
 			String customName = customTile.name(x, y);
@@ -94,7 +92,7 @@ public class WndInfoCell extends Window {
 				water.frame(0, 0, DungeonTilemap.SIZE, DungeonTilemap.SIZE);
 				titlebar.icon(water);
 			} else {
-				titlebar.icon(DungeonTerrainTilemap.tile( cell, tile ));
+				titlebar.icon(DungeonTerrainTilemap.tile(cell, tile));
 			}
 			titlebar.label(Dungeon.level.tileName(tile));
 			desc += Dungeon.level.tileDesc(tile);
@@ -106,7 +104,7 @@ public class WndInfoCell extends Window {
 		RenderedTextBlock info = PixelScene.renderTextBlock(6);
 		add(info);
 
-		for (Blob blob:Dungeon.level.blobs.values()) {
+		for (Blob blob : Dungeon.level.blobs.values()) {
 			if (blob.volume > 0 && blob.cur[cell] > 0 && blob.tileDesc() != null) {
 				if (desc.length() > 0) {
 					desc += "\n\n";
@@ -114,11 +112,11 @@ public class WndInfoCell extends Window {
 				desc += blob.tileDesc();
 			}
 		}
-		
-		info.text( desc.length() == 0 ? Messages.get(this, "nothing") : desc );
+
+		info.text(desc.length() == 0 ? Messages.get(this, "nothing") : desc);
 		info.maxWidth(WIDTH);
-		info.setPos(titlebar.left(), titlebar.bottom() + 2*GAP);
-		
-		resize( WIDTH, (int)info.bottom()+2 );
+		info.setPos(titlebar.left(), titlebar.bottom() + 2 * GAP);
+
+		resize(WIDTH, (int) info.bottom() + 2);
 	}
 }

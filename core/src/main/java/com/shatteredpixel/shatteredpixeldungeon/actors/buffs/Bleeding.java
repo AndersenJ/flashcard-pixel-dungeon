@@ -37,69 +37,69 @@ public class Bleeding extends Buff {
 		type = buffType.NEGATIVE;
 		announced = true;
 	}
-	
+
 	protected float level;
-	
-	private static final String LEVEL	= "level";
-	
+
+	private static final String LEVEL = "level";
+
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( LEVEL, level );
-		
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(LEVEL, level);
+
 	}
-	
+
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		level = bundle.getFloat( LEVEL );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		level = bundle.getFloat(LEVEL);
 	}
-	
-	public void set( float level ) {
+
+	public void set(float level) {
 		this.level = Math.max(this.level, level);
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.BLEEDING;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
 	}
-	
+
 	@Override
 	public boolean act() {
 		if (target.isAlive()) {
-			
+
 			level = NormalFloat(level / 2f, level);
 			int dmg = Math.round(level);
-			
+
 			if (dmg > 0) {
-				
-				target.damage( dmg, this );
+
+				target.damage(dmg, this);
 				if (target.sprite.visible) {
-					Splash.at( target.sprite.center(), -PointF.PI / 2, PointF.PI / 6,
-							target.sprite.blood(), Math.min( 10 * dmg / target.HT, 10 ) );
+					Splash.at(target.sprite.center(), -PointF.PI / 2, PointF.PI / 6, target.sprite.blood(),
+							Math.min(10 * dmg / target.HT, 10));
 				}
-				
+
 				if (target == Dungeon.hero && !target.isAlive()) {
-					Dungeon.fail( getClass() );
-					GLog.n( Messages.get(this, "ondeath") );
+					Dungeon.fail(getClass());
+					GLog.n(Messages.get(this, "ondeath"));
 				}
-				
-				spend( TICK );
+
+				spend(TICK);
 			} else {
 				detach();
 			}
-			
+
 		} else {
-			
+
 			detach();
-			
+
 		}
-		
+
 		return true;
 	}
 

@@ -32,7 +32,7 @@ public class ResumeIndicator extends Tag {
 	public ResumeIndicator() {
 		super(0xCDD5C0);
 
-		setSize( 24, 24 );
+		setSize(24, 24);
 
 		visible = false;
 
@@ -42,15 +42,15 @@ public class ResumeIndicator extends Tag {
 	protected void createChildren() {
 		super.createChildren();
 
-		icon = Icons.get( Icons.ARROW);
-		add( icon );
+		icon = Icons.get(Icons.ARROW);
+		add(icon);
 	}
 
 	@Override
 	protected void layout() {
 		super.layout();
 
-		icon.x = x+1 + (width - icon.width) / 2f;
+		icon.x = x + 1 + (width - icon.width) / 2f;
 		icon.y = y + (height - icon.height) / 2f;
 		PixelScene.align(icon);
 	}
@@ -64,7 +64,7 @@ public class ResumeIndicator extends Tag {
 	public void update() {
 		if (!Dungeon.hero.isAlive())
 			visible = false;
-		else if (visible != (Dungeon.hero.lastAction != null)){
+		else if (visible != (Dungeon.hero.lastAction != null)) {
 			visible = Dungeon.hero.lastAction != null;
 			if (visible)
 				flash();

@@ -27,11 +27,11 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 
 public class Swiftness extends Armor.Glyph {
 
-	private static ItemSprite.Glowing YELLOW = new ItemSprite.Glowing( 0xFFFF00 );
+	private static ItemSprite.Glowing YELLOW = new ItemSprite.Glowing(0xFFFF00);
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
-		//no proc effect, see armor.speedfactor for effect.
+		// no proc effect, see armor.speedfactor for effect.
 		return damage;
 	}
 

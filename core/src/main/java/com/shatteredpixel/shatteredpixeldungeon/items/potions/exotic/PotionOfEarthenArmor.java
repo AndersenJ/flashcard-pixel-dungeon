@@ -26,16 +26,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 
 public class PotionOfEarthenArmor extends ExoticPotion {
-	
+
 	{
 		initials = 8;
 	}
-	
+
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		
-		Buff.affect(hero, Barkskin.class).set( 2 + hero.lvl/3, 50 );
+
+		Buff.affect(hero, Barkskin.class).set(2 + hero.lvl / 3, 50);
 	}
-	
+
 }

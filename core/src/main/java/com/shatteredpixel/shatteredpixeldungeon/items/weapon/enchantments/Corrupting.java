@@ -38,40 +38,38 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
 public class Corrupting extends Weapon.Enchantment {
-	
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x440066 );
-	
+
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x440066);
+
 	@Override
 	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
-		if (defender.buff(Corruption.class) != null || !(defender instanceof Mob)) return damage;
-		
-		int level = Math.max( 0, weapon.level() );
-		
+		if (defender.buff(Corruption.class) != null || !(defender instanceof Mob))
+			return damage;
+
+		int level = Math.max(0, weapon.level());
+
 		// lvl 0 - 20%
 		// lvl 1 ~ 22.5%
 		// lvl 2 ~ 25%
-		if (damage >= defender.HP
-				&& !defender.isImmune(Corruption.class)
-				&& Random.Int( level + 30 ) >= 24){
-			
+		if (damage >= defender.HP && !defender.isImmune(Corruption.class) && Random.Int(level + 30) >= 24) {
+
 			Mob enemy = (Mob) defender;
 			Hero hero = (attacker instanceof Hero) ? (Hero) attacker : Dungeon.hero;
-			
+
 			enemy.HP = enemy.HT;
 			for (Buff buff : enemy.buffs()) {
-				if (buff.type == Buff.buffType.NEGATIVE
-						&& !(buff instanceof SoulMark)) {
+				if (buff.type == Buff.buffType.NEGATIVE && !(buff instanceof SoulMark)) {
 					buff.detach();
-				} else if (buff instanceof PinCushion){
+				} else if (buff instanceof PinCushion) {
 					buff.detach();
 				}
 			}
-			if (enemy.alignment == Char.Alignment.ENEMY){
+			if (enemy.alignment == Char.Alignment.ENEMY) {
 				enemy.rollToDropLoot();
 			}
-			
+
 			Buff.affect(enemy, Corruption.class);
-			
+
 			Statistics.enemiesSlain++;
 			Badges.validateMonstersSlain();
 			Statistics.qualifiedForNoKilling = false;
@@ -81,13 +79,13 @@ public class Corrupting extends Weapon.Enchantment {
 			} else {
 				hero.earnExp(0, enemy.getClass());
 			}
-			
+
 			return 0;
 		}
-		
+
 		return damage;
 	}
-	
+
 	@Override
 	public ItemSprite.Glowing glowing() {
 		return BLACK;

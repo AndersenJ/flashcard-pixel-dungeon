@@ -29,19 +29,19 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 
 public class Light extends FlavourBuff {
-	
+
 	{
 		type = buffType.POSITIVE;
 	}
 
-	public static final float DURATION	= 300f;
-	public static final int DISTANCE	= 6;
-	
+	public static final float DURATION = 300f;
+	public static final int DISTANCE = 6;
+
 	@Override
-	public boolean attachTo( Char target ) {
-		if (super.attachTo( target )) {
+	public boolean attachTo(Char target) {
+		if (super.attachTo(target)) {
 			if (Dungeon.level != null) {
-				target.viewDistance = Math.max( Dungeon.level.viewDistance, DISTANCE );
+				target.viewDistance = Math.max(Dungeon.level.viewDistance, DISTANCE);
 				Dungeon.observe();
 			}
 			return true;
@@ -49,19 +49,19 @@ public class Light extends FlavourBuff {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void detach() {
 		target.viewDistance = Dungeon.level.viewDistance;
 		Dungeon.observe();
 		super.detach();
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.LIGHT;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 20f, cooldown());
@@ -69,8 +69,10 @@ public class Light extends FlavourBuff {
 
 	@Override
 	public void fx(boolean on) {
-		if (on) target.sprite.add(CharSprite.State.ILLUMINATED);
-		else target.sprite.remove(CharSprite.State.ILLUMINATED);
+		if (on)
+			target.sprite.add(CharSprite.State.ILLUMINATED);
+		else
+			target.sprite.remove(CharSprite.State.ILLUMINATED);
 	}
 
 	@Override

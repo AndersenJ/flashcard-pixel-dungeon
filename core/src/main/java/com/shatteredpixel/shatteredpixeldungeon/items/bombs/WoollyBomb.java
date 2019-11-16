@@ -35,23 +35,21 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class WoollyBomb extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.WOOLY_BOMB;
 	}
-	
+
 	@Override
 	public void explode(int cell) {
 		super.explode(cell);
-		
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 2 );
+
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 2);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
-				if (Dungeon.level.insideMap(i)
-						&& Actor.findChar(i) == null
-						&& !(Dungeon.level.pit[i])) {
+				if (Dungeon.level.insideMap(i) && Actor.findChar(i) == null && !(Dungeon.level.pit[i])) {
 					Sheep sheep = new Sheep();
-					sheep.lifespan = Random.NormalIntRange( 8, 16 );
+					sheep.lifespan = Random.NormalIntRange(8, 16);
 					sheep.pos = i;
 					Dungeon.level.occupyCell(sheep);
 					GameScene.add(sheep);
@@ -59,15 +57,14 @@ public class WoollyBomb extends Bomb {
 				}
 			}
 		}
-		
+
 		Sample.INSTANCE.play(Assets.SND_PUFF);
-		
-		
+
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 30);
 	}
 }

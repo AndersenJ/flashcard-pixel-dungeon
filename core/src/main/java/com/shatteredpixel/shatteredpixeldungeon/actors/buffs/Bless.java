@@ -26,9 +26,9 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 
 public class Bless extends FlavourBuff {
-	
-	public static final float DURATION	= 30f;
-	
+
+	public static final float DURATION = 30f;
+
 	{
 		type = buffType.POSITIVE;
 		announced = true;
@@ -38,7 +38,7 @@ public class Bless extends FlavourBuff {
 	public int icon() {
 		return BuffIndicator.BLESS;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 5f, cooldown());

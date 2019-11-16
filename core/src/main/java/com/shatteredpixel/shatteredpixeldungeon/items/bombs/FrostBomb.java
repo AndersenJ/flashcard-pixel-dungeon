@@ -34,29 +34,29 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
 import com.watabou.utils.PathFinder;
 
 public class FrostBomb extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.FROST_BOMB;
 	}
-	
+
 	@Override
 	public void explode(int cell) {
 		super.explode(cell);
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 2 );
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 2);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				GameScene.add(Blob.seed(i, 10, Freezing.class));
 				Char ch = Actor.findChar(i);
-				if (ch != null){
+				if (ch != null) {
 					Buff.affect(ch, Frost.class, 2f);
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 30);
 	}
 }

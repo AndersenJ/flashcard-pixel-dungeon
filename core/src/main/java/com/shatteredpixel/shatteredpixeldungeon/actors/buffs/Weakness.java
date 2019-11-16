@@ -37,7 +37,7 @@ public class Weakness extends FlavourBuff {
 	public int icon() {
 		return BuffIndicator.WEAKNESS;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");

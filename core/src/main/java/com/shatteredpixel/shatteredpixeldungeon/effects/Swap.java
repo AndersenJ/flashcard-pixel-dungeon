@@ -42,16 +42,16 @@ public class Swap extends Actor {
 
 	private float delay;
 
-	public Swap( Char ch1, Char ch2 ) {
+	public Swap(Char ch1, Char ch2) {
 
 		this.ch1 = ch1;
 		this.ch2 = ch2;
 
-		delay = Dungeon.level.distance( ch1.pos,  ch2.pos ) * 0.1f;
+		delay = Dungeon.level.distance(ch1.pos, ch2.pos) * 0.1f;
 
-		eff1 = new Effect( ch1.sprite, ch1.pos, ch2.pos );
-		eff2 = new Effect( ch2.sprite, ch2.pos, ch1.pos );
-		Sample.INSTANCE.play( Assets.SND_TELEPORT );
+		eff1 = new Effect(ch1.sprite, ch1.pos, ch2.pos);
+		eff2 = new Effect(ch2.sprite, ch2.pos, ch1.pos);
+		Sample.INSTANCE.play(Assets.SND_TELEPORT);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class Swap extends Actor {
 		return false;
 	}
 
-	private void finish( Effect eff ) {
+	private void finish(Effect eff) {
 		if (eff == eff1) {
 			eff1 = null;
 		}
@@ -68,15 +68,15 @@ public class Swap extends Actor {
 		}
 
 		if (eff1 == null && eff2 == null) {
-			Actor.remove( this );
+			Actor.remove(this);
 			next();
 
 			int pos = ch1.pos;
 			ch1.pos = ch2.pos;
 			ch2.pos = pos;
 
-			Dungeon.level.occupyCell(ch1 );
-			Dungeon.level.occupyCell(ch2 );
+			Dungeon.level.occupyCell(ch1);
+			Dungeon.level.occupyCell(ch2);
 
 			if (ch1 == Dungeon.hero || ch2 == Dungeon.hero) {
 				Dungeon.observe();
@@ -91,20 +91,20 @@ public class Swap extends Actor {
 		private PointF end;
 		private float passed;
 
-		public Effect( CharSprite sprite, int from, int to ) {
-			super( 0, 0, 0, 0 );
+		public Effect(CharSprite sprite, int from, int to) {
+			super(0, 0, 0, 0);
 
 			this.sprite = sprite;
 
-			point( sprite.worldToCamera( from ) );
-			end = sprite.worldToCamera( to );
+			point(sprite.worldToCamera(from));
+			end = sprite.worldToCamera(to);
 
-			speed.set( 2 * (end.x - x) / delay, 2 * (end.y - y) / delay );
-			acc.set( -speed.x / delay, -speed.y / delay );
+			speed.set(2 * (end.x - x) / delay, 2 * (end.y - y) / delay);
+			acc.set(-speed.x / delay, -speed.y / delay);
 
 			passed = 0;
 
-			sprite.parent.add( this );
+			sprite.parent.add(this);
 		}
 
 		@Override
@@ -117,10 +117,10 @@ public class Swap extends Actor {
 
 			} else {
 
-				sprite.point( end );
+				sprite.point(end);
 
 				killAndErase();
-				finish( this );
+				finish(this);
 
 			}
 		}

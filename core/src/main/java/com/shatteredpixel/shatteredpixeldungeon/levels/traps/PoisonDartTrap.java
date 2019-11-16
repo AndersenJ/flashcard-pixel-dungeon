@@ -40,32 +40,32 @@ public class PoisonDartTrap extends Trap {
 	{
 		color = GREEN;
 		shape = CROSSHAIR;
-		
+
 		canBeHidden = false;
 	}
-	
-	protected int poisonAmount(){
-		return 8 + Math.round(2*Dungeon.depth / 3f);
+
+	protected int poisonAmount() {
+		return 8 + Math.round(2 * Dungeon.depth / 3f);
 	}
-	
-	protected boolean canTarget( Char ch ){
+
+	protected boolean canTarget(Char ch) {
 		return true;
 	}
-	
+
 	@Override
 	public void activate() {
 		Char target = Actor.findChar(pos);
-		
-		if (target != null && !canTarget(target)){
+
+		if (target != null && !canTarget(target)) {
 			target = null;
 		}
-		
-		//find the closest char that can be aimed at
-		if (target == null){
-			for (Char ch : Actor.chars()){
+
+		// find the closest char that can be aimed at
+		if (target == null) {
+			for (Char ch : Actor.chars()) {
 				Ballistica bolt = new Ballistica(pos, ch.pos, Ballistica.PROJECTILE);
-				if (canTarget(ch) && bolt.collisionPos == ch.pos &&
-						(target == null || Dungeon.level.trueDistance(pos, ch.pos) < Dungeon.level.trueDistance(pos, target.pos))){
+				if (canTarget(ch) && bolt.collisionPos == ch.pos && (target == null
+						|| Dungeon.level.trueDistance(pos, ch.pos) < Dungeon.level.trueDistance(pos, target.pos))) {
 					target = ch;
 				}
 			}
@@ -75,38 +75,38 @@ public class PoisonDartTrap extends Trap {
 			final PoisonDartTrap trap = this;
 			if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[target.pos]) {
 				Actor.add(new Actor() {
-					
+
 					{
-						//it's a visual effect, gets priority no matter what
+						// it's a visual effect, gets priority no matter what
 						actPriority = VFX_PRIO;
 					}
-					
+
 					@Override
 					protected boolean act() {
 						final Actor toRemove = this;
-						((MissileSprite) ShatteredPixelDungeon.scene().recycle(MissileSprite.class)).
-							reset(pos, finalTarget.sprite, new PoisonDart(), new Callback() {
-								@Override
-								public void call() {
-									int dmg = Random.NormalIntRange(1, 4) - finalTarget.drRoll();
-									finalTarget.damage(dmg, trap);
-									if (finalTarget == Dungeon.hero && !finalTarget.isAlive()){
-										Dungeon.fail( trap.getClass() );
+						((MissileSprite) ShatteredPixelDungeon.scene().recycle(MissileSprite.class)).reset(pos, finalTarget.sprite,
+								new PoisonDart(), new Callback() {
+									@Override
+									public void call() {
+										int dmg = Random.NormalIntRange(1, 4) - finalTarget.drRoll();
+										finalTarget.damage(dmg, trap);
+										if (finalTarget == Dungeon.hero && !finalTarget.isAlive()) {
+											Dungeon.fail(trap.getClass());
+										}
+										Buff.affect(finalTarget, Poison.class).set(poisonAmount());
+										Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
+										finalTarget.sprite.bloodBurstA(finalTarget.sprite.center(), dmg);
+										finalTarget.sprite.flash();
+										Actor.remove(toRemove);
+										next();
 									}
-									Buff.affect( finalTarget, Poison.class ).set( poisonAmount() );
-									Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
-									finalTarget.sprite.bloodBurstA(finalTarget.sprite.center(), dmg);
-									finalTarget.sprite.flash();
-									Actor.remove(toRemove);
-									next();
-								}
-							});
+								});
 						return false;
 					}
 				});
 			} else {
 				finalTarget.damage(Random.NormalIntRange(1, 4) - finalTarget.drRoll(), trap);
-				Buff.affect( finalTarget, Poison.class ).set( poisonAmount() );
+				Buff.affect(finalTarget, Poison.class).set(poisonAmount());
 			}
 		}
 	}

@@ -34,14 +34,14 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 
 public class MagicalInfusion extends InventorySpell {
-	
+
 	{
 		mode = WndBag.Mode.UPGRADEABLE;
 		image = ItemSpriteSheet.MAGIC_INFUSE;
 	}
-	
+
 	@Override
-	protected void onItemSelected( Item item ) {
+	protected void onItemSelected(Item item) {
 
 		if (item instanceof Weapon && ((Weapon) item).enchantment != null && !((Weapon) item).hasCurseEnchant()) {
 			((Weapon) item).upgrade(true);
@@ -50,32 +50,33 @@ public class MagicalInfusion extends InventorySpell {
 		} else {
 			item.upgrade();
 		}
-		
-		GLog.p( Messages.get(this, "infuse", item.name()) );
-		
+
+		GLog.p(Messages.get(this, "infuse", item.name()));
+
 		Badges.validateItemLevelAquired(item);
 
 		curUser.sprite.emitter().start(Speck.factory(Speck.UP), 0.2f, 3);
 		Statistics.upgradesUsed++;
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients, divided by output quantity
+		// prices of ingredients, divided by output quantity
 		return Math.round(quantity * ((50 + 40) / 1f));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{ScrollOfUpgrade.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { ScrollOfUpgrade.class, ArcaneCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 4;
-			
+
 			output = MagicalInfusion.class;
 			outQuantity = 1;
 		}
-		
+
 	}
 }

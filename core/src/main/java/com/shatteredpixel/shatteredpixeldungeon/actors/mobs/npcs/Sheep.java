@@ -31,7 +31,7 @@ import com.watabou.utils.Random;
 
 public class Sheep extends NPC {
 
-	private static final String[] LINE_KEYS = {"Baa!", "Baa?", "Baa.", "Baa..."};
+	private static final String[] LINE_KEYS = { "Baa!", "Baa?", "Baa.", "Baa..." };
 
 	{
 		spriteClass = SheepSprite.class;
@@ -51,7 +51,7 @@ public class Sheep extends NPC {
 
 		} else {
 			initialized = true;
-			spend( lifespan + Random.Float(2) );
+			spend(lifespan + Random.Float(2));
 		}
 		return true;
 	}
@@ -60,18 +60,18 @@ public class Sheep extends NPC {
 	public int defenseSkill(Char enemy) {
 		return 100_000_000;
 	}
-	
+
 	@Override
-	public void damage( int dmg, Object src ) {
+	public void damage(int dmg, Object src) {
 	}
 
 	@Override
-	public void add( Buff buff ) {
+	public void add(Buff buff) {
 	}
 
 	@Override
 	public boolean interact() {
-		sprite.showStatus( CharSprite.NEUTRAL, Messages.get(this, Random.element( LINE_KEYS )) );
+		sprite.showStatus(CharSprite.NEUTRAL, Messages.get(this, Random.element(LINE_KEYS)));
 		Dungeon.hero.spendAndNext(1f);
 		return false;
 	}

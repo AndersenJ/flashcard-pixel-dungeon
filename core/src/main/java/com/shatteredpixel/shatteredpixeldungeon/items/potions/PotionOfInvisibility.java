@@ -36,13 +36,13 @@ public class PotionOfInvisibility extends Potion {
 	}
 
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		Buff.affect( hero, Invisibility.class, Invisibility.DURATION );
-		GLog.i( Messages.get(this, "invisible") );
-		Sample.INSTANCE.play( Assets.SND_MELD );
+		Buff.affect(hero, Invisibility.class, Invisibility.DURATION);
+		GLog.i(Messages.get(this, "invisible"));
+		Sample.INSTANCE.play(Assets.SND_MELD);
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 40 * quantity : super.price();

@@ -42,61 +42,61 @@ import com.watabou.noosa.audio.Sample;
 public class WaterOfAwareness extends WellWater {
 
 	@Override
-	protected boolean affectHero( Hero hero ) {
-		
-		Sample.INSTANCE.play( Assets.SND_DRINK );
-		emitter.parent.add( new Identification( hero.sprite.center() ) );
-		
+	protected boolean affectHero(Hero hero) {
+
+		Sample.INSTANCE.play(Assets.SND_DRINK);
+		emitter.parent.add(new Identification(hero.sprite.center()));
+
 		hero.belongings.observe();
-		
-		for (int i=0; i < Dungeon.level.length(); i++) {
-			
+
+		for (int i = 0; i < Dungeon.level.length(); i++) {
+
 			int terr = Dungeon.level.map[i];
 			if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
-				
-				Dungeon.level.discover( i );
-				
+
+				Dungeon.level.discover(i);
+
 				if (Dungeon.level.heroFOV[i]) {
-					GameScene.discoverTile( i, terr );
+					GameScene.discoverTile(i, terr);
 				}
 			}
 		}
-		
-		Buff.affect( hero, Awareness.class, Awareness.DURATION );
+
+		Buff.affect(hero, Awareness.class, Awareness.DURATION);
 		Dungeon.observe();
 
 		Dungeon.hero.interrupt();
-	
-		GLog.p( Messages.get(this, "procced") );
-		
+
+		GLog.p(Messages.get(this, "procced"));
+
 		return true;
 	}
-	
+
 	@Override
-	protected Item affectItem( Item item, int pos ) {
+	protected Item affectItem(Item item, int pos) {
 		if (item.isIdentified()) {
 			return null;
 		} else {
 			item.identify();
-			Badges.validateItemLevelAquired( item );
-			
-			emitter.parent.add( new Identification( DungeonTilemap.tileCenterToWorld( pos ) ) );
-			
+			Badges.validateItemLevelAquired(item);
+
+			emitter.parent.add(new Identification(DungeonTilemap.tileCenterToWorld(pos)));
+
 			return item;
 		}
 	}
-	
+
 	@Override
 	protected Landmark record() {
 		return Landmark.WELL_OF_AWARENESS;
 	}
-	
+
 	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
-		emitter.pour( Speck.factory( Speck.QUESTION ), 0.3f );
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
+		emitter.pour(Speck.factory(Speck.QUESTION), 0.3f);
 	}
-	
+
 	@Override
 	public String tileDesc() {
 		return Messages.get(this, "desc");

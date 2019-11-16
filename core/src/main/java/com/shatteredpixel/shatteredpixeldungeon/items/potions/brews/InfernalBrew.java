@@ -32,41 +32,42 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 
 public class InfernalBrew extends Brew {
-	
+
 	{
 		image = ItemSpriteSheet.BREW_INFERNAL;
 	}
-	
+
 	@Override
 	public void shatter(int cell) {
-		
+
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		GameScene.add( Blob.seed( cell, 1000, Inferno.class ) );
+
+		GameScene.add(Blob.seed(cell, 1000, Inferno.class));
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (30 + 40);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfLiquidFlame.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfLiquidFlame.class, AlchemicalCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 6;
-			
+
 			output = InfernalBrew.class;
 			outQuantity = 1;
 		}
-		
+
 	}
 }

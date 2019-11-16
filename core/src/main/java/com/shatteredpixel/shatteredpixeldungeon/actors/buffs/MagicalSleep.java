@@ -33,17 +33,19 @@ public class MagicalSleep extends Buff {
 	private static final float STEP = 1f;
 
 	@Override
-	public boolean attachTo( Char target ) {
-		if (!target.isImmune(Sleep.class) && super.attachTo( target )) {
-			
+	public boolean attachTo(Char target) {
+		if (!target.isImmune(Sleep.class) && super.attachTo(target)) {
+
 			target.paralysed++;
-			
+
 			if (target.alignment == Char.Alignment.ALLY) {
 				if (target.HP == target.HT) {
-					if (target instanceof  Hero) GLog.i(Messages.get(this, "toohealthy"));
+					if (target instanceof Hero)
+						GLog.i(Messages.get(this, "toohealthy"));
 					detach();
 				} else {
-					if (target instanceof  Hero) GLog.i(Messages.get(this, "fallasleep"));
+					if (target instanceof Hero)
+						GLog.i(Messages.get(this, "fallasleep"));
 				}
 			}
 
@@ -58,20 +60,22 @@ public class MagicalSleep extends Buff {
 	}
 
 	@Override
-	public boolean act(){
-		if (target instanceof Mob && ((Mob) target).state != ((Mob) target).SLEEPING){
+	public boolean act() {
+		if (target instanceof Mob && ((Mob) target).state != ((Mob) target).SLEEPING) {
 			detach();
 			return true;
 		}
 		if (target.alignment == Char.Alignment.ALLY) {
-			target.HP = Math.min(target.HP+1, target.HT);
-			if (target instanceof  Hero) ((Hero) target).resting = true;
+			target.HP = Math.min(target.HP + 1, target.HT);
+			if (target instanceof Hero)
+				((Hero) target).resting = true;
 			if (target.HP == target.HT) {
-				if (target instanceof  Hero) GLog.p(Messages.get(this, "wakeup"));
+				if (target instanceof Hero)
+					GLog.p(Messages.get(this, "wakeup"));
 				detach();
 			}
 		}
-		spend( STEP );
+		spend(STEP);
 		return true;
 	}
 

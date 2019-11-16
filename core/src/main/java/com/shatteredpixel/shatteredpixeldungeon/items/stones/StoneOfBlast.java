@@ -25,14 +25,14 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class StoneOfBlast extends Runestone {
-	
+
 	{
 		image = ItemSpriteSheet.STONE_BLAST;
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
 		new Bomb().explode(cell);
 	}
-	
+
 }

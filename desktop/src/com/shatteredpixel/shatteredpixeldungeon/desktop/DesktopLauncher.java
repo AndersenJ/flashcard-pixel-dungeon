@@ -33,8 +33,8 @@ import java.io.StringWriter;
 import javax.swing.JOptionPane;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		
+	public static void main(String[] arg) {
+
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable throwable) {
@@ -42,40 +42,40 @@ public class DesktopLauncher {
 				PrintWriter pw = new PrintWriter(sw);
 				throwable.printStackTrace(pw);
 				pw.flush();
-				JOptionPane.showMessageDialog(null, "Shattered Pixel Dungeon has crashed, sorry about that!\n\n" +
-						"If you could, please email this error message to me and I'll get it fixed (Evan@ShatteredPixel.com):\n\n" +
-						sw.toString(), "Game Crash!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Shattered Pixel Dungeon has crashed, sorry about that!\n\n"
+						+ "If you could, please email this error message to me and I'll get it fixed (Evan@ShatteredPixel.com):\n\n"
+						+ sw.toString(), "Game Crash!", JOptionPane.ERROR_MESSAGE);
 				Gdx.app.exit();
 			}
 		});
-		
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		
+
 		config.width = 1920;
 		config.height = 1080;
-		
-		//uncapped (but vsynced) framerate when focused, paused when not focused
+
+		// uncapped (but vsynced) framerate when focused, paused when not focused
 		config.foregroundFPS = 0;
 		config.backgroundFPS = -1;
-		
-		//TODO rather than hardcoding these values when running debug
+
+		// TODO rather than hardcoding these values when running debug
 		// it would be nice to be able to fetch them from gradle in some way
 		config.title = DesktopLauncher.class.getPackage().getSpecificationTitle();
 		if (config.title == null) {
 			config.title = "ShatteredPD INDEV";
 		}
-		
+
 		Game.version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (Game.version == null) {
 			Game.version = "0.7.5e-INDEV";
 		}
-		
+
 		try {
 			Game.versionCode = Integer.parseInt(DesktopLauncher.class.getPackage().getImplementationVersion());
 		} catch (NumberFormatException e) {
 			Game.versionCode = 382;
 		}
-		
+
 		new LwjglApplication(new ShatteredPixelDungeon(new DesktopPlatformSupport()), config);
 	}
 }

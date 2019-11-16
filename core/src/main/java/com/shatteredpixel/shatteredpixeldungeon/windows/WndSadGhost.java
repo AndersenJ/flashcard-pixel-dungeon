@@ -37,53 +37,54 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class WndSadGhost extends Window {
 
-	private static final int WIDTH		= 120;
-	private static final int BTN_HEIGHT	= 20;
-	private static final float GAP		= 2;
-	
-	public WndSadGhost( final Ghost ghost, final int type ) {
-		
+	private static final int WIDTH = 120;
+	private static final int BTN_HEIGHT = 20;
+	private static final float GAP = 2;
+
+	public WndSadGhost(final Ghost ghost, final int type) {
+
 		super();
-		
+
 		IconTitle titlebar = new IconTitle();
 		RenderedTextBlock message;
-		switch (type){
-			case 1:default:
-				titlebar.icon( new FetidRatSprite() );
-				titlebar.label( Messages.get(this, "rat_title") );
-				message = PixelScene.renderTextBlock( Messages.get(this, "rat")+Messages.get(this, "give_item"), 6 );
-				break;
-			case 2:
-				titlebar.icon( new GnollTricksterSprite() );
-				titlebar.label( Messages.get(this, "gnoll_title") );
-				message = PixelScene.renderTextBlock( Messages.get(this, "gnoll")+Messages.get(this, "give_item"), 6 );
-				break;
-			case 3:
-				titlebar.icon( new GreatCrabSprite());
-				titlebar.label( Messages.get(this, "crab_title") );
-				message = PixelScene.renderTextBlock( Messages.get(this, "crab")+Messages.get(this, "give_item"), 6 );
-				break;
+		switch (type) {
+		case 1:
+		default:
+			titlebar.icon(new FetidRatSprite());
+			titlebar.label(Messages.get(this, "rat_title"));
+			message = PixelScene.renderTextBlock(Messages.get(this, "rat") + Messages.get(this, "give_item"), 6);
+			break;
+		case 2:
+			titlebar.icon(new GnollTricksterSprite());
+			titlebar.label(Messages.get(this, "gnoll_title"));
+			message = PixelScene.renderTextBlock(Messages.get(this, "gnoll") + Messages.get(this, "give_item"), 6);
+			break;
+		case 3:
+			titlebar.icon(new GreatCrabSprite());
+			titlebar.label(Messages.get(this, "crab_title"));
+			message = PixelScene.renderTextBlock(Messages.get(this, "crab") + Messages.get(this, "give_item"), 6);
+			break;
 
 		}
 
-		titlebar.setRect( 0, 0, WIDTH, 0 );
-		add( titlebar );
+		titlebar.setRect(0, 0, WIDTH, 0);
+		add(titlebar);
 
 		message.maxWidth(WIDTH);
 		message.setPos(0, titlebar.bottom() + GAP);
-		add( message );
-		
-		RedButton btnWeapon = new RedButton( Messages.get(this, "weapon") ) {
+		add(message);
+
+		RedButton btnWeapon = new RedButton(Messages.get(this, "weapon")) {
 			@Override
 			protected void onClick() {
-				selectReward( ghost, Ghost.Quest.weapon );
+				selectReward(ghost, Ghost.Quest.weapon);
 			}
 		};
-		btnWeapon.setRect( 0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT );
-		add( btnWeapon );
+		btnWeapon.setRect(0, message.top() + message.height() + GAP, WIDTH, BTN_HEIGHT);
+		add(btnWeapon);
 
-		if (!Dungeon.isChallenged( Challenges.NO_ARMOR )) {
-			RedButton btnArmor = new RedButton( Messages.get(this, "armor") ) {
+		if (!Dungeon.isChallenged(Challenges.NO_ARMOR)) {
+			RedButton btnArmor = new RedButton(Messages.get(this, "armor")) {
 				@Override
 				protected void onClick() {
 					selectReward(ghost, Ghost.Quest.armor);
@@ -97,23 +98,24 @@ public class WndSadGhost extends Window {
 			resize(WIDTH, (int) btnWeapon.bottom());
 		}
 	}
-	
-	private void selectReward( Ghost ghost, Item reward ) {
-		
+
+	private void selectReward(Ghost ghost, Item reward) {
+
 		hide();
-		
-		if (reward == null) return;
-		
+
+		if (reward == null)
+			return;
+
 		reward.identify();
-		if (reward.doPickUp( Dungeon.hero )) {
-			GLog.i( Messages.get(Dungeon.hero, "you_now_have", reward.name()) );
+		if (reward.doPickUp(Dungeon.hero)) {
+			GLog.i(Messages.get(Dungeon.hero, "you_now_have", reward.name()));
 		} else {
-			Dungeon.level.drop( reward, ghost.pos ).sprite.drop();
+			Dungeon.level.drop(reward, ghost.pos).sprite.drop();
 		}
-		
-		ghost.yell( Messages.get(this, "farewell") );
-		ghost.die( null );
-		
+
+		ghost.yell(Messages.get(this, "farewell"));
+		ghost.die(null);
+
 		Ghost.Quest.complete();
 	}
 }

@@ -31,7 +31,7 @@ import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 public class GooSprite extends MobSprite {
-	
+
 	private Animation pump;
 	private Animation pumpAttack;
 
@@ -39,56 +39,58 @@ public class GooSprite extends MobSprite {
 
 	public GooSprite() {
 		super();
-		
-		texture( Assets.GOO );
-		
-		TextureFilm frames = new TextureFilm( texture, 20, 14 );
-		
-		idle = new Animation( 10, true );
-		idle.frames( frames, 2, 1, 0, 0, 1 );
-		
-		run = new Animation( 15, true );
-		run.frames( frames, 3, 2, 1, 2 );
-		
-		pump = new Animation( 20, true );
-		pump.frames( frames, 4, 3, 2, 1, 0 );
 
-		pumpAttack = new Animation ( 20, false );
-		pumpAttack.frames( frames, 4, 3, 2, 1, 0, 7);
+		texture(Assets.GOO);
 
-		attack = new Animation( 10, false );
-		attack.frames( frames, 8, 9, 10 );
-		
-		die = new Animation( 10, false );
-		die.frames( frames, 5, 6, 7 );
-		
+		TextureFilm frames = new TextureFilm(texture, 20, 14);
+
+		idle = new Animation(10, true);
+		idle.frames(frames, 2, 1, 0, 0, 1);
+
+		run = new Animation(15, true);
+		run.frames(frames, 3, 2, 1, 2);
+
+		pump = new Animation(20, true);
+		pump.frames(frames, 4, 3, 2, 1, 0);
+
+		pumpAttack = new Animation(20, false);
+		pumpAttack.frames(frames, 4, 3, 2, 1, 0, 7);
+
+		attack = new Animation(10, false);
+		attack.frames(frames, 8, 9, 10);
+
+		die = new Animation(10, false);
+		die.frames(frames, 5, 6, 7);
+
 		play(idle);
 
 		spray = centerEmitter();
 		spray.autoKill = false;
-		spray.pour( GooParticle.FACTORY, 0.04f );
+		spray.pour(GooParticle.FACTORY, 0.04f);
 		spray.on = false;
 	}
 
 	@Override
 	public void link(Char ch) {
 		super.link(ch);
-		if (ch.HP*2 <= ch.HT)
+		if (ch.HP * 2 <= ch.HT)
 			spray(true);
 	}
 
 	public void pumpUp() {
-		play( pump );
+		play(pump);
 	}
 
-	public void pumpAttack() { play(pumpAttack); }
+	public void pumpAttack() {
+		play(pumpAttack);
+	}
 
 	@Override
 	public int blood() {
 		return 0xFF000000;
 	}
 
-	public void spray(boolean on){
+	public void spray(boolean on) {
 		spray.on = on;
 	}
 
@@ -103,21 +105,21 @@ public class GooSprite extends MobSprite {
 
 		public static final Emitter.Factory FACTORY = new Factory() {
 			@Override
-			public void emit( Emitter emitter, int index, float x, float y ) {
-				((GooParticle)emitter.recycle( GooParticle.class )).reset( x, y );
+			public void emit(Emitter emitter, int index, float x, float y) {
+				((GooParticle) emitter.recycle(GooParticle.class)).reset(x, y);
 			}
 		};
 
 		public GooParticle() {
 			super();
 
-			color( 0x000000 );
+			color(0x000000);
 			lifespan = 0.3f;
 
-			acc.set( 0, +50 );
+			acc.set(0, +50);
 		}
 
-		public void reset( float x, float y ) {
+		public void reset(float x, float y) {
 			revive();
 
 			this.x = x;
@@ -126,7 +128,7 @@ public class GooSprite extends MobSprite {
 			left = lifespan;
 
 			size = 4;
-			speed.polar( -Random.Float( PointF.PI ), Random.Float( 32, 48 ) );
+			speed.polar(-Random.Float(PointF.PI), Random.Float(32, 48));
 		}
 
 		@Override
@@ -138,7 +140,7 @@ public class GooSprite extends MobSprite {
 	}
 
 	@Override
-	public void onComplete( Animation anim ) {
+	public void onComplete(Animation anim) {
 		super.onComplete(anim);
 
 		if (anim == pumpAttack) {

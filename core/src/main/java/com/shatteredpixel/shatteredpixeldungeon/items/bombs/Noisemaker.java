@@ -36,50 +36,50 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
 public class Noisemaker extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.NOISEMAKER;
 	}
 
-	public void setTrigger(int cell){
+	public void setTrigger(int cell) {
 
 		Buff.affect(Dungeon.hero, Trigger.class).set(cell);
 
-		CellEmitter.center( cell ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-		Sample.INSTANCE.play( Assets.SND_ALERT );
+		CellEmitter.center(cell).start(Speck.factory(Speck.SCREAM), 0.3f, 3);
+		Sample.INSTANCE.play(Assets.SND_ALERT);
 
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			mob.beckon( cell );
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+			mob.beckon(cell);
 		}
 
 		for (Heap heap : Dungeon.level.heaps.valueList()) {
 			if (heap.type == Heap.Type.MIMIC) {
-				Mimic m = Mimic.spawnAt( heap.pos, heap.items );
+				Mimic m = Mimic.spawnAt(heap.pos, heap.items);
 				if (m != null) {
-					m.beckon( cell );
+					m.beckon(cell);
 					heap.destroy();
 				}
 			}
 		}
 
 	}
-	
+
 	public static class Trigger extends Buff {
 
 		int cell;
 		int floor;
 		int left;
-		
-		public void set(int cell){
+
+		public void set(int cell) {
 			floor = Dungeon.depth;
 			this.cell = cell;
 			left = 6;
 		}
-		
+
 		@Override
 		public boolean act() {
 
-			if (Dungeon.depth != floor){
+			if (Dungeon.depth != floor) {
 				spend(TICK);
 				return true;
 			}
@@ -87,9 +87,9 @@ public class Noisemaker extends Bomb {
 			Noisemaker bomb = null;
 			Heap heap = Dungeon.level.heaps.get(cell);
 
-			if (heap != null){
-				for (Item i : heap.items){
-					if (i instanceof Noisemaker){
+			if (heap != null) {
+				for (Item i : heap.items) {
+					if (i instanceof Noisemaker) {
 						bomb = (Noisemaker) i;
 						break;
 					}
@@ -99,7 +99,7 @@ public class Noisemaker extends Bomb {
 			if (bomb == null) {
 				detach();
 
-			} else if (Actor.findChar(cell) != null)  {
+			} else if (Actor.findChar(cell) != null) {
 
 				heap.items.remove(bomb);
 				if (heap.items.isEmpty()) {
@@ -114,12 +114,12 @@ public class Noisemaker extends Bomb {
 
 				left--;
 
-				if (left <= 0){
-					CellEmitter.center( cell ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-					Sample.INSTANCE.play( Assets.SND_ALERT );
+				if (left <= 0) {
+					CellEmitter.center(cell).start(Speck.factory(Speck.SCREAM), 0.3f, 3);
+					Sample.INSTANCE.play(Assets.SND_ALERT);
 
-					for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-						mob.beckon( cell );
+					for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+						mob.beckon(cell);
 					}
 					left = 6;
 				}
@@ -140,7 +140,7 @@ public class Noisemaker extends Bomb {
 			bundle.put(FLOOR, floor);
 			bundle.put(LEFT, left);
 		}
-		
+
 		@Override
 		public void restoreFromBundle(Bundle bundle) {
 			super.restoreFromBundle(bundle);
@@ -149,10 +149,10 @@ public class Noisemaker extends Bomb {
 			left = bundle.getInt(LEFT);
 		}
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 40);
 	}
 }

@@ -31,17 +31,17 @@ public class ScrollHolder extends Bag {
 
 	{
 		image = ItemSpriteSheet.HOLDER;
-		
+
 		size = 20;
 	}
-	
+
 	@Override
-	public boolean grab( Item item ) {
+	public boolean grab(Item item) {
 		return item instanceof Scroll || item instanceof Spell;
 	}
-	
+
 	@Override
-	public void onDetach( ) {
+	public void onDetach() {
 		super.onDetach();
 		for (Item item : items) {
 			if (item instanceof BeaconOfReturning) {
@@ -49,7 +49,7 @@ public class ScrollHolder extends Bag {
 			}
 		}
 	}
-	
+
 	@Override
 	public int price() {
 		return 40;

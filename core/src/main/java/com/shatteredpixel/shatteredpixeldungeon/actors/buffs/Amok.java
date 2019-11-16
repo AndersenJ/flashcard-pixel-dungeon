@@ -31,7 +31,7 @@ public class Amok extends FlavourBuff {
 		type = buffType.NEGATIVE;
 		announced = true;
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.AMOK;
@@ -41,7 +41,7 @@ public class Amok extends FlavourBuff {
 	public void detach() {
 		super.detach();
 		if (target instanceof Mob)
-			((Mob)target).aggro( null );
+			((Mob) target).aggro(null);
 	}
 
 	@Override

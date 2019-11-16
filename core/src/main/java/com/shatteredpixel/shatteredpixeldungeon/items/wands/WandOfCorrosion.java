@@ -53,7 +53,7 @@ public class WandOfCorrosion extends Wand {
 	@Override
 	protected void onZap(Ballistica bolt) {
 		CorrosiveGas gas = Blob.seed(bolt.collisionPos, 50 + 10 * level(), CorrosiveGas.class);
-		CellEmitter.center(bolt.collisionPos).burst( CorrosionParticle.SPLASH, 10 );
+		CellEmitter.center(bolt.collisionPos).burst(CorrosionParticle.SPLASH, 10);
 		gas.setStrength(2 + level());
 		GameScene.add(gas);
 
@@ -63,19 +63,15 @@ public class WandOfCorrosion extends Wand {
 				processSoulMark(ch, chargesPerCast());
 			}
 		}
-		
-		if (Actor.findChar(bolt.collisionPos) == null){
+
+		if (Actor.findChar(bolt.collisionPos) == null) {
 			Dungeon.level.pressCell(bolt.collisionPos);
 		}
 	}
 
 	@Override
 	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar(
-				curUser.sprite.parent,
-				MagicMissile.CORROSION,
-				curUser.sprite,
-				bolt.collisionPos,
+		MagicMissile.boltFromChar(curUser.sprite.parent, MagicMissile.CORROSION, curUser.sprite, bolt.collisionPos,
 				callback);
 		Sample.INSTANCE.play(Assets.SND_ZAP);
 	}
@@ -85,22 +81,22 @@ public class WandOfCorrosion extends Wand {
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
-		if (Random.Int( level() + 3 ) >= 2) {
-			
-			Buff.affect( defender, Ooze.class ).set( 20f );
-			CellEmitter.center(defender.pos).burst( CorrosionParticle.SPLASH, 5 );
-			
+		if (Random.Int(level() + 3) >= 2) {
+
+			Buff.affect(defender, Ooze.class).set(20f);
+			CellEmitter.center(defender.pos).burst(CorrosionParticle.SPLASH, 5);
+
 		}
 	}
 
 	@Override
 	public void staffFx(MagesStaff.StaffParticle particle) {
-		particle.color( ColorMath.random( 0xAAAAAA, 0xFF8800) );
+		particle.color(ColorMath.random(0xAAAAAA, 0xFF8800));
 		particle.am = 0.6f;
-		particle.setLifespan( 1f );
+		particle.setLifespan(1f);
 		particle.acc.set(0, 20);
-		particle.setSize( 0.5f, 3f );
-		particle.shuffleXY( 1f );
+		particle.setSize(0.5f, 3f);
+		particle.shuffleXY(1f);
 	}
 
 }

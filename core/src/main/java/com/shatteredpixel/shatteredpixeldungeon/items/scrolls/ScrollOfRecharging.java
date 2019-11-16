@@ -45,27 +45,27 @@ public class ScrollOfRecharging extends Scroll {
 
 		Buff.affect(curUser, Recharging.class, BUFF_DURATION);
 		charge(curUser);
-		
-		Sample.INSTANCE.play( Assets.SND_READ );
+
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
 
-		GLog.i( Messages.get(this, "surge") );
-		SpellSprite.show( curUser, SpellSprite.CHARGE );
+		GLog.i(Messages.get(this, "surge"));
+		SpellSprite.show(curUser, SpellSprite.CHARGE);
 		setKnown();
 
 		readAnimation();
 	}
-	
+
 	@Override
 	public void empoweredRead() {
 		doRead();
-		Buff.append(curUser, Recharging.class, BUFF_DURATION/3f);
+		Buff.append(curUser, Recharging.class, BUFF_DURATION / 3f);
 	}
-	
-	public static void charge( Hero hero ) {
-		hero.sprite.centerEmitter().burst( EnergyParticle.FACTORY, 15 );
+
+	public static void charge(Hero hero) {
+		hero.sprite.centerEmitter().burst(EnergyParticle.FACTORY, 15);
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 30 * quantity : super.price();

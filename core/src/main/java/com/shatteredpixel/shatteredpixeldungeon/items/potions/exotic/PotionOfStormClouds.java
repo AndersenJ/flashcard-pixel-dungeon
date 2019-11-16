@@ -29,21 +29,21 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Sample;
 
 public class PotionOfStormClouds extends ExoticPotion {
-	
+
 	{
 		initials = 5;
 	}
-	
+
 	@Override
 	public void shatter(int cell) {
-		
+
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		GameScene.add( Blob.seed( cell, 1000, StormCloud.class ) );
+
+		GameScene.add(Blob.seed(cell, 1000, StormCloud.class));
 	}
 }

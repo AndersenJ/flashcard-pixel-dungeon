@@ -45,12 +45,12 @@ public class WandOfFrost extends DamageWand {
 		image = ItemSpriteSheet.WAND_FROST;
 	}
 
-	public int min(int lvl){
-		return 2+lvl;
+	public int min(int lvl) {
+		return 2 + lvl;
 	}
 
-	public int max(int lvl){
-		return 8+5*lvl;
+	public int max(int lvl) {
+		return 8 + 5 * lvl;
 	}
 
 	@Override
@@ -62,29 +62,29 @@ public class WandOfFrost extends DamageWand {
 		}
 
 		Char ch = Actor.findChar(bolt.collisionPos);
-		if (ch != null){
+		if (ch != null) {
 
 			int damage = damageRoll();
 
-			if (ch.buff(Frost.class) != null){
-				return; //do nothing, can't affect a frozen target
+			if (ch.buff(Frost.class) != null) {
+				return; // do nothing, can't affect a frozen target
 			}
-			if (ch.buff(Chill.class) != null){
-				//7.5% less damage per turn of chill remaining
+			if (ch.buff(Chill.class) != null) {
+				// 7.5% less damage per turn of chill remaining
 				float chill = ch.buff(Chill.class).cooldown();
-				damage = (int)Math.round(damage * Math.pow(0.9f, chill));
+				damage = (int) Math.round(damage * Math.pow(0.9f, chill));
 			} else {
-				ch.sprite.burst( 0xFF99CCFF, level() / 2 + 2 );
+				ch.sprite.burst(0xFF99CCFF, level() / 2 + 2);
 			}
 
 			processSoulMark(ch, chargesPerCast());
 			ch.damage(damage, this);
 
-			if (ch.isAlive()){
+			if (ch.isAlive()) {
 				if (Dungeon.level.water[ch.pos])
-					Buff.prolong(ch, Chill.class, 4+level());
+					Buff.prolong(ch, Chill.class, 4 + level());
 				else
-					Buff.prolong(ch, Chill.class, 2+level());
+					Buff.prolong(ch, Chill.class, 2 + level());
 			}
 		} else {
 			Dungeon.level.pressCell(bolt.collisionPos);
@@ -93,21 +93,21 @@ public class WandOfFrost extends DamageWand {
 
 	@Override
 	protected void fx(Ballistica bolt, Callback callback) {
-		MagicMissile.boltFromChar(curUser.sprite.parent,
-				MagicMissile.FROST,
-				curUser.sprite,
-				bolt.collisionPos,
-				callback);
+		MagicMissile.boltFromChar(curUser.sprite.parent, MagicMissile.FROST, curUser.sprite, bolt.collisionPos, callback);
 		Sample.INSTANCE.play(Assets.SND_ZAP);
 	}
 
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
 		Chill chill = defender.buff(Chill.class);
-		if (chill != null && Random.IntRange(2, 10) <= chill.cooldown()){
-			//need to delay this through an actor so that the freezing isn't broken by taking damage from the staff hit.
-			new FlavourBuff(){
-				{actPriority = VFX_PRIO;}
+		if (chill != null && Random.IntRange(2, 10) <= chill.cooldown()) {
+			// need to delay this through an actor so that the freezing isn't broken by
+			// taking damage from the staff hit.
+			new FlavourBuff() {
+				{
+					actPriority = VFX_PRIO;
+				}
+
 				public boolean act() {
 					Buff.affect(target, Frost.class, Frost.duration(target) * Random.Float(1f, 2f));
 					return super.act();
@@ -122,9 +122,9 @@ public class WandOfFrost extends DamageWand {
 		particle.am = 0.6f;
 		particle.setLifespan(2f);
 		float angle = Random.Float(PointF.PI2);
-		particle.speed.polar( angle, 2f);
-		particle.acc.set( 0f, 1f);
-		particle.setSize( 0f, 1.5f);
+		particle.speed.polar(angle, 2f);
+		particle.acc.set(0f, 1f);
+		particle.setSize(0f, 1.5f);
 		particle.radiateXY(Random.Float(1f));
 	}
 

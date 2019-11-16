@@ -36,31 +36,31 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 public class ScrollOfPolymorph extends ExoticScroll {
-	
+
 	{
 		initials = 10;
 	}
-	
+
 	@Override
 	public void doRead() {
-		
-		new Flare( 5, 32 ).color( 0xFFFFFF, true ).show( curUser.sprite, 2f );
-		Sample.INSTANCE.play( Assets.SND_READ );
+
+		new Flare(5, 32).color(0xFFFFFF, true).show(curUser.sprite, 2f);
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
-		
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
 			if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
-				if (!mob.properties().contains(Char.Property.BOSS)
-						&& !mob.properties().contains(Char.Property.MINIBOSS)){
+				if (!mob.properties().contains(Char.Property.BOSS) && !mob.properties().contains(Char.Property.MINIBOSS)) {
 					Sheep sheep = new Sheep();
 					sheep.lifespan = 10;
 					sheep.pos = mob.pos;
-					
-					//awards half exp for each sheep-ified mob
-					//50% chance to round up, 50% to round down
-					if (mob.EXP % 2 == 1) mob.EXP += Random.Int(2);
+
+					// awards half exp for each sheep-ified mob
+					// 50% chance to round up, 50% to round down
+					if (mob.EXP % 2 == 1)
+						mob.EXP += Random.Int(2);
 					mob.EXP /= 2;
-					
+
 					mob.destroy();
 					mob.sprite.killAndErase();
 					Dungeon.level.mobs.remove(mob);
@@ -71,9 +71,9 @@ public class ScrollOfPolymorph extends ExoticScroll {
 			}
 		}
 		setKnown();
-		
+
 		readAnimation();
-		
+
 	}
-	
+
 }

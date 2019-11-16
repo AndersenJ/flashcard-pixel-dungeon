@@ -33,28 +33,27 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
 public class StoneOfAffection extends Runestone {
-	
+
 	{
 		image = ItemSpriteSheet.STONE_AFFECTION;
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
-		
-		for (int i : PathFinder.NEIGHBOURS9){
-			
-			CellEmitter.center(cell + i).start( Speck.factory( Speck.HEART ), 0.2f, 5 );
-			
-			
-			Char ch = Actor.findChar( cell + i );
-			
-			if (ch != null && ch.alignment == Char.Alignment.ENEMY){
+
+		for (int i : PathFinder.NEIGHBOURS9) {
+
+			CellEmitter.center(cell + i).start(Speck.factory(Speck.HEART), 0.2f, 5);
+
+			Char ch = Actor.findChar(cell + i);
+
+			if (ch != null && ch.alignment == Char.Alignment.ENEMY) {
 				Buff.prolong(ch, Charm.class, 10f).object = curUser.id();
 			}
 		}
-		
-		Sample.INSTANCE.play( Assets.SND_CHARMS );
-		
+
+		Sample.INSTANCE.play(Assets.SND_CHARMS);
+
 	}
-	
+
 }

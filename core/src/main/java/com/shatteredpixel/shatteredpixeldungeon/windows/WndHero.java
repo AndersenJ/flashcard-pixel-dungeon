@@ -42,127 +42,127 @@ import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.ui.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class WndHero extends WndTabbed {
-	
-	private static final int WIDTH		= 115;
-	private static final int HEIGHT		= 100;
-	
+
+	private static final int WIDTH = 115;
+	private static final int HEIGHT = 100;
+
 	private StatsTab stats;
 	private BuffsTab buffs;
-	
+
 	private SmartTexture icons;
 	private TextureFilm film;
-	
+
 	public WndHero() {
-		
+
 		super();
-		
-		resize( WIDTH, HEIGHT );
-		
-		icons = TextureCache.get( Assets.BUFFS_LARGE );
-		film = new TextureFilm( icons, 16, 16 );
-		
+
+		resize(WIDTH, HEIGHT);
+
+		icons = TextureCache.get(Assets.BUFFS_LARGE);
+		film = new TextureFilm(icons, 16, 16);
+
 		stats = new StatsTab();
-		add( stats );
-		
+		add(stats);
+
 		buffs = new BuffsTab();
-		add( buffs );
+		add(buffs);
 		buffs.setRect(0, 0, WIDTH, HEIGHT);
 		buffs.setupList();
-		
-		add( new LabeledTab( Messages.get(this, "stats") ) {
-			protected void select( boolean value ) {
-				super.select( value );
+
+		add(new LabeledTab(Messages.get(this, "stats")) {
+			protected void select(boolean value) {
+				super.select(value);
 				stats.visible = stats.active = selected;
 			}
-		} );
-		add( new LabeledTab( Messages.get(this, "buffs") ) {
-			protected void select( boolean value ) {
-				super.select( value );
+		});
+		add(new LabeledTab(Messages.get(this, "buffs")) {
+			protected void select(boolean value) {
+				super.select(value);
 				buffs.visible = buffs.active = selected;
 			}
-		} );
+		});
 
 		layoutTabs();
-		
-		select( 0 );
+
+		select(0);
 	}
-	
+
 	private class StatsTab extends Group {
-		
+
 		private static final int GAP = 6;
-		
+
 		private float pos;
-		
+
 		public StatsTab() {
-			
+
 			Hero hero = Dungeon.hero;
 
 			IconTitle title = new IconTitle();
-			title.icon( HeroSprite.avatar(hero.heroClass, hero.tier()) );
+			title.icon(HeroSprite.avatar(hero.heroClass, hero.tier()));
 			if (hero.givenName().equals(hero.className()))
-				title.label( Messages.get(this, "title", hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ) );
+				title.label(Messages.get(this, "title", hero.lvl, hero.className()).toUpperCase(Locale.ENGLISH));
 			else
-				title.label((hero.givenName() + "\n" + Messages.get(this, "title", hero.lvl, hero.className())).toUpperCase(Locale.ENGLISH));
+				title.label((hero.givenName() + "\n" + Messages.get(this, "title", hero.lvl, hero.className()))
+						.toUpperCase(Locale.ENGLISH));
 			title.color(Window.SHPX_COLOR);
-			title.setRect( 0, 0, WIDTH, 0 );
+			title.setRect(0, 0, WIDTH, 0);
 			add(title);
 
-			pos = title.bottom() + 2*GAP;
+			pos = title.bottom() + 2 * GAP;
 
-			statSlot( Messages.get(this, "str"), hero.STR() );
-			if (hero.shielding() > 0) statSlot( Messages.get(this, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT );
-			else statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
-			statSlot( Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp() );
+			statSlot(Messages.get(this, "str"), hero.STR());
+			if (hero.shielding() > 0)
+				statSlot(Messages.get(this, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT);
+			else
+				statSlot(Messages.get(this, "health"), (hero.HP) + "/" + hero.HT);
+			statSlot(Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp());
 
 			pos += GAP;
 
-			statSlot( Messages.get(this, "gold"), Statistics.goldCollected );
-			statSlot( Messages.get(this, "depth"), Statistics.deepestFloor );
+			statSlot(Messages.get(this, "gold"), Statistics.goldCollected);
+			statSlot(Messages.get(this, "depth"), Statistics.deepestFloor);
 
 			pos += GAP;
 		}
 
-		private void statSlot( String label, String value ) {
-			
-			RenderedTextBlock txt = PixelScene.renderTextBlock( label, 8 );
+		private void statSlot(String label, String value) {
+
+			RenderedTextBlock txt = PixelScene.renderTextBlock(label, 8);
 			txt.setPos(0, pos);
-			add( txt );
-			
-			txt = PixelScene.renderTextBlock( value, 8 );
+			add(txt);
+
+			txt = PixelScene.renderTextBlock(value, 8);
 			txt.setPos(WIDTH * 0.6f, pos);
 			PixelScene.align(txt);
-			add( txt );
-			
+			add(txt);
+
 			pos += GAP + txt.height();
 		}
-		
-		private void statSlot( String label, int value ) {
-			statSlot( label, Integer.toString( value ) );
-		}
-		
-		public float height() {
-			return pos;
+
+		private void statSlot(String label, int value) {
+			statSlot(label, Integer.toString(value));
 		}
 	}
-	
+
 	private class BuffsTab extends Component {
-		
+
 		private static final int GAP = 2;
-		
+
 		private float pos;
 		private ScrollPane buffList;
-		private ArrayList<BuffSlot> slots = new ArrayList<>();
-		
+		private List<BuffSlot> slots = new ArrayList<>();
+
 		public BuffsTab() {
-			buffList = new ScrollPane( new Component() ){
+			buffList = new ScrollPane(new Component()) {
 				@Override
-				public void onClick( float x, float y ) {
+				public void onClick(float x, float y) {
 					int size = slots.size();
-					for (int i=0; i < size; i++) {
-						if (slots.get( i ).onClick( x, y )) {
+					for (int i = 0; i < size; i++) {
+						if (slots.get(i).onClick(x, y)) {
 							break;
 						}
 					}
@@ -170,13 +170,13 @@ public class WndHero extends WndTabbed {
 			};
 			add(buffList);
 		}
-		
+
 		@Override
 		protected void layout() {
 			super.layout();
 			buffList.setRect(0, 0, width, height);
 		}
-		
+
 		private void setupList() {
 			Component content = buffList.content();
 			for (Buff buff : Dungeon.hero.buffs()) {
@@ -199,24 +199,21 @@ public class WndHero extends WndTabbed {
 			Image icon;
 			RenderedTextBlock txt;
 
-			public BuffSlot( Buff buff ){
+			public BuffSlot(Buff buff) {
 				super();
 				this.buff = buff;
 				int index = buff.icon();
 
-				icon = new Image( icons );
-				icon.frame( film.get( index ) );
+				icon = new Image(icons);
+				icon.frame(film.get(index));
 				buff.tintIcon(icon);
 				icon.y = this.y;
-				add( icon );
+				add(icon);
 
-				txt = PixelScene.renderTextBlock( buff.toString(), 8 );
-				txt.setPos(
-						icon.width + GAP,
-						this.y + (icon.height - txt.height()) / 2
-				);
+				txt = PixelScene.renderTextBlock(buff.toString(), 8);
+				txt.setPos(icon.width + GAP, this.y + (icon.height - txt.height()) / 2);
 				PixelScene.align(txt);
-				add( txt );
+				add(txt);
 
 			}
 
@@ -224,14 +221,11 @@ public class WndHero extends WndTabbed {
 			protected void layout() {
 				super.layout();
 				icon.y = this.y;
-				txt.setPos(
-						icon.width + GAP,
-						this.y + (icon.height - txt.height()) / 2
-				);
+				txt.setPos(icon.width + GAP, this.y + (icon.height - txt.height()) / 2);
 			}
-			
-			protected boolean onClick ( float x, float y ) {
-				if (inside( x, y )) {
+
+			protected boolean onClick(float x, float y) {
+				if (inside(x, y)) {
 					GameScene.show(new WndInfoBuff(buff));
 					return true;
 				} else {

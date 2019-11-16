@@ -40,300 +40,295 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SpiritBow extends Weapon {
-	
-	public static final String AC_SHOOT		= "SHOOT";
-	
+
+	public static final String AC_SHOOT = "SHOOT";
+
 	{
 		image = ItemSpriteSheet.SPIRIT_BOW;
-		
+
 		defaultAction = AC_SHOOT;
 		usesTargeting = true;
-		
+
 		unique = true;
 		bones = false;
 	}
-	
+
 	public boolean sniperSpecial = false;
-	
+
 	@Override
-	public ArrayList<String> actions(Hero hero) {
-		ArrayList<String> actions = super.actions(hero);
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
 		actions.remove(AC_EQUIP);
 		actions.add(AC_SHOOT);
 		return actions;
 	}
-	
+
 	@Override
 	public void execute(Hero hero, String action) {
-		
+
 		super.execute(hero, action);
-		
+
 		if (action.equals(AC_SHOOT)) {
-			
+
 			curUser = hero;
 			curItem = this;
-			GameScene.selectCell( shooter );
-			
+			GameScene.selectCell(shooter);
+
 		}
 	}
-	
+
 	@Override
 	public String info() {
 		String info = desc();
-		
-		info += "\n\n" + Messages.get( SpiritBow.class, "stats",
-				Math.round(augment.damageFactor(min())),
-				Math.round(augment.damageFactor(max())),
-				STRReq());
-		
+
+		info += "\n\n" + Messages.get(SpiritBow.class, "stats", Math.round(augment.damageFactor(min())),
+				Math.round(augment.damageFactor(max())), STRReq());
+
 		if (STRReq() > Dungeon.hero.STR()) {
 			info += " " + Messages.get(Weapon.class, "too_heavy");
-		} else if (Dungeon.hero.STR() > STRReq()){
+		} else if (Dungeon.hero.STR() > STRReq()) {
 			info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 		}
-		
+
 		switch (augment) {
-			case SPEED:
-				info += "\n\n" + Messages.get(Weapon.class, "faster");
-				break;
-			case DAMAGE:
-				info += "\n\n" + Messages.get(Weapon.class, "stronger");
-				break;
-			case NONE:
+		case SPEED:
+			info += "\n\n" + Messages.get(Weapon.class, "faster");
+			break;
+		case DAMAGE:
+			info += "\n\n" + Messages.get(Weapon.class, "stronger");
+			break;
+		case NONE:
 		}
-		
-		if (enchantment != null && (cursedKnown || !enchantment.curse())){
+
+		if (enchantment != null && (cursedKnown || !enchantment.curse())) {
 			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
 			info += " " + Messages.get(enchantment, "desc");
 		}
-		
-		if (cursed && isEquipped( Dungeon.hero )) {
+
+		if (cursed && isEquipped(Dungeon.hero)) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");
-		} else if (!isIdentified() && cursedKnown){
+		} else if (!isIdentified() && cursedKnown) {
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
-		
+
 		info += "\n\n" + Messages.get(MissileWeapon.class, "distance");
-		
+
 		return info;
 	}
-	
+
 	@Override
 	public int STRReq(int lvl) {
 		lvl = Math.max(0, lvl);
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return 10 - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		// strength req decreases at +1,+3,+6,+10,etc.
+		return 10 - (int) (Math.sqrt(8 * lvl + 1) - 1) / 2;
 	}
-	
+
 	@Override
 	public int min(int lvl) {
-		return 1 + Dungeon.hero.lvl/5
-				+ RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
-				+ (curseInfusionBonus ? 1 : 0);
+		return 1 + Dungeon.hero.lvl / 5 + RingOfSharpshooting.levelDamageBonus(Dungeon.hero) + (curseInfusionBonus ? 1 : 0);
 	}
-	
+
 	@Override
 	public int max(int lvl) {
-		return 6 + (int)(Dungeon.hero.lvl/2.5f)
-				+ 2*RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
+		return 6 + (int) (Dungeon.hero.lvl / 2.5f) + 2 * RingOfSharpshooting.levelDamageBonus(Dungeon.hero)
 				+ (curseInfusionBonus ? 2 : 0);
 	}
-	
+
 	private int targetPos;
-	
+
 	@Override
 	public int damageRoll(Char owner) {
 		int damage = augment.damageFactor(super.damageRoll(owner));
-		
+
 		if (owner instanceof Hero) {
-			int exStr = ((Hero)owner).STR() - STRReq();
+			int exStr = ((Hero) owner).STR() - STRReq();
 			if (exStr > 0) {
-				damage += Random.IntRange( 0, exStr );
+				damage += Random.IntRange(0, exStr);
 			}
 		}
-		
-		if (sniperSpecial){
-			switch (augment){
-				case NONE:
-					damage = Math.round(damage * 0.667f);
-					break;
-				case SPEED:
-					damage = Math.round(damage * 0.5f);
-					break;
-				case DAMAGE:
-					int distance = Dungeon.level.distance(owner.pos, targetPos) - 1;
-					damage = Math.round(damage * (1f + 0.1f * distance));
-					break;
+
+		if (sniperSpecial) {
+			switch (augment) {
+			case NONE:
+				damage = Math.round(damage * 0.667f);
+				break;
+			case SPEED:
+				damage = Math.round(damage * 0.5f);
+				break;
+			case DAMAGE:
+				int distance = Dungeon.level.distance(owner.pos, targetPos) - 1;
+				damage = Math.round(damage * (1f + 0.1f * distance));
+				break;
 			}
 		}
-		
+
 		return damage;
 	}
-	
+
 	@Override
 	public float speedFactor(Char owner) {
-		if (sniperSpecial){
-			switch (augment){
-				case NONE: default:
-					return 0f;
-				case SPEED:
-					return 1f * RingOfFuror.attackDelayMultiplier(owner);
-				case DAMAGE:
-					return 2f * RingOfFuror.attackDelayMultiplier(owner);
+		if (sniperSpecial) {
+			switch (augment) {
+			case NONE:
+			default:
+				return 0f;
+			case SPEED:
+				return 1f * RingOfFuror.attackDelayMultiplier(owner);
+			case DAMAGE:
+				return 2f * RingOfFuror.attackDelayMultiplier(owner);
 			}
 		} else {
 			return super.speedFactor(owner);
 		}
 	}
-	
+
 	@Override
 	public int level() {
-		//need to check if hero is null for loading an upgraded bow from pre-0.7.0
-		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl/5)
-				+ (curseInfusionBonus ? 1 : 0);
+		// need to check if hero is null for loading an upgraded bow from pre-0.7.0
+		return (Dungeon.hero == null ? 0 : Dungeon.hero.lvl / 5) + (curseInfusionBonus ? 1 : 0);
 	}
-	
-	//for fetching upgrades from a boomerang from pre-0.7.1
+
+	// for fetching upgrades from a boomerang from pre-0.7.1
 	public int spentUpgrades() {
 		return super.level() - (curseInfusionBonus ? 1 : 0);
 	}
-	
+
 	@Override
 	public boolean isUpgradable() {
 		return false;
 	}
-	
-	public SpiritArrow knockArrow(){
+
+	public SpiritArrow knockArrow() {
 		return new SpiritArrow();
 	}
-	
+
 	public class SpiritArrow extends MissileWeapon {
-		
+
 		{
 			image = ItemSpriteSheet.SPIRIT_ARROW;
 		}
-		
+
 		@Override
 		public int damageRoll(Char owner) {
 			return SpiritBow.this.damageRoll(owner);
 		}
-		
+
 		@Override
 		public boolean hasEnchant(Class<? extends Enchantment> type, Char owner) {
 			return SpiritBow.this.hasEnchant(type, owner);
 		}
-		
+
 		@Override
 		public int proc(Char attacker, Char defender, int damage) {
 			return SpiritBow.this.proc(attacker, defender, damage);
 		}
-		
+
 		@Override
 		public float speedFactor(Char user) {
 			return SpiritBow.this.speedFactor(user);
 		}
-		
+
 		@Override
 		public float accuracyFactor(Char owner) {
-			if (sniperSpecial && SpiritBow.this.augment == Augment.DAMAGE){
+			if (sniperSpecial && SpiritBow.this.augment == Augment.DAMAGE) {
 				return Float.POSITIVE_INFINITY;
 			} else {
 				return super.accuracyFactor(owner);
 			}
 		}
-		
+
 		@Override
 		public int STRReq(int lvl) {
 			return SpiritBow.this.STRReq(lvl);
 		}
-		
+
 		@Override
-		protected void onThrow( int cell ) {
-			Char enemy = Actor.findChar( cell );
+		protected void onThrow(int cell) {
+			Char enemy = Actor.findChar(cell);
 			if (enemy == null || enemy == curUser) {
 				parent = null;
-				Splash.at( cell, 0xCC99FFFF, 1 );
+				Splash.at(cell, 0xCC99FFFF, 1);
 			} else {
-				if (!curUser.shoot( enemy, this )) {
+				if (!curUser.shoot(enemy, this)) {
 					Splash.at(cell, 0xCC99FFFF, 1);
 				}
-				if (sniperSpecial && SpiritBow.this.augment != Augment.SPEED) sniperSpecial = false;
+				if (sniperSpecial && SpiritBow.this.augment != Augment.SPEED)
+					sniperSpecial = false;
 			}
 		}
-		
+
 		int flurryCount = -1;
-		
+
 		@Override
 		public void cast(final Hero user, final int dst) {
-			final int cell = throwPos( user, dst );
+			final int cell = throwPos(user, dst);
 			SpiritBow.this.targetPos = cell;
-			if (sniperSpecial && SpiritBow.this.augment == Augment.SPEED){
-				if (flurryCount == -1) flurryCount = 3;
-				
-				final Char enemy = Actor.findChar( cell );
-				
-				if (enemy == null){
+			if (sniperSpecial && SpiritBow.this.augment == Augment.SPEED) {
+				if (flurryCount == -1)
+					flurryCount = 3;
+
+				final Char enemy = Actor.findChar(cell);
+
+				if (enemy == null) {
 					user.spendAndNext(castDelay(user, dst));
 					sniperSpecial = false;
 					flurryCount = -1;
 					return;
 				}
 				QuickSlotButton.target(enemy);
-				
+
 				final boolean last = flurryCount == 1;
-				
+
 				user.busy();
-				
-				Sample.INSTANCE.play( Assets.SND_MISS, 0.6f, 0.6f, 1.5f );
-				
-				((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
-						reset(user.sprite,
-								cell,
-								this,
-								new Callback() {
-									@Override
-									public void call() {
-										if (enemy.isAlive()) {
-											curUser = user;
-											onThrow(cell);
-										}
-										
-										if (last) {
-											user.spendAndNext(castDelay(user, dst));
-											sniperSpecial = false;
-											flurryCount = -1;
-										}
-									}
-								});
-				
+
+				Sample.INSTANCE.play(Assets.SND_MISS, 0.6f, 0.6f, 1.5f);
+
+				((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).reset(user.sprite, cell, this,
+						new Callback() {
+							@Override
+							public void call() {
+								if (enemy.isAlive()) {
+									curUser = user;
+									onThrow(cell);
+								}
+
+								if (last) {
+									user.spendAndNext(castDelay(user, dst));
+									sniperSpecial = false;
+									flurryCount = -1;
+								}
+							}
+						});
+
 				user.sprite.zap(cell, new Callback() {
 					@Override
 					public void call() {
 						flurryCount--;
-						if (flurryCount > 0){
+						if (flurryCount > 0) {
 							cast(user, dst);
 						}
 					}
 				});
-				
+
 			} else {
 				super.cast(user, dst);
 			}
 		}
 	}
-	
+
 	private CellSelector.Listener shooter = new CellSelector.Listener() {
 		@Override
-		public void onSelect( Integer target ) {
+		public void onSelect(Integer target) {
 			if (target != null) {
 				knockArrow().cast(curUser, target);
 			}
 		}
+
 		@Override
 		public String prompt() {
 			return Messages.get(SpiritBow.class, "prompt");

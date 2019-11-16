@@ -34,8 +34,8 @@ public class Corrosion extends Buff implements Hero.Doom {
 	private float damage = 1;
 	protected float left;
 
-	private static final String DAMAGE	= "damage";
-	private static final String LEFT	= "left";
+	private static final String DAMAGE = "damage";
+	private static final String LEFT = "left";
 
 	{
 		type = buffType.NEGATIVE;
@@ -43,29 +43,30 @@ public class Corrosion extends Buff implements Hero.Doom {
 	}
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( DAMAGE, damage );
-		bundle.put( LEFT, left );
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(DAMAGE, damage);
+		bundle.put(LEFT, left);
 	}
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		damage = bundle.getFloat( DAMAGE );
-		left = bundle.getFloat( LEFT );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		damage = bundle.getFloat(DAMAGE);
+		left = bundle.getFloat(LEFT);
 	}
 
 	public void set(float duration, int damage) {
 		this.left = Math.max(duration, left);
-		if (this.damage < damage) this.damage = damage;
+		if (this.damage < damage)
+			this.damage = damage;
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.POISON;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		icon.hardlight(1f, 0.5f, 0f);
@@ -75,7 +76,7 @@ public class Corrosion extends Buff implements Hero.Doom {
 	public String toString() {
 		return Messages.get(this, "name");
 	}
-	
+
 	@Override
 	public String heroMessage() {
 		return Messages.get(this, "heromsg");
@@ -83,20 +84,20 @@ public class Corrosion extends Buff implements Hero.Doom {
 
 	@Override
 	public String desc() {
-		return Messages.get(this, "desc", dispTurns(left), (int)damage);
+		return Messages.get(this, "desc", dispTurns(left), (int) damage);
 	}
 
 	@Override
 	public boolean act() {
 		if (target.isAlive()) {
-			target.damage((int)damage, this);
-			if (damage < (Dungeon.depth/2)+2) {
+			target.damage((int) damage, this);
+			if (damage < (Dungeon.depth / 2) + 2) {
 				damage++;
 			} else {
 				damage += 0.5f;
 			}
-			
-			spend( TICK );
+
+			spend(TICK);
 			if ((left -= TICK) <= 0) {
 				detach();
 			}
@@ -106,10 +107,10 @@ public class Corrosion extends Buff implements Hero.Doom {
 
 		return true;
 	}
-	
+
 	@Override
 	public void onDeath() {
-		Dungeon.fail( getClass() );
+		Dungeon.fail(getClass());
 		GLog.n(Messages.get(this, "ondeath"));
 	}
 

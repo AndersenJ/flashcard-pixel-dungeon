@@ -34,27 +34,27 @@ public class PotionOfFrost extends Potion {
 	{
 		initials = 1;
 	}
-	
+
 	@Override
-	public void shatter( int cell ) {
-		
+	public void shatter(int cell) {
+
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		for (int offset : PathFinder.NEIGHBOURS9){
-			if (!Dungeon.level.solid[cell+offset]) {
-				
+
+		for (int offset : PathFinder.NEIGHBOURS9) {
+			if (!Dungeon.level.solid[cell + offset]) {
+
 				GameScene.add(Blob.seed(cell + offset, 10, Freezing.class));
-				
+
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 30 * quantity : super.price();

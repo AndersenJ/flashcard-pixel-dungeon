@@ -38,16 +38,16 @@ public class ShockingTrap extends Trap {
 
 	@Override
 	public void activate() {
-		
-		if (Dungeon.level.heroFOV[pos]){
-			Sample.INSTANCE.play( Assets.SND_LIGHTNING );
+
+		if (Dungeon.level.heroFOV[pos]) {
+			Sample.INSTANCE.play(Assets.SND_LIGHTNING);
 		}
-		
-		for( int i : PathFinder.NEIGHBOURS9) {
+
+		for (int i : PathFinder.NEIGHBOURS9) {
 			if (!Dungeon.level.solid[pos + i]) {
 				GameScene.add(Blob.seed(pos + i, 10, Electricity.class));
 			}
 		}
 	}
-	
+
 }

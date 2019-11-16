@@ -33,11 +33,11 @@ public class BlandfruitBush extends Plant {
 	}
 
 	@Override
-	public void activate( Char ch ) {
-		Dungeon.level.drop( new Blandfruit(), pos ).sprite.drop();
+	public void activate(Char ch) {
+		Dungeon.level.drop(new Blandfruit(), pos).sprite.drop();
 	}
 
-	//This seed no longer drops, but has a sprite as it did drop prior to 0.7.0
+	// This seed no longer drops, but has a sprite as it did drop prior to 0.7.0
 	public static class Seed extends Plant.Seed {
 		{
 			image = ItemSpriteSheet.SEED_FADELEAF;

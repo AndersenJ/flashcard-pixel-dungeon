@@ -44,64 +44,64 @@ public class ScrollOfMagicMapping extends Scroll {
 
 	@Override
 	public void doRead() {
-		
+
 		int length = Dungeon.level.length();
 		int[] map = Dungeon.level.map;
 		boolean[] mapped = Dungeon.level.mapped;
 		boolean[] discoverable = Dungeon.level.discoverable;
-		
+
 		boolean noticed = false;
-		
-		for (int i=0; i < length; i++) {
-			
+
+		for (int i = 0; i < length; i++) {
+
 			int terr = map[i];
-			
+
 			if (discoverable[i]) {
-				
+
 				mapped[i] = true;
 				if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
-					
-					Dungeon.level.discover( i );
-					
+
+					Dungeon.level.discover(i);
+
 					if (Dungeon.level.heroFOV[i]) {
-						GameScene.discoverTile( i, terr );
-						discover( i );
-						
+						GameScene.discoverTile(i, terr);
+						discover(i);
+
 						noticed = true;
 					}
 				}
 			}
 		}
 		GameScene.updateFog();
-		
-		GLog.i( Messages.get(this, "layout") );
+
+		GLog.i(Messages.get(this, "layout"));
 		if (noticed) {
-			Sample.INSTANCE.play( Assets.SND_SECRET );
+			Sample.INSTANCE.play(Assets.SND_SECRET);
 		}
-		
-		SpellSprite.show( curUser, SpellSprite.MAP );
-		Sample.INSTANCE.play( Assets.SND_READ );
+
+		SpellSprite.show(curUser, SpellSprite.MAP);
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
-		
+
 		setKnown();
 
 		readAnimation();
 	}
-	
+
 	@Override
 	public void empoweredRead() {
 		doRead();
-		Buff.affect( curUser, MindVision.class, MindVision.DURATION );
-		Buff.affect( curUser, Awareness.class, Awareness.DURATION );
+		Buff.affect(curUser, MindVision.class, MindVision.DURATION);
+		Buff.affect(curUser, Awareness.class, Awareness.DURATION);
 		Dungeon.observe();
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 40 * quantity : super.price();
 	}
-	
-	public static void discover( int cell ) {
-		CellEmitter.get( cell ).start( Speck.factory( Speck.DISCOVER ), 0.1f, 4 );
+
+	public static void discover(int cell) {
+		CellEmitter.get(cell).start(Speck.factory(Speck.DISCOVER), 0.1f, 4);
 	}
 }

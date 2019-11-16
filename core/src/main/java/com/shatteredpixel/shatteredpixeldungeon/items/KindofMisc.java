@@ -27,7 +27,6 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 
-
 public abstract class KindofMisc extends EquipableItem {
 
 	private static final float TIME_TO_EQUIP = 1f;
@@ -40,25 +39,25 @@ public abstract class KindofMisc extends EquipableItem {
 			final KindofMisc m1 = hero.belongings.misc1;
 			final KindofMisc m2 = hero.belongings.misc2;
 
-			GameScene.show(
-					new WndOptions(Messages.get(KindofMisc.class, "unequip_title"),
-							Messages.get(KindofMisc.class, "unequip_message"),
-							Messages.titleCase(m1.toString()),
-							Messages.titleCase(m2.toString())) {
+			GameScene.show(new WndOptions(Messages.get(KindofMisc.class, "unequip_title"),
+					Messages.get(KindofMisc.class, "unequip_message"), Messages.titleCase(m1.toString()),
+					Messages.titleCase(m2.toString())) {
 
-						@Override
-						protected void onSelect(int index) {
+				@Override
+				protected void onSelect(int index) {
 
-							KindofMisc equipped = (index == 0 ? m1 : m2);
-							//temporarily give 1 extra backpack spot to support swapping with a full inventory
-							hero.belongings.backpack.size++;
-							if (equipped.doUnequip(hero, true, false)) {
-								//fully re-execute rather than just call doEquip as we want to preserve quickslot
-								execute(hero, AC_EQUIP);
-							}
-							hero.belongings.backpack.size--;
-						}
-					});
+					KindofMisc equipped = (index == 0 ? m1 : m2);
+					// temporarily give 1 extra backpack spot to support swapping with a full
+					// inventory
+					hero.belongings.backpack.size++;
+					if (equipped.doUnequip(hero, true, false)) {
+						// fully re-execute rather than just call doEquip as we want to preserve
+						// quickslot
+						execute(hero, AC_EQUIP);
+					}
+					hero.belongings.backpack.size--;
+				}
+			});
 
 			return false;
 
@@ -70,17 +69,17 @@ public abstract class KindofMisc extends EquipableItem {
 				hero.belongings.misc2 = this;
 			}
 
-			detach( hero.belongings.backpack );
+			detach(hero.belongings.backpack);
 
-			activate( hero );
+			activate(hero);
 
 			cursedKnown = true;
 			if (cursed) {
-				equipCursed( hero );
-				GLog.n( Messages.get(this, "equip_cursed", this) );
+				equipCursed(hero);
+				GLog.n(Messages.get(this, "equip_cursed", this));
 			}
 
-			hero.spendAndNext( TIME_TO_EQUIP );
+			hero.spendAndNext(TIME_TO_EQUIP);
 			return true;
 
 		}
@@ -89,7 +88,7 @@ public abstract class KindofMisc extends EquipableItem {
 
 	@Override
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
-		if (super.doUnequip(hero, collect, single)){
+		if (super.doUnequip(hero, collect, single)) {
 
 			if (hero.belongings.misc1 == this) {
 				hero.belongings.misc1 = null;
@@ -107,7 +106,7 @@ public abstract class KindofMisc extends EquipableItem {
 	}
 
 	@Override
-	public boolean isEquipped( Hero hero ) {
+	public boolean isEquipped(Hero hero) {
 		return hero.belongings.misc1 == this || hero.belongings.misc2 == this;
 	}
 

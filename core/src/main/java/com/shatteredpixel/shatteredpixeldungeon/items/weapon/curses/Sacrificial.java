@@ -30,13 +30,13 @@ import com.watabou.utils.Random;
 
 public class Sacrificial extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
 
 	@Override
-	public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
+	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 
-		if (Random.Int(12) == 0){
-			Buff.affect(attacker, Bleeding.class).set(Math.max(1, attacker.HP/6));
+		if (Random.Int(12) == 0) {
+			Buff.affect(attacker, Bleeding.class).set(Math.max(1, attacker.HP / 6));
 		}
 
 		return damage;

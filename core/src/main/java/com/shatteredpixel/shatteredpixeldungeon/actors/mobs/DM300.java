@@ -53,81 +53,76 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class DM300 extends Mob {
-	
+
 	{
 		spriteClass = DM300Sprite.class;
-		
+
 		HP = HT = 200;
 		EXP = 30;
 		defenseSkill = 18;
-		
 
 		properties.add(Property.BOSS);
 		properties.add(Property.INORGANIC);
 	}
-	
+
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( 20, 25 );
+		return Random.NormalIntRange(20, 25);
 	}
-	
+
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 28;
 	}
-	
+
 	@Override
 	public int drRoll() {
 		return Random.NormalIntRange(0, 10);
 	}
-	
+
 	@Override
 	public boolean act() {
-		
-		GameScene.add( Blob.seed( pos, 30, ToxicGas.class ) );
-		
+
+		GameScene.add(Blob.seed(pos, 30, ToxicGas.class));
+
 		return super.act();
 	}
-	
+
 	@Override
-	public void move( int step ) {
-		super.move( step );
-		
+	public void move(int step) {
+		super.move(step);
+
 		if (Dungeon.level.map[step] == Terrain.INACTIVE_TRAP && HP < HT) {
-			
-			HP += Random.Int( 1, HT - HP );
-			sprite.emitter().burst( ElmoParticle.FACTORY, 5 );
-			
+
+			HP += Random.Int(1, HT - HP);
+			sprite.emitter().burst(ElmoParticle.FACTORY, 5);
+
 			if (Dungeon.level.heroFOV[step] && Dungeon.hero.isAlive()) {
-				GLog.n( Messages.get(this, "repair") );
-			}
-		}
-		
-		int[] cells = {
-			step-1, step+1, step-Dungeon.level.width(), step+Dungeon.level.width(),
-			step-1-Dungeon.level.width(),
-			step-1+Dungeon.level.width(),
-			step+1-Dungeon.level.width(),
-			step+1+Dungeon.level.width()
-		};
-		int cell = cells[Random.Int( cells.length )];
-		
-		if (Dungeon.level.heroFOV[cell]) {
-			CellEmitter.get( cell ).start( Speck.factory( Speck.ROCK ), 0.07f, 10 );
-			Camera.main.shake( 3, 0.7f );
-			Sample.INSTANCE.play( Assets.SND_ROCKS );
-			
-			if (Dungeon.level.water[cell]) {
-				GameScene.ripple( cell );
-			} else if (Dungeon.level.map[cell] == Terrain.EMPTY) {
-				Level.set( cell, Terrain.EMPTY_DECO );
-				GameScene.updateMap( cell );
+				GLog.n(Messages.get(this, "repair"));
 			}
 		}
 
-		Char ch = Actor.findChar( cell );
+		int[] cells = { step - 1, step + 1, step - Dungeon.level.width(), step + Dungeon.level.width(),
+				step - 1 - Dungeon.level.width(), step - 1 + Dungeon.level.width(), step + 1 - Dungeon.level.width(),
+				step + 1 + Dungeon.level.width() };
+		int cell = cells[Random.Int(cells.length)];
+
+		if (Dungeon.level.heroFOV[cell]) {
+			CellEmitter.get(cell).start(Speck.factory(Speck.ROCK), 0.07f, 10);
+			Camera.main.shake(3, 0.7f);
+			Sample.INSTANCE.play(Assets.SND_ROCKS);
+
+			if (Dungeon.level.water[cell]) {
+				GameScene.ripple(cell);
+			} else if (Dungeon.level.map[cell] == Terrain.EMPTY) {
+				Level.set(cell, Terrain.EMPTY_DECO);
+				GameScene.updateMap(cell);
+			}
+		}
+
+		Char ch = Actor.findChar(cell);
 		if (ch != null && ch != this) {
-			Buff.prolong( ch, Paralysis.class, 2 );
+			Buff.prolong(ch, Paralysis.class, 2);
 		}
 	}
 
@@ -135,55 +130,56 @@ public class DM300 extends Mob {
 	public void damage(int dmg, Object src) {
 		super.damage(dmg, src);
 		LockedFloor lock = Dungeon.hero.buff(LockedFloor.class);
-		if (lock != null && !isImmune(src.getClass())) lock.addTime(dmg*1.5f);
+		if (lock != null && !isImmune(src.getClass()))
+			lock.addTime(dmg * 1.5f);
 	}
 
 	@Override
-	public void die( Object cause ) {
-		
-		super.die( cause );
-		
+	public void die(Object cause) {
+
+		super.die(cause);
+
 		GameScene.bossSlain();
-		Dungeon.level.drop( new SkeletonKey( Dungeon.depth  ), pos ).sprite.drop();
-		
-		//60% chance of 2 shards, 30% chance of 3, 10% chance for 4. Average of 2.5
-		int shards = Random.chances(new float[]{0, 0, 6, 3, 1});
-		for (int i = 0; i < shards; i++){
+		Dungeon.level.drop(new SkeletonKey(Dungeon.depth), pos).sprite.drop();
+
+		// 60% chance of 2 shards, 30% chance of 3, 10% chance for 4. Average of 2.5
+		int shards = Random.chances(new float[] { 0, 0, 6, 3, 1 });
+		for (int i = 0; i < shards; i++) {
 			int ofs;
 			do {
 				ofs = PathFinder.NEIGHBOURS8[Random.Int(8)];
 			} while (!Dungeon.level.passable[pos + ofs]);
-			Dungeon.level.drop( new MetalShard(), pos + ofs ).sprite.drop( pos );
+			Dungeon.level.drop(new MetalShard(), pos + ofs).sprite.drop(pos);
 		}
-		
+
 		Badges.validateBossSlain();
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
 		if (beacon != null) {
 			beacon.upgrade();
 		}
-		
-		yell( Messages.get(this, "defeated") );
+
+		yell(Messages.get(this, "defeated"));
 	}
-	
+
 	@Override
 	public void notice() {
 		super.notice();
 		if (!BossHealthBar.isAssigned()) {
 			BossHealthBar.assignBoss(this);
 			yell(Messages.get(this, "notice"));
-			for (Char ch : Actor.chars()){
-				if (ch instanceof DriedRose.GhostHero){
+			for (Char ch : Actor.chars()) {
+				if (ch instanceof DriedRose.GhostHero) {
 					GLog.n("\n");
 					((DriedRose.GhostHero) ch).sayBoss();
 				}
 			}
 		}
 	}
-	
+
 	{
-		immunities.add( ToxicGas.class );
-		immunities.add( Terror.class );
+		immunities.add(ToxicGas.class);
+		immunities.add(Terror.class);
 	}
 
 	@Override

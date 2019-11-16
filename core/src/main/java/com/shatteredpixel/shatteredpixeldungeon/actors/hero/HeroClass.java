@@ -57,94 +57,96 @@ import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
 
-	WARRIOR( "warrior", HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR ),
-	MAGE( "mage", HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK ),
-	ROGUE( "rogue", HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER ),
-	HUNTRESS( "huntress", HeroSubClass.SNIPER, HeroSubClass.WARDEN );
+	WARRIOR("warrior", HeroSubClass.BERSERKER, HeroSubClass.GLADIATOR),
+	MAGE("mage", HeroSubClass.BATTLEMAGE, HeroSubClass.WARLOCK),
+	ROGUE("rogue", HeroSubClass.ASSASSIN, HeroSubClass.FREERUNNER),
+	HUNTRESS("huntress", HeroSubClass.SNIPER, HeroSubClass.WARDEN);
 
 	private String title;
 	private HeroSubClass[] subClasses;
 
-	HeroClass( String title, HeroSubClass...subClasses ) {
+	HeroClass(String title, HeroSubClass... subClasses) {
 		this.title = title;
 		this.subClasses = subClasses;
 	}
 
-	public void initHero( Hero hero ) {
+	public void initHero(Hero hero) {
 
 		hero.heroClass = this;
 
-		initCommon( hero );
+		initCommon(hero);
 
 		switch (this) {
-			case WARRIOR:
-				initWarrior( hero );
-				break;
+		case WARRIOR:
+			initWarrior(hero);
+			break;
 
-			case MAGE:
-				initMage( hero );
-				break;
+		case MAGE:
+			initMage(hero);
+			break;
 
-			case ROGUE:
-				initRogue( hero );
-				break;
+		case ROGUE:
+			initRogue(hero);
+			break;
 
-			case HUNTRESS:
-				initHuntress( hero );
-				break;
+		case HUNTRESS:
+			initHuntress(hero);
+			break;
 		}
-		
+
 	}
 
-	private static void initCommon( Hero hero ) {
+	private static void initCommon(Hero hero) {
 		Item i = new ClothArmor().identify();
-		if (!Challenges.isItemBlocked(i)) hero.belongings.armor = (ClothArmor)i;
+		if (!Challenges.isItemBlocked(i))
+			hero.belongings.armor = (ClothArmor) i;
 
 		i = new Food();
-		if (!Challenges.isItemBlocked(i)) i.collect();
+		if (!Challenges.isItemBlocked(i))
+			i.collect();
 
-		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
+		if (Dungeon.isChallenged(Challenges.NO_FOOD)) {
 			new SmallRation().collect();
 		}
-		
+
 		new ScrollOfIdentify().identify();
 
 	}
 
 	public Badges.Badge masteryBadge() {
 		switch (this) {
-			case WARRIOR:
-				return Badges.Badge.MASTERY_WARRIOR;
-			case MAGE:
-				return Badges.Badge.MASTERY_MAGE;
-			case ROGUE:
-				return Badges.Badge.MASTERY_ROGUE;
-			case HUNTRESS:
-				return Badges.Badge.MASTERY_HUNTRESS;
+		case WARRIOR:
+			return Badges.Badge.MASTERY_WARRIOR;
+		case MAGE:
+			return Badges.Badge.MASTERY_MAGE;
+		case ROGUE:
+			return Badges.Badge.MASTERY_ROGUE;
+		case HUNTRESS:
+			return Badges.Badge.MASTERY_HUNTRESS;
 		}
 		return null;
 	}
 
-	private static void initWarrior( Hero hero ) {
+	private static void initWarrior(Hero hero) {
 		(hero.belongings.weapon = new WornShortsword()).identify();
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(3).collect();
 		Dungeon.quickslot.setSlot(0, stones);
 
-		if (hero.belongings.armor != null){
+		if (hero.belongings.armor != null) {
 			hero.belongings.armor.affixSeal(new BrokenSeal());
 		}
-		
+
 		new PotionBandolier().collect();
 		Dungeon.LimitedDrops.POTION_BANDOLIER.drop();
-		
+
 		new PotionOfHealing().identify();
 		new ScrollOfRage().identify();
 	}
 
-	private static void initMage( Hero hero ) {
+	private static void initMage(Hero hero) {
 		MagesStaff staff;
-		
+
 		staff = new MagesStaff(new WandOfMagicMissile());
 
 		(hero.belongings.weapon = staff).identify();
@@ -154,17 +156,17 @@ public enum HeroClass {
 
 		new ScrollHolder().collect();
 		Dungeon.LimitedDrops.SCROLL_HOLDER.drop();
-		
+
 		new ScrollOfUpgrade().identify();
 		new PotionOfLiquidFlame().identify();
 	}
 
-	private static void initRogue( Hero hero ) {
+	private static void initRogue(Hero hero) {
 		(hero.belongings.weapon = new Dagger()).identify();
 
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.misc1 = cloak).identify();
-		hero.belongings.misc1.activate( hero );
+		hero.belongings.misc1.activate(hero);
 
 		ThrowingKnife knives = new ThrowingKnife();
 		knives.quantity(3).collect();
@@ -174,12 +176,12 @@ public enum HeroClass {
 
 		new VelvetPouch().collect();
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
-		
+
 		new ScrollOfMagicMapping().identify();
 		new PotionOfInvisibility().identify();
 	}
 
-	private static void initHuntress( Hero hero ) {
+	private static void initHuntress(Hero hero) {
 
 		(hero.belongings.weapon = new Gloves()).identify();
 		SpiritBow bow = new SpiritBow();
@@ -189,106 +191,95 @@ public enum HeroClass {
 
 		new VelvetPouch().collect();
 		Dungeon.LimitedDrops.VELVET_POUCH.drop();
-		
+
 		new PotionOfMindVision().identify();
 		new ScrollOfLullaby().identify();
 	}
-	
+
 	public String title() {
 		return Messages.get(HeroClass.class, title);
 	}
-	
+
 	public HeroSubClass[] subClasses() {
 		return subClasses;
 	}
-	
+
 	public String spritesheet() {
 		switch (this) {
-			case WARRIOR: default:
-				return Assets.WARRIOR;
-			case MAGE:
-				return Assets.MAGE;
-			case ROGUE:
-				return Assets.ROGUE;
-			case HUNTRESS:
-				return Assets.HUNTRESS;
-		}
-	}
-	
-	public String[] perks() {
-		switch (this) {
-			case WARRIOR: default:
-				return new String[]{
-						Messages.get(HeroClass.class, "warrior_perk1"),
-						Messages.get(HeroClass.class, "warrior_perk2"),
-						Messages.get(HeroClass.class, "warrior_perk3"),
-						Messages.get(HeroClass.class, "warrior_perk4"),
-						Messages.get(HeroClass.class, "warrior_perk5"),
-				};
-			case MAGE:
-				return new String[]{
-						Messages.get(HeroClass.class, "mage_perk1"),
-						Messages.get(HeroClass.class, "mage_perk2"),
-						Messages.get(HeroClass.class, "mage_perk3"),
-						Messages.get(HeroClass.class, "mage_perk4"),
-						Messages.get(HeroClass.class, "mage_perk5"),
-				};
-			case ROGUE:
-				return new String[]{
-						Messages.get(HeroClass.class, "rogue_perk1"),
-						Messages.get(HeroClass.class, "rogue_perk2"),
-						Messages.get(HeroClass.class, "rogue_perk3"),
-						Messages.get(HeroClass.class, "rogue_perk4"),
-						Messages.get(HeroClass.class, "rogue_perk5"),
-				};
-			case HUNTRESS:
-				return new String[]{
-						Messages.get(HeroClass.class, "huntress_perk1"),
-						Messages.get(HeroClass.class, "huntress_perk2"),
-						Messages.get(HeroClass.class, "huntress_perk3"),
-						Messages.get(HeroClass.class, "huntress_perk4"),
-						Messages.get(HeroClass.class, "huntress_perk5"),
-				};
-		}
-	}
-	
-	public boolean isUnlocked(){
-		//always unlock on debug builds
-		if (DeviceCompat.isDebug()) return true;
-		
-		switch (this){
-			case WARRIOR: default:
-				return true;
-			case MAGE:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGE);
-			case ROGUE:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_ROGUE);
-			case HUNTRESS:
-				return Badges.isUnlocked(Badges.Badge.UNLOCK_HUNTRESS);
-		}
-	}
-	
-	public String unlockMsg() {
-		switch (this){
-			case WARRIOR: default:
-				return "";
-			case MAGE:
-				return Messages.get(HeroClass.class, "mage_unlock");
-			case ROGUE:
-				return Messages.get(HeroClass.class, "rogue_unlock");
-			case HUNTRESS:
-				return Messages.get(HeroClass.class, "huntress_unlock");
+		case WARRIOR:
+		default:
+			return Assets.WARRIOR;
+		case MAGE:
+			return Assets.MAGE;
+		case ROGUE:
+			return Assets.ROGUE;
+		case HUNTRESS:
+			return Assets.HUNTRESS;
 		}
 	}
 
-	private static final String CLASS	= "class";
-	
-	public void storeInBundle( Bundle bundle ) {
-		bundle.put( CLASS, toString() );
+	public String[] perks() {
+		switch (this) {
+		case WARRIOR:
+		default:
+			return new String[] { Messages.get(HeroClass.class, "warrior_perk1"),
+					Messages.get(HeroClass.class, "warrior_perk2"), Messages.get(HeroClass.class, "warrior_perk3"),
+					Messages.get(HeroClass.class, "warrior_perk4"), Messages.get(HeroClass.class, "warrior_perk5"), };
+		case MAGE:
+			return new String[] { Messages.get(HeroClass.class, "mage_perk1"), Messages.get(HeroClass.class, "mage_perk2"),
+					Messages.get(HeroClass.class, "mage_perk3"), Messages.get(HeroClass.class, "mage_perk4"),
+					Messages.get(HeroClass.class, "mage_perk5"), };
+		case ROGUE:
+			return new String[] { Messages.get(HeroClass.class, "rogue_perk1"), Messages.get(HeroClass.class, "rogue_perk2"),
+					Messages.get(HeroClass.class, "rogue_perk3"), Messages.get(HeroClass.class, "rogue_perk4"),
+					Messages.get(HeroClass.class, "rogue_perk5"), };
+		case HUNTRESS:
+			return new String[] { Messages.get(HeroClass.class, "huntress_perk1"),
+					Messages.get(HeroClass.class, "huntress_perk2"), Messages.get(HeroClass.class, "huntress_perk3"),
+					Messages.get(HeroClass.class, "huntress_perk4"), Messages.get(HeroClass.class, "huntress_perk5"), };
+		}
 	}
-	
-	public static HeroClass restoreInBundle( Bundle bundle ) {
-		String value = bundle.getString( CLASS );
-		return value.length() > 0 ? valueOf( value ) : ROGUE;
+
+	public boolean isUnlocked() {
+		// always unlock on debug builds
+		if (DeviceCompat.isDebug())
+			return true;
+
+		switch (this) {
+		case WARRIOR:
+		default:
+			return true;
+		case MAGE:
+			return Badges.isUnlocked(Badges.Badge.UNLOCK_MAGE);
+		case ROGUE:
+			return Badges.isUnlocked(Badges.Badge.UNLOCK_ROGUE);
+		case HUNTRESS:
+			return Badges.isUnlocked(Badges.Badge.UNLOCK_HUNTRESS);
+		}
+	}
+
+	public String unlockMsg() {
+		switch (this) {
+		case WARRIOR:
+		default:
+			return "";
+		case MAGE:
+			return Messages.get(HeroClass.class, "mage_unlock");
+		case ROGUE:
+			return Messages.get(HeroClass.class, "rogue_unlock");
+		case HUNTRESS:
+			return Messages.get(HeroClass.class, "huntress_unlock");
+		}
+	}
+
+	private static final String CLASS = "class";
+
+	public void storeInBundle(Bundle bundle) {
+		bundle.put(CLASS, toString());
+	}
+
+	public static HeroClass restoreInBundle(Bundle bundle) {
+		String value = bundle.getString(CLASS);
+		return value.length() > 0 ? valueOf(value) : ROGUE;
 	}
 }

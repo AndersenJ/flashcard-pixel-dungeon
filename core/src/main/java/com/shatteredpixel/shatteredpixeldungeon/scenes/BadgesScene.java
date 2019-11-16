@@ -49,7 +49,7 @@ public class BadgesScene extends PixelScene {
 
 		super.create();
 
-		Music.INSTANCE.play( Assets.THEME, true );
+		Music.INSTANCE.play(Assets.THEME, true);
 
 		uiCamera.visible = false;
 
@@ -57,55 +57,55 @@ public class BadgesScene extends PixelScene {
 		int h = Camera.main.height;
 
 		Archs archs = new Archs();
-		archs.setSize( w, h );
-		add( archs );
+		archs.setSize(w, h);
+		add(archs);
 
 		float left = 5;
 		float top = 20;
 
-		RenderedTextBlock title = PixelScene.renderTextBlock( Messages.get(this, "title"), 9 );
+		RenderedTextBlock title = PixelScene.renderTextBlock(Messages.get(this, "title"), 9);
 		title.hardlight(Window.TITLE_COLOR);
-		title.setPos(
-				(w - title.width()) / 2f,
-				(top - title.height()) / 2f
-		);
+		title.setPos((w - title.width()) / 2f, (top - title.height()) / 2f);
 		align(title);
 		add(title);
 
 		Badges.loadGlobal();
 
-		List<Badges.Badge> badges = Badges.filtered( true );
+		List<Badges.Badge> badges = Badges.filtered(true);
 
 		int blankBadges = 36;
 		blankBadges -= badges.size();
-		if (badges.contains(Badges.Badge.ALL_ITEMS_IDENTIFIED))	blankBadges -= 6;
-		if (badges.contains(Badges.Badge.YASD)) 				blankBadges -= 5;
+		if (badges.contains(Badges.Badge.ALL_ITEMS_IDENTIFIED))
+			blankBadges -= 6;
+		if (badges.contains(Badges.Badge.YASD))
+			blankBadges -= 5;
 		blankBadges = Math.max(0, blankBadges);
 
-		//guarantees a max of 5 rows in landscape, and 8 in portrait, assuming a max of 40 buttons
+		// guarantees a max of 5 rows in landscape, and 8 in portrait, assuming a max of
+		// 40 buttons
 		int nCols = SPDSettings.landscape() ? 7 : 4;
-		if (badges.size() + blankBadges > 32 && !SPDSettings.landscape())	nCols++;
+		if (badges.size() + blankBadges > 32 && !SPDSettings.landscape())
+			nCols++;
 
-		int nRows = 1 + (blankBadges + badges.size())/nCols;
+		int nRows = 1 + (blankBadges + badges.size()) / nCols;
 
-		float badgeWidth = (w - 2*left)/nCols;
-		float badgeHeight = (h - 2*top)/nRows;
+		float badgeWidth = (w - 2 * left) / nCols;
+		float badgeHeight = (h - 2 * top) / nRows;
 
-		for (int i = 0; i < badges.size() + blankBadges; i++){
+		for (int i = 0; i < badges.size() + blankBadges; i++) {
 			int row = i / nCols;
 			int col = i % nCols;
-			Badges.Badge b = i < badges.size() ? badges.get( i ) : null;
-			BadgeButton button = new BadgeButton( b );
-			button.setPos(
-					left + col * badgeWidth + (badgeWidth - button.width()) / 2,
+			Badges.Badge b = i < badges.size() ? badges.get(i) : null;
+			BadgeButton button = new BadgeButton(b);
+			button.setPos(left + col * badgeWidth + (badgeWidth - button.width()) / 2,
 					top + row * badgeHeight + (badgeHeight - button.height()) / 2);
 			align(button);
-			add( button );
+			add(button);
 		}
 
 		ExitButton btnExit = new ExitButton();
-		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
-		add( btnExit );
+		btnExit.setPos(Camera.main.width - btnExit.width(), 0);
+		add(btnExit);
 
 		fadeIn();
 	}
@@ -120,7 +120,7 @@ public class BadgesScene extends PixelScene {
 
 	@Override
 	protected void onBackPressed() {
-		ShatteredPixelDungeon.switchNoFade( TitleScene.class );
+		ShatteredPixelDungeon.switchNoFade(TitleScene.class);
 	}
 
 	private static class BadgeButton extends Button {
@@ -129,16 +129,16 @@ public class BadgesScene extends PixelScene {
 
 		private Image icon;
 
-		public BadgeButton( Badges.Badge badge ) {
+		public BadgeButton(Badges.Badge badge) {
 			super();
 
 			this.badge = badge;
 			active = (badge != null);
 
-			icon = active ? BadgeBanner.image(badge.image) : new Image( Assets.LOCKED );
+			icon = active ? BadgeBanner.image(badge.image) : new Image(Assets.LOCKED);
 			add(icon);
 
-			setSize( icon.width(), icon.height() );
+			setSize(icon.width(), icon.height());
 		}
 
 		@Override
@@ -154,14 +154,14 @@ public class BadgesScene extends PixelScene {
 			super.update();
 
 			if (Random.Float() < Game.elapsed * 0.1) {
-				BadgeBanner.highlight( icon, badge.image );
+				BadgeBanner.highlight(icon, badge.image);
 			}
 		}
 
 		@Override
 		protected void onClick() {
-			Sample.INSTANCE.play( Assets.SND_CLICK, 0.7f, 0.7f, 1.2f );
-			Game.scene().add( new WndBadge( badge ) );
+			Sample.INSTANCE.play(Assets.SND_CLICK, 0.7f, 0.7f, 1.2f);
+			Game.scene().add(new WndBadge(badge));
 		}
 	}
 }

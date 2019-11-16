@@ -35,33 +35,34 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Shocking extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF, 0.5f );
+	private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing(0xFFFFFF, 0.5f);
 
 	@Override
-	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
+	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 		// lvl 0 - 33%
 		// lvl 1 - 50%
 		// lvl 2 - 60%
-		int level = Math.max( 0, weapon.level() );
-		
-		if (Random.Int( level + 3 ) >= 2) {
-			
+		int level = Math.max(0, weapon.level());
+
+		if (Random.Int(level + 3) >= 2) {
+
 			affected.clear();
 
 			arcs.clear();
 			arc(attacker, defender, 2);
-			
-			affected.remove(defender); //defender isn't hurt by lightning
+
+			affected.remove(defender); // defender isn't hurt by lightning
 			for (Char ch : affected) {
-				ch.damage(Math.round(damage*0.4f), this);
+				ch.damage(Math.round(damage * 0.4f), this);
 			}
 
-			attacker.sprite.parent.addToFront( new Lightning( arcs, null ) );
-			Sample.INSTANCE.play( Assets.SND_LIGHTNING );
-			
+			attacker.sprite.parent.addToFront(new Lightning(arcs, null));
+			Sample.INSTANCE.play(Assets.SND_LIGHTNING);
+
 		}
 
 		return damage;
@@ -73,18 +74,18 @@ public class Shocking extends Weapon.Enchantment {
 		return WHITE;
 	}
 
-	private ArrayList<Char> affected = new ArrayList<>();
+	private List<Char> affected = new ArrayList<>();
 
-	private ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-	
-	private void arc( Char attacker, Char defender, int dist ) {
-		
+	private List<Lightning.Arc> arcs = new ArrayList<>();
+
+	private void arc(Char attacker, Char defender, int dist) {
+
 		affected.add(defender);
-		
+
 		defender.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
 		defender.sprite.flash();
-		
-		PathFinder.buildDistanceMap( defender.pos, BArray.not( Dungeon.level.solid, null ), dist );
+
+		PathFinder.buildDistanceMap(defender.pos, BArray.not(Dungeon.level.solid, null), dist);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				Char n = Actor.findChar(i);

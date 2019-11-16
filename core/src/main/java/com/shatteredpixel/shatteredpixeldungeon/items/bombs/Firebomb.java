@@ -34,16 +34,16 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
 public class Firebomb extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.FIRE_BOMB;
 	}
-	
+
 	@Override
 	public void explode(int cell) {
 		super.explode(cell);
-		
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 2 );
+
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 2);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				if (Dungeon.level.pit[i])
@@ -55,10 +55,10 @@ public class Firebomb extends Bomb {
 		}
 		Sample.INSTANCE.play(Assets.SND_BURNING);
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 30);
 	}
 }

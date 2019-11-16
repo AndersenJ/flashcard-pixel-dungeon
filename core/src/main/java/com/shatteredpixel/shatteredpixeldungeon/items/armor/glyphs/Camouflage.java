@@ -32,11 +32,11 @@ import com.watabou.utils.Bundle;
 
 public class Camouflage extends Armor.Glyph {
 
-	private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x448822 );
+	private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing(0x448822);
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
-		//no proc effect, see HighGrass.trample
+		// no proc effect, see HighGrass.trample
 		return damage;
 	}
 
@@ -46,11 +46,11 @@ public class Camouflage extends Armor.Glyph {
 	}
 
 	public static class Camo extends Invisibility {
-		
+
 		{
 			announced = false;
 		}
-		
+
 		private int pos;
 		private int left;
 
@@ -65,10 +65,10 @@ public class Camouflage extends Armor.Glyph {
 			return true;
 		}
 
-		public void set(int time){
+		public void set(int time) {
 			left = time;
 			pos = target.pos;
-			Sample.INSTANCE.play( Assets.SND_MELD );
+			Sample.INSTANCE.play(Assets.SND_MELD);
 		}
 
 		@Override
@@ -81,23 +81,22 @@ public class Camouflage extends Armor.Glyph {
 			return Messages.get(this, "desc", dispTurns(left));
 		}
 
-		private static final String POS     = "pos";
-		private static final String LEFT	= "left";
+		private static final String POS = "pos";
+		private static final String LEFT = "left";
 
 		@Override
-		public void storeInBundle( Bundle bundle ) {
-			super.storeInBundle( bundle );
-			bundle.put( POS, pos );
-			bundle.put( LEFT, left );
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(POS, pos);
+			bundle.put(LEFT, left);
 		}
 
 		@Override
-		public void restoreFromBundle( Bundle bundle ) {
-			super.restoreFromBundle( bundle );
-			pos = bundle.getInt( POS );
-			left = bundle.getInt( LEFT );
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			pos = bundle.getInt(POS);
+			left = bundle.getInt(LEFT);
 		}
 	}
 
 }
-

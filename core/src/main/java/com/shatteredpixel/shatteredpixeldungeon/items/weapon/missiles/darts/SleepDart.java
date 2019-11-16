@@ -28,23 +28,26 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Sleep;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class SleepDart extends TippedDart {
-	
+
 	{
 		image = ItemSpriteSheet.SLEEP_DART;
 	}
-	
+
 	@Override
 	public int proc(Char attacker, final Char defender, int damage) {
-		
-		//need to delay this so damage from the dart doesn't break the sleep
-		new FlavourBuff(){
-			{actPriority = VFX_PRIO;}
+
+		// need to delay this so damage from the dart doesn't break the sleep
+		new FlavourBuff() {
+			{
+				actPriority = VFX_PRIO;
+			}
+
 			public boolean act() {
-				Buff.affect( defender, Sleep.class );
+				Buff.affect(defender, Sleep.class);
 				return super.act();
 			}
 		}.attachTo(defender);
-		
+
 		return super.proc(attacker, defender, damage);
 	}
 }

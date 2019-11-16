@@ -35,17 +35,17 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Callback;
 
 public class WildEnergy extends TargetedSpell {
-	
+
 	{
 		image = ItemSpriteSheet.WILD_ENERGY;
 	}
-	
-	//we rely on cursedWand to do fx instead
+
+	// we rely on cursedWand to do fx instead
 	@Override
 	protected void fx(Ballistica bolt, Callback callback) {
 		affectTarget(bolt, curUser);
 	}
-	
+
 	@Override
 	protected void affectTarget(Ballistica bolt, final Hero hero) {
 		CursedWand.cursedZap(this, hero, bolt, new Callback() {
@@ -54,38 +54,41 @@ public class WildEnergy extends TargetedSpell {
 				ScrollOfRecharging.charge(hero);
 
 				hero.belongings.charge(1f);
-				for (int i = 0; i < 4; i++){
-					if (hero.belongings.misc1 instanceof Artifact) ((Artifact) hero.belongings.misc1).charge(hero);
-					if (hero.belongings.misc2 instanceof Artifact) ((Artifact) hero.belongings.misc2).charge(hero);
+				for (int i = 0; i < 4; i++) {
+					if (hero.belongings.misc1 instanceof Artifact)
+						((Artifact) hero.belongings.misc1).charge(hero);
+					if (hero.belongings.misc2 instanceof Artifact)
+						((Artifact) hero.belongings.misc2).charge(hero);
 				}
 
 				Buff.affect(hero, Recharging.class, 8f);
-				Buff.affect(hero, ArtifactRecharge.class).prolong( 8 );
-				
-				detach( curUser.belongings.backpack );
+				Buff.affect(hero, ArtifactRecharge.class).prolong(8);
+
+				detach(curUser.belongings.backpack);
 				updateQuickslot();
-				curUser.spendAndNext( 1f );
+				curUser.spendAndNext(1f);
 			}
 		});
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients, divided by output quantity
+		// prices of ingredients, divided by output quantity
 		return Math.round(quantity * ((50 + 100) / 5f));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{ScrollOfMysticalEnergy.class, MetalShard.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { ScrollOfMysticalEnergy.class, MetalShard.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 8;
-			
+
 			output = WildEnergy.class;
 			outQuantity = 5;
 		}
-		
+
 	}
 }

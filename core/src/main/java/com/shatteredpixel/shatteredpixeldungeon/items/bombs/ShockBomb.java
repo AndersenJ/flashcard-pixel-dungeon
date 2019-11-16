@@ -39,53 +39,54 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShockBomb extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.SHOCK_BOMB;
 	}
-	
+
 	@Override
 	public void explode(int cell) {
 		super.explode(cell);
 
-		ArrayList<Char> affected = new ArrayList<>();
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 3 );
+		List<Char> affected = new ArrayList<>();
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 3);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
-			if (PathFinder.distance[i] < Integer.MAX_VALUE
-				&& Actor.findChar(i) != null) {
+			if (PathFinder.distance[i] < Integer.MAX_VALUE && Actor.findChar(i) != null) {
 				affected.add(Actor.findChar(i));
 			}
 		}
 
-		for (Char ch : affected.toArray(new Char[0])){
+		for (Char ch : affected.toArray(new Char[0])) {
 			Ballistica LOS = new Ballistica(cell, ch.pos, Ballistica.PROJECTILE);
-			if (LOS.collisionPos != ch.pos){
+			if (LOS.collisionPos != ch.pos) {
 				affected.remove(ch);
 			}
 		}
 
-		ArrayList<Lightning.Arc> arcs = new ArrayList<>();
-		for (Char ch : affected){
-			int power = 16 - 4*Dungeon.level.distance(ch.pos, cell);
-			if (power > 0){
-				//32% to 8% regular bomb damage
-				int damage = Math.round(Random.NormalIntRange(5 + Dungeon.depth, 10 + 2*Dungeon.depth) * (power/50f));
+		List<Lightning.Arc> arcs = new ArrayList<>();
+		for (Char ch : affected) {
+			int power = 16 - 4 * Dungeon.level.distance(ch.pos, cell);
+			if (power > 0) {
+				// 32% to 8% regular bomb damage
+				int damage = Math.round(Random.NormalIntRange(5 + Dungeon.depth, 10 + 2 * Dungeon.depth) * (power / 50f));
 				ch.damage(damage, this);
-				if (ch.isAlive()) Buff.prolong(ch, Paralysis.class, power);
+				if (ch.isAlive())
+					Buff.prolong(ch, Paralysis.class, power);
 				arcs.add(new Lightning.Arc(DungeonTilemap.tileCenterToWorld(cell), ch.sprite.center()));
 			}
 		}
 
 		CellEmitter.center(cell).burst(SparkParticle.FACTORY, 20);
 		Dungeon.hero.sprite.parent.addToFront(new Lightning(arcs, null));
-		Sample.INSTANCE.play( Assets.SND_LIGHTNING );
+		Sample.INSTANCE.play(Assets.SND_LIGHTNING);
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 30);
 	}
 }

@@ -41,21 +41,21 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Eye extends Mob {
-	
+
 	{
 		spriteClass = EyeSprite.class;
-		
+
 		HP = HT = 100;
 		defenseSkill = 20;
 		viewDistance = Light.DISTANCE;
-		
+
 		EXP = 13;
 		maxLvl = 25;
-		
+
 		flying = true;
 
 		HUNTING = new Hunting();
-		
+
 		loot = new Dewdrop();
 		lootChance = 0.5f;
 
@@ -68,32 +68,34 @@ public class Eye extends Mob {
 	}
 
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 30;
 	}
-	
+
 	@Override
 	public int drRoll() {
 		return Random.NormalIntRange(0, 10);
 	}
-	
+
 	private Ballistica beam;
 	private int beamTarget = -1;
 	private int beamCooldown;
 	public boolean beamCharged;
 
 	@Override
-	protected boolean canAttack( Char enemy ) {
+	protected boolean canAttack(Char enemy) {
 
 		if (beamCooldown == 0) {
 			Ballistica aim = new Ballistica(pos, enemy.pos, Ballistica.STOP_TERRAIN);
 
-			if (enemy.invisible == 0 && !isCharmedBy(enemy) && fieldOfView[enemy.pos] && aim.subPath(1, aim.dist).contains(enemy.pos)){
+			if (enemy.invisible == 0 && !isCharmedBy(enemy) && fieldOfView[enemy.pos]
+					&& aim.subPath(1, aim.dist).contains(enemy.pos)) {
 				beam = aim;
 				beamTarget = aim.collisionPos;
 				return true;
 			} else
-				//if the beam is charged, it has to attack, will aim at previous location of target.
+				// if the beam is charged, it has to attack, will aim at previous location of
+				// target.
 				return beamCharged;
 		} else
 			return super.canAttack(enemy);
@@ -101,7 +103,7 @@ public class Eye extends Mob {
 
 	@Override
 	protected boolean act() {
-		if (beamCharged && state != HUNTING){
+		if (beamCharged && state != HUNTING) {
 			beamCharged = false;
 		}
 		if (beam == null && beamTarget != -1) {
@@ -114,22 +116,22 @@ public class Eye extends Mob {
 	}
 
 	@Override
-	protected boolean doAttack( Char enemy ) {
+	protected boolean doAttack(Char enemy) {
 
 		if (beamCooldown > 0) {
 			return super.doAttack(enemy);
-		} else if (!beamCharged){
-			((EyeSprite)sprite).charge( enemy.pos );
-			spend( attackDelay()*2f );
+		} else if (!beamCharged) {
+			((EyeSprite) sprite).charge(enemy.pos);
+			spend(attackDelay() * 2f);
 			beamCharged = true;
 			return true;
 		} else {
 
-			spend( attackDelay() );
-			
+			spend(attackDelay());
+
 			beam = new Ballistica(pos, beamTarget, Ballistica.STOP_TERRAIN);
-			if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[beam.collisionPos] ) {
-				sprite.zap( beam.collisionPos );
+			if (Dungeon.level.heroFOV[pos] || Dungeon.level.heroFOV[beam.collisionPos]) {
+				sprite.zap(beam.collisionPos);
 				return false;
 			} else {
 				deathGaze();
@@ -141,14 +143,16 @@ public class Eye extends Mob {
 
 	@Override
 	public void damage(int dmg, Object src) {
-		if (beamCharged) dmg /= 4;
+		if (beamCharged)
+			dmg /= 4;
 		super.damage(dmg, src);
 	}
-	
-	//used so resistances can differentiate between melee and magical attacks
-	public static class DeathGaze{}
 
-	public void deathGaze(){
+	// used so resistances can differentiate between melee and magical attacks
+	public static class DeathGaze {
+	}
+
+	public void deathGaze() {
 		if (!beamCharged || beamCooldown > 0 || beam == null)
 			return;
 
@@ -161,31 +165,31 @@ public class Eye extends Mob {
 
 			if (Dungeon.level.flamable[pos]) {
 
-				Dungeon.level.destroy( pos );
-				GameScene.updateMap( pos );
+				Dungeon.level.destroy(pos);
+				GameScene.updateMap(pos);
 				terrainAffected = true;
 
 			}
 
-			Char ch = Actor.findChar( pos );
+			Char ch = Actor.findChar(pos);
 			if (ch == null) {
 				continue;
 			}
 
-			if (hit( this, ch, true )) {
-				ch.damage( Random.NormalIntRange( 30, 50 ), new DeathGaze() );
+			if (hit(this, ch, true)) {
+				ch.damage(Random.NormalIntRange(30, 50), new DeathGaze());
 
 				if (Dungeon.level.heroFOV[pos]) {
 					ch.sprite.flash();
-					CellEmitter.center( pos ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
+					CellEmitter.center(pos).burst(PurpleParticle.BURST, Random.IntRange(1, 2));
 				}
 
 				if (!ch.isAlive() && ch == Dungeon.hero) {
-					Dungeon.fail( getClass() );
-					GLog.n( Messages.get(this, "deathgaze_kill") );
+					Dungeon.fail(getClass());
+					GLog.n(Messages.get(this, "deathgaze_kill"));
 				}
 			} else {
-				ch.sprite.showStatus( CharSprite.NEUTRAL,  ch.defenseVerb() );
+				ch.sprite.showStatus(CharSprite.NEUTRAL, ch.defenseVerb());
 			}
 		}
 
@@ -197,16 +201,16 @@ public class Eye extends Mob {
 		beamTarget = -1;
 	}
 
-	private static final String BEAM_TARGET     = "beamTarget";
-	private static final String BEAM_COOLDOWN   = "beamCooldown";
-	private static final String BEAM_CHARGED    = "beamCharged";
+	private static final String BEAM_TARGET = "beamTarget";
+	private static final String BEAM_COOLDOWN = "beamCooldown";
+	private static final String BEAM_CHARGED = "beamCharged";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put( BEAM_TARGET, beamTarget);
-		bundle.put( BEAM_COOLDOWN, beamCooldown );
-		bundle.put( BEAM_CHARGED, beamCharged );
+		bundle.put(BEAM_TARGET, beamTarget);
+		bundle.put(BEAM_COOLDOWN, beamCooldown);
+		bundle.put(BEAM_CHARGED, beamCharged);
 	}
 
 	@Override
@@ -219,18 +223,18 @@ public class Eye extends Mob {
 	}
 
 	{
-		resistances.add( WandOfDisintegration.class );
-		resistances.add( Grim.class );
-	}
-	
-	{
-		immunities.add( Terror.class );
+		resistances.add(WandOfDisintegration.class);
+		resistances.add(Grim.class);
 	}
 
-	private class Hunting extends Mob.Hunting{
+	{
+		immunities.add(Terror.class);
+	}
+
+	private class Hunting extends Mob.Hunting {
 		@Override
 		public boolean act(boolean enemyInFOV, boolean justAlerted) {
-			//even if enemy isn't seen, attack them if the beam is charged
+			// even if enemy isn't seen, attack them if the beam is charged
 			if (beamCharged && enemy != null && canAttack(enemy)) {
 				enemySeen = enemyInFOV;
 				return doAttack(enemy);

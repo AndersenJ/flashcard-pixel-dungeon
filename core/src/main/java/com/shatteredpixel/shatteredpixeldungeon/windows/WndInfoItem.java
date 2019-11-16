@@ -30,69 +30,69 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 
 public class WndInfoItem extends Window {
-	
-	private static final float GAP	= 2;
-	
+
+	private static final float GAP = 2;
+
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 144;
-	
-	public WndInfoItem( Heap heap ) {
-		
+
+	public WndInfoItem(Heap heap) {
+
 		super();
-		
+
 		if (heap.type == Heap.Type.HEAP || heap.type == Heap.Type.FOR_SALE) {
-			fillFields( heap.peek() );
-			
+			fillFields(heap.peek());
+
 		} else {
-			fillFields( heap );
-			
+			fillFields(heap);
+
 		}
 	}
-	
-	public WndInfoItem( Item item ) {
+
+	public WndInfoItem(Item item) {
 		super();
-		
-		fillFields( item );
+
+		fillFields(item);
 	}
-	
-	private void fillFields( Heap heap ) {
-		
+
+	private void fillFields(Heap heap) {
+
 		int width = SPDSettings.landscape() ? WIDTH_L : WIDTH_P;
-		
-		IconTitle titlebar = new IconTitle( heap );
-		titlebar.color( TITLE_COLOR );
-		titlebar.setRect( 0, 0, width, 0 );
-		add( titlebar );
-		
-		RenderedTextBlock txtInfo = PixelScene.renderTextBlock( heap.info(), 6 );
+
+		IconTitle titlebar = new IconTitle(heap);
+		titlebar.color(TITLE_COLOR);
+		titlebar.setRect(0, 0, width, 0);
+		add(titlebar);
+
+		RenderedTextBlock txtInfo = PixelScene.renderTextBlock(heap.info(), 6);
 		txtInfo.maxWidth(width);
 		txtInfo.setPos(titlebar.left(), titlebar.bottom() + GAP);
-		add( txtInfo );
-		
-		resize( width, (int)(txtInfo.top() + txtInfo.height()) );
+		add(txtInfo);
+
+		resize(width, (int) (txtInfo.top() + txtInfo.height()));
 	}
-	
-	private void fillFields( Item item ) {
-		
+
+	private void fillFields(Item item) {
+
 		int color = TITLE_COLOR;
 		if (item.levelKnown && item.level() > 0) {
 			color = ItemSlot.UPGRADED;
 		} else if (item.levelKnown && item.level() < 0) {
 			color = ItemSlot.DEGRADED;
 		}
-		
+
 		int width = SPDSettings.landscape() ? WIDTH_L : WIDTH_P;
 
-		IconTitle titlebar = new IconTitle( item );
-		titlebar.color( color );
-		titlebar.setRect( 0, 0, width, 0 );
-		add( titlebar );
-		
-		RenderedTextBlock txtInfo = PixelScene.renderTextBlock( item.info(), 6 );
+		IconTitle titlebar = new IconTitle(item);
+		titlebar.color(color);
+		titlebar.setRect(0, 0, width, 0);
+		add(titlebar);
+
+		RenderedTextBlock txtInfo = PixelScene.renderTextBlock(item.info(), 6);
 		txtInfo.maxWidth(width);
 		txtInfo.setPos(titlebar.left(), titlebar.bottom() + GAP);
-		add( txtInfo );
-		
-		resize( width, (int)(txtInfo.top() + txtInfo.height()) );
+		add(txtInfo);
+
+		resize(width, (int) (txtInfo.top() + txtInfo.height()));
 	}
 }

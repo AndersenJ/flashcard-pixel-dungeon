@@ -36,10 +36,10 @@ import com.watabou.utils.Random;
 
 public class Annoying extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
 
 	@Override
-	public int proc( Weapon weapon, Char attacker, Char defender, int damage ) {
+	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 
 		if (Random.Int(20) == 0) {
 			for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
@@ -48,7 +48,7 @@ public class Annoying extends Weapon.Enchantment {
 			attacker.sprite.centerEmitter().start(Speck.factory(Speck.SCREAM), 0.3f, 3);
 			Sample.INSTANCE.play(Assets.SND_MIMIC);
 			Invisibility.dispel();
-			GLog.n(Messages.get(this, "msg_" + (Random.Int(5)+1)));
+			GLog.n(Messages.get(this, "msg_" + (Random.Int(5) + 1)));
 		}
 
 		return damage;

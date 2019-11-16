@@ -21,7 +21,6 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.items.rings;
 
-
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -33,8 +32,8 @@ public class RingOfMight extends Ring {
 
 	@Override
 	public boolean doEquip(Hero hero) {
-		if (super.doEquip(hero)){
-			hero.updateHT( false );
+		if (super.doEquip(hero)) {
+			hero.updateHT(false);
 			return true;
 		} else {
 			return false;
@@ -43,8 +42,8 @@ public class RingOfMight extends Ring {
 
 	@Override
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
-		if (super.doUnequip(hero, collect, single)){
-			hero.updateHT( false );
+		if (super.doUnequip(hero, collect, single)) {
+			hero.updateHT(false);
 			return true;
 		} else {
 			return false;
@@ -63,35 +62,35 @@ public class RingOfMight extends Ring {
 		super.level(value);
 		updateTargetHT();
 	}
-	
-	private void updateTargetHT(){
-		if (buff != null && buff.target instanceof Hero){
-			((Hero) buff.target).updateHT( false );
+
+	private void updateTargetHT() {
+		if (buff != null && buff.target instanceof Hero) {
+			((Hero) buff.target).updateHT(false);
 		}
 	}
-	
+
 	public String statsInfo() {
-		if (isIdentified()){
-			return Messages.get(this, "stats", soloBonus(), new DecimalFormat("#.##").format(100f * (Math.pow(1.035, soloBonus()) - 1f)));
+		if (isIdentified()) {
+			return Messages.get(this, "stats", soloBonus(),
+					new DecimalFormat("#.##").format(100f * (Math.pow(1.035, soloBonus()) - 1f)));
 		} else {
 			return Messages.get(this, "typical_stats", 1, new DecimalFormat("#.##").format(3.5f));
 		}
 	}
 
 	@Override
-	protected RingBuff buff( ) {
+	protected RingBuff buff() {
 		return new Might();
 	}
-	
-	public static int strengthBonus( Char target ){
-		return getBonus( target, Might.class );
+
+	public static int strengthBonus(Char target) {
+		return getBonus(target, Might.class);
 	}
-	
-	public static float HTMultiplier( Char target ){
-		return (float)Math.pow(1.035, getBonus(target, Might.class));
+
+	public static float HTMultiplier(Char target) {
+		return (float) Math.pow(1.035, getBonus(target, Might.class));
 	}
 
 	public class Might extends RingBuff {
 	}
 }
-

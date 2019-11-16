@@ -27,21 +27,21 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 
 public class ScrollOfAntiMagic extends ExoticScroll {
-	
+
 	{
 		initials = 7;
 	}
-	
+
 	@Override
 	public void doRead() {
-		
+
 		Invisibility.dispel();
-		
-		Buff.affect( curUser, MagicImmune.class, 20f );
-		new Flare( 5, 32 ).color( 0xFF0000, true ).show( curUser.sprite, 2f );
-		
+
+		Buff.affect(curUser, MagicImmune.class, 20f);
+		new Flare(5, 32).color(0xFF0000, true).show(curUser.sprite, 2f);
+
 		setKnown();
-		
+
 		readAnimation();
 	}
 }

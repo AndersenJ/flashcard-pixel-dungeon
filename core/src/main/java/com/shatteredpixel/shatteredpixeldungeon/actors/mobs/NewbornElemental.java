@@ -34,7 +34,7 @@ public class NewbornElemental extends Elemental {
 		spriteClass = NewbornElementalSprite.class;
 
 		HT = 65;
-		HP = HT/2; //32
+		HP = HT / 2; // 32
 
 		defenseSkill = 12;
 
@@ -55,6 +55,6 @@ public class NewbornElemental extends Elemental {
 	@Override
 	public void die(Object cause) {
 		super.die(cause);
-		Dungeon.level.drop( new Embers(), pos ).sprite.drop();
+		Dungeon.level.drop(new Embers(), pos).sprite.drop();
 	}
 }

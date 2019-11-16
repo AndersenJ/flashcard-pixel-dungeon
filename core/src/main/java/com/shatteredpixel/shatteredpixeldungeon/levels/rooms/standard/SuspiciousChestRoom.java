@@ -47,7 +47,7 @@ public class SuspiciousChestRoom extends EmptyRoom {
 
 		Item i = level.findPrizeItem();
 
-		if ( i == null ){
+		if (i == null) {
 			i = new Gold().random();
 		}
 

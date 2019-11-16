@@ -30,15 +30,15 @@ public class VelvetPouch extends Bag {
 
 	{
 		image = ItemSpriteSheet.POUCH;
-		
+
 		size = 20;
 	}
-	
+
 	@Override
-	public boolean grab( Item item ) {
+	public boolean grab(Item item) {
 		return item instanceof Plant.Seed || item instanceof Runestone;
 	}
-	
+
 	@Override
 	public int price() {
 		return 30;

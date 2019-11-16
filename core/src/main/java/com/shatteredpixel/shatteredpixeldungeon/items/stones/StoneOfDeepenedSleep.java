@@ -34,32 +34,32 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
 public class StoneOfDeepenedSleep extends Runestone {
-	
+
 	{
 		image = ItemSpriteSheet.STONE_SLEEP;
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
-		
-		for (int i : PathFinder.NEIGHBOURS9){
-			
-			CellEmitter.get(cell + i).start( Speck.factory( Speck.NOTE ), 0.1f, 2 );
-			
+
+		for (int i : PathFinder.NEIGHBOURS9) {
+
+			CellEmitter.get(cell + i).start(Speck.factory(Speck.NOTE), 0.1f, 2);
+
 			if (Actor.findChar(cell + i) != null) {
-				
+
 				Char c = Actor.findChar(cell + i);
-				
-				if ((c instanceof Mob && ((Mob) c).state == ((Mob) c).SLEEPING)){
-					
+
+				if ((c instanceof Mob && ((Mob) c).state == ((Mob) c).SLEEPING)) {
+
 					Buff.affect(c, MagicalSleep.class);
-					
+
 				}
-				
+
 			}
 		}
-		
-		Sample.INSTANCE.play( Assets.SND_LULLABY );
-		
+
+		Sample.INSTANCE.play(Assets.SND_LULLABY);
+
 	}
 }

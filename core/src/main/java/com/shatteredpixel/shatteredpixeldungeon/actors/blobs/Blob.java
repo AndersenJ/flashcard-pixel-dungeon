@@ -34,61 +34,61 @@ public class Blob extends Actor {
 	{
 		actPriority = BLOB_PRIO;
 	}
-	
+
 	public int volume = 0;
-	
+
 	public int[] cur;
 	protected int[] off;
-	
+
 	public BlobEmitter emitter;
 
 	public Rect area = new Rect();
-	
+
 	public boolean alwaysVisible = false;
 
-	private static final String CUR		= "cur";
-	private static final String START	= "start";
-	private static final String LENGTH	= "length";
-	
+	private static final String CUR = "cur";
+	private static final String START = "start";
+	private static final String LENGTH = "length";
+
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+
 		if (volume > 0) {
-		
+
 			int start;
-			for (start=0; start < Dungeon.level.length(); start++) {
+			for (start = 0; start < Dungeon.level.length(); start++) {
 				if (cur[start] > 0) {
 					break;
 				}
 			}
 			int end;
-			for (end=Dungeon.level.length()-1; end > start; end--) {
+			for (end = Dungeon.level.length() - 1; end > start; end--) {
 				if (cur[end] > 0) {
 					break;
 				}
 			}
-			
-			bundle.put( START, start );
-			bundle.put( LENGTH, cur.length );
-			bundle.put( CUR, trim( start, end + 1 ) );
-			
+
+			bundle.put(START, start);
+			bundle.put(LENGTH, cur.length);
+			bundle.put(CUR, trim(start, end + 1));
+
 		}
 	}
-	
-	private int[] trim( int start, int end ) {
+
+	private int[] trim(int start, int end) {
 		int len = end - start;
 		int[] copy = new int[len];
-		System.arraycopy( cur, start, copy, 0, len );
+		System.arraycopy(cur, start, copy, 0, len);
 		return copy;
 	}
-	
-	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		
-		super.restoreFromBundle( bundle );
 
-		if (bundle.contains( CUR )) {
+	@Override
+	public void restoreFromBundle(Bundle bundle) {
+
+		super.restoreFromBundle(bundle);
+
+		if (bundle.contains(CUR)) {
 
 			cur = new int[bundle.getInt(LENGTH)];
 			off = new int[cur.length];
@@ -102,12 +102,12 @@ public class Blob extends Actor {
 
 		}
 	}
-	
+
 	@Override
 	public boolean act() {
-		
-		spend( TICK );
-		
+
+		spend(TICK);
+
 		if (volume > 0) {
 
 			if (area.isEmpty())
@@ -119,72 +119,72 @@ public class Blob extends Actor {
 			int[] tmp = off;
 			off = cur;
 			cur = tmp;
-			
+
 		} else {
 			if (!area.isEmpty()) {
 				area.setEmpty();
-				//clear any values remaining in off
+				// clear any values remaining in off
 				System.arraycopy(cur, 0, off, 0, cur.length);
 			}
 		}
-		
+
 		return true;
 	}
 
-	public void setupArea(){
-		for (int cell=0; cell < cur.length; cell++) {
-			if (cur[cell] != 0){
-				area.union(cell%Dungeon.level.width(), cell/Dungeon.level.width());
+	public void setupArea() {
+		for (int cell = 0; cell < cur.length; cell++) {
+			if (cur[cell] != 0) {
+				area.union(cell % Dungeon.level.width(), cell / Dungeon.level.width());
 			}
 		}
 	}
-	
-	public void use( BlobEmitter emitter ) {
+
+	public void use(BlobEmitter emitter) {
 		this.emitter = emitter;
 	}
-	
+
 	protected void evolve() {
-		
+
 		boolean[] blocking = Dungeon.level.solid;
 		int cell;
-		for (int i=area.top-1; i <= area.bottom; i++) {
-			for (int j = area.left-1; j <= area.right; j++) {
-				cell = j + i*Dungeon.level.width();
+		for (int i = area.top - 1; i <= area.bottom; i++) {
+			for (int j = area.left - 1; j <= area.right; j++) {
+				cell = j + i * Dungeon.level.width();
 				if (Dungeon.level.insideMap(cell)) {
 					if (!blocking[cell]) {
 
 						int count = 1;
 						int sum = cur[cell];
 
-						if (j > area.left && !blocking[cell-1]) {
-							sum += cur[cell-1];
+						if (j > area.left && !blocking[cell - 1]) {
+							sum += cur[cell - 1];
 							count++;
 						}
-						if (j < area.right && !blocking[cell+1]) {
-							sum += cur[cell+1];
+						if (j < area.right && !blocking[cell + 1]) {
+							sum += cur[cell + 1];
 							count++;
 						}
-						if (i > area.top && !blocking[cell-Dungeon.level.width()]) {
-							sum += cur[cell-Dungeon.level.width()];
+						if (i > area.top && !blocking[cell - Dungeon.level.width()]) {
+							sum += cur[cell - Dungeon.level.width()];
 							count++;
 						}
-						if (i < area.bottom && !blocking[cell+Dungeon.level.width()]) {
-							sum += cur[cell+Dungeon.level.width()];
+						if (i < area.bottom && !blocking[cell + Dungeon.level.width()]) {
+							sum += cur[cell + Dungeon.level.width()];
 							count++;
 						}
 
 						int value = sum >= count ? (sum / count) - 1 : 0;
 						off[cell] = value;
 
-						if (value > 0){
+						if (value > 0) {
 							if (i < area.top)
 								area.top = i;
 							else if (i >= area.bottom)
-								area.bottom = i+1;
+								area.bottom = i + 1;
 							if (j < area.left)
 								area.left = j;
 							else if (j >= area.right)
-								area.right = j+1;
+								area.right = j + 1;
 						}
 
 						volume += value;
@@ -196,56 +196,58 @@ public class Blob extends Actor {
 		}
 	}
 
-	public void seed( Level level, int cell, int amount ) {
-		if (cur == null) cur = new int[level.length()];
-		if (off == null) off = new int[cur.length];
+	public void seed(Level level, int cell, int amount) {
+		if (cur == null)
+			cur = new int[level.length()];
+		if (off == null)
+			off = new int[cur.length];
 
 		cur[cell] += amount;
 		volume += amount;
 
-		area.union(cell%level.width(), cell/level.width());
+		area.union(cell % level.width(), cell / level.width());
 	}
-	
-	public void clear( int cell ) {
-		if (volume == 0) return;
+
+	public void clear(int cell) {
+		if (volume == 0)
+			return;
 		volume -= cur[cell];
 		cur[cell] = 0;
 	}
 
-	public void fullyClear(){
+	public void fullyClear() {
 		volume = 0;
 		area.setEmpty();
 		cur = new int[Dungeon.level.length()];
 		off = new int[Dungeon.level.length()];
 	}
-	
+
 	public String tileDesc() {
 		return null;
 	}
-	
-	public static<T extends Blob> T seed( int cell, int amount, Class<T> type ) {
+
+	public static <T extends Blob> T seed(int cell, int amount, Class<T> type) {
 		return seed(cell, amount, type, Dungeon.level);
 	}
-	
-	@SuppressWarnings("unchecked")
-	public static<T extends Blob> T seed( int cell, int amount, Class<T> type, Level level ) {
-		
-		T gas = (T)level.blobs.get( type );
-		
+
+	public static <T extends Blob> T seed(int cell, int amount, Class<T> type, Level level) {
+
+		T gas = type.cast(level.blobs.get(type));
+
 		if (gas == null) {
 			gas = Reflection.newInstance(type);
 		}
-		
-		if (gas != null){
-			level.blobs.put( type, gas );
-			gas.seed( level, cell, amount );
+
+		if (gas != null) {
+			level.blobs.put(type, gas);
+			gas.seed(level, cell, amount);
 		}
-		
+
 		return gas;
 	}
 
-	public static int volumeAt( int cell, Class<? extends Blob> type){
-		Blob gas = Dungeon.level.blobs.get( type );
+	public static int volumeAt(int cell, Class<? extends Blob> type) {
+		Blob gas = Dungeon.level.blobs.get(type);
 		if (gas == null || gas.volume == 0) {
 			return 0;
 		} else {

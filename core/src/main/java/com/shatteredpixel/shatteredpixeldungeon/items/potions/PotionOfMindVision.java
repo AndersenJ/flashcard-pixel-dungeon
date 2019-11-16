@@ -35,18 +35,18 @@ public class PotionOfMindVision extends Potion {
 	}
 
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		Buff.affect( hero, MindVision.class, MindVision.DURATION );
+		Buff.affect(hero, MindVision.class, MindVision.DURATION);
 		Dungeon.observe();
-		
+
 		if (Dungeon.level.mobs.size() > 0) {
-			GLog.i( Messages.get(this, "see_mobs") );
+			GLog.i(Messages.get(this, "see_mobs"));
 		} else {
-			GLog.i( Messages.get(this, "see_none") );
+			GLog.i(Messages.get(this, "see_none"));
 		}
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 30 * quantity : super.price();

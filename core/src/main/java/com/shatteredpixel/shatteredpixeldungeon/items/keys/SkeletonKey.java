@@ -24,16 +24,16 @@ package com.shatteredpixel.shatteredpixeldungeon.items.keys;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class SkeletonKey extends Key {
-	
+
 	{
 		image = ItemSpriteSheet.SKELETON_KEY;
 	}
-	
+
 	public SkeletonKey() {
-		this( 0 );
+		this(0);
 	}
-	
-	public SkeletonKey( int depth ) {
+
+	public SkeletonKey(int depth) {
 		super();
 		this.depth = depth;
 	}

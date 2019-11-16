@@ -32,12 +32,12 @@ import com.watabou.utils.Random;
 
 public class Displacing extends Weapon.Enchantment {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
 
 	@Override
-	public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
+	public int proc(Weapon weapon, Char attacker, Char defender, int damage) {
 
-		if (Random.Int(12) == 0 && !defender.properties().contains(Char.Property.IMMOVABLE)){
+		if (Random.Int(12) == 0 && !defender.properties().contains(Char.Property.IMMOVABLE)) {
 			int count = 10;
 			int newPos;
 			do {
@@ -50,14 +50,14 @@ public class Displacing extends Weapon.Enchantment {
 			if (newPos != -1 && !Dungeon.bossLevel()) {
 
 				if (Dungeon.level.heroFOV[defender.pos]) {
-					CellEmitter.get( defender.pos ).start( Speck.factory( Speck.LIGHT ), 0.2f, 3 );
+					CellEmitter.get(defender.pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
 				}
 
 				defender.pos = newPos;
-				if (defender instanceof Mob && ((Mob) defender).state == ((Mob) defender).HUNTING){
+				if (defender instanceof Mob && ((Mob) defender).state == ((Mob) defender).HUNTING) {
 					((Mob) defender).state = ((Mob) defender).WANDERING;
 				}
-				defender.sprite.place( defender.pos );
+				defender.sprite.place(defender.pos);
 				defender.sprite.visible = Dungeon.level.heroFOV[defender.pos];
 
 				return 0;

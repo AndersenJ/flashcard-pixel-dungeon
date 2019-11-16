@@ -32,41 +32,42 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
 
 public class ElixirOfDragonsBlood extends Elixir {
-	
+
 	{
-		//TODO finish visuals
+		// TODO finish visuals
 		image = ItemSpriteSheet.ELIXIR_DRAGON;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
 		Buff.affect(hero, FireImbue.class).set(FireImbue.DURATION);
-		Sample.INSTANCE.play( Assets.SND_BURNING );
+		Sample.INSTANCE.play(Assets.SND_BURNING);
 		hero.sprite.emitter().burst(FlameParticle.FACTORY, 10);
 	}
-	
+
 	@Override
 	protected int splashColor() {
 		return 0xFFFF002A;
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (50 + 40);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfDragonsBreath.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfDragonsBreath.class, AlchemicalCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 6;
-			
+
 			output = ElixirOfDragonsBlood.class;
 			outQuantity = 1;
 		}
-		
+
 	}
 }

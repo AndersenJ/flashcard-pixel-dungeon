@@ -73,71 +73,71 @@ public class StatusPane extends Component {
 	private MenuButton btnMenu;
 
 	private Toolbar.PickedUpItem pickedUp;
-	
+
 	private BitmapText version;
 
 	@Override
 	protected void createChildren() {
 
-		bg = new NinePatch( Assets.STATUS, 0, 0, 128, 36, 85, 0, 45, 0 );
-		add( bg );
+		bg = new NinePatch(Assets.STATUS, 0, 0, 128, 36, 85, 0, 45, 0);
+		add(bg);
 
-		add( new PointerArea( 0, 1, 31, 31 ) {
+		add(new PointerArea(0, 1, 31, 31) {
 			@Override
-			protected void onClick( PointerEvent event ) {
+			protected void onClick(PointerEvent event) {
 				Image sprite = Dungeon.hero.sprite;
-				Camera.main.panTo( sprite.center(), 5f );
-				GameScene.show( new WndHero() );
+				Camera.main.panTo(sprite.center(), 5f);
+				GameScene.show(new WndHero());
 			}
-		} );
+		});
 
 		btnJournal = new JournalButton();
-		add( btnJournal );
+		add(btnJournal);
 
 		btnMenu = new MenuButton();
-		add( btnMenu );
+		add(btnMenu);
 
-		avatar = HeroSprite.avatar( Dungeon.hero.heroClass, lastTier );
-		add( avatar );
+		avatar = HeroSprite.avatar(Dungeon.hero.heroClass, lastTier);
+		add(avatar);
 
-		compass = new Compass( Statistics.amuletObtained ? Dungeon.level.entrance : Dungeon.level.exit );
-		add( compass );
+		compass = new Compass(Statistics.amuletObtained ? Dungeon.level.entrance : Dungeon.level.exit);
+		add(compass);
 
-		rawShielding = new Image( Assets.SHLD_BAR );
+		rawShielding = new Image(Assets.SHLD_BAR);
 		rawShielding.alpha(0.5f);
 		add(rawShielding);
 
-		shieldedHP = new Image( Assets.SHLD_BAR );
+		shieldedHP = new Image(Assets.SHLD_BAR);
 		add(shieldedHP);
 
-		hp = new Image( Assets.HP_BAR );
-		add( hp );
+		hp = new Image(Assets.HP_BAR);
+		add(hp);
 
-		exp = new Image( Assets.XP_BAR );
-		add( exp );
+		exp = new Image(Assets.XP_BAR);
+		add(exp);
 
 		bossHP = new BossHealthBar();
-		add( bossHP );
+		add(bossHP);
 
-		level = new BitmapText( PixelScene.pixelFont);
-		level.hardlight( 0xFFEBA4 );
-		add( level );
+		level = new BitmapText(PixelScene.pixelFont);
+		level.hardlight(0xFFEBA4);
+		add(level);
 
-		depth = new BitmapText( Integer.toString( Dungeon.depth ), PixelScene.pixelFont);
-		depth.hardlight( 0xCACFC2 );
+		depth = new BitmapText(Integer.toString(Dungeon.depth), PixelScene.pixelFont);
+		depth.hardlight(0xCACFC2);
 		depth.measure();
-		add( depth );
+		add(depth);
 
 		danger = new DangerIndicator();
-		add( danger );
+		add(danger);
 
-		buffs = new BuffIndicator( Dungeon.hero );
-		add( buffs );
+		buffs = new BuffIndicator(Dungeon.hero);
+		add(buffs);
 
-		add( pickedUp = new Toolbar.PickedUpItem());
-		
-		version = new BitmapText( "v" + Game.version, PixelScene.pixelFont);
-		version.alpha( 0.5f );
+		add(pickedUp = new Toolbar.PickedUpItem());
+
+		version = new BitmapText("v" + Game.version, PixelScene.pixelFont);
+		version.alpha(0.5f);
 		add(version);
 	}
 
@@ -146,7 +146,7 @@ public class StatusPane extends Component {
 
 		height = 32;
 
-		bg.size( width, bg.height );
+		bg.size(width, bg.height);
 
 		avatar.x = bg.x + 15 - avatar.width / 2f;
 		avatar.y = bg.y + 16 - avatar.height / 2f;
@@ -159,64 +159,64 @@ public class StatusPane extends Component {
 		hp.x = shieldedHP.x = rawShielding.x = 30;
 		hp.y = shieldedHP.y = rawShielding.y = 3;
 
-		bossHP.setPos( 6 + (width - bossHP.width())/2, 20);
+		bossHP.setPos(6 + (width - bossHP.width()) / 2, 20);
 
 		depth.x = width - 35.5f - depth.width() / 2f;
 		depth.y = 8f - depth.baseLine() / 2f;
 		PixelScene.align(depth);
 
-		danger.setPos( width - danger.width(), 20 );
+		danger.setPos(width - danger.width(), 20);
 
-		buffs.setPos( 31, 9 );
+		buffs.setPos(31, 9);
 
-		btnJournal.setPos( width - 42, 1 );
+		btnJournal.setPos(width - 42, 1);
 
-		btnMenu.setPos( width - btnMenu.width(), 1 );
-		
+		btnMenu.setPos(width - btnMenu.width(), 1);
+
 		version.scale.set(PixelScene.align(0.5f));
 		version.measure();
 		version.x = width - version.width();
 		version.y = btnMenu.bottom() + (4 - version.baseLine());
 		PixelScene.align(version);
 	}
-	
-	private static final int[] warningColors = new int[]{0x660000, 0xCC0000, 0x660000};
+
+	private static final int[] warningColors = new int[] { 0x660000, 0xCC0000, 0x660000 };
 
 	@Override
 	public void update() {
 		super.update();
-		
+
 		float health = Dungeon.hero.HP;
 		float shield = Dungeon.hero.shielding();
 		float max = Dungeon.hero.HT;
 
 		if (!Dungeon.hero.isAlive()) {
 			avatar.tint(0x000000, 0.5f);
-		} else if ((health/max) < 0.3f) {
-			warning += Game.elapsed * 5f *(0.4f - (health/max));
+		} else if ((health / max) < 0.3f) {
+			warning += Game.elapsed * 5f * (0.4f - (health / max));
 			warning %= 1f;
-			avatar.tint(ColorMath.interpolate(warning, warningColors), 0.5f );
+			avatar.tint(ColorMath.interpolate(warning, warningColors), 0.5f);
 		} else {
 			avatar.resetColor();
 		}
 
-		hp.scale.x = Math.max( 0, (health-shield)/max);
-		shieldedHP.scale.x = health/max;
-		rawShielding.scale.x = shield/max;
+		hp.scale.x = Math.max(0, (health - shield) / max);
+		shieldedHP.scale.x = health / max;
+		rawShielding.scale.x = shield / max;
 
 		exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
 
 		if (Dungeon.hero.lvl != lastLvl) {
 
 			if (lastLvl != -1) {
-				Emitter emitter = (Emitter)recycle( Emitter.class );
+				Emitter emitter = (Emitter) recycle(Emitter.class);
 				emitter.revive();
-				emitter.pos( 27, 27 );
-				emitter.burst( Speck.factory( Speck.STAR ), 12 );
+				emitter.pos(27, 27);
+				emitter.burst(Speck.factory(Speck.STAR), 12);
 			}
 
 			lastLvl = Dungeon.hero.lvl;
-			level.text( Integer.toString( lastLvl ) );
+			level.text(Integer.toString(lastLvl));
 			level.measure();
 			level.x = 27.5f - level.width() / 2f;
 			level.y = 28.0f - level.baseLine() / 2f;
@@ -226,22 +226,20 @@ public class StatusPane extends Component {
 		int tier = Dungeon.hero.tier();
 		if (tier != lastTier) {
 			lastTier = tier;
-			avatar.copy( HeroSprite.avatar( Dungeon.hero.heroClass, tier ) );
+			avatar.copy(HeroSprite.avatar(Dungeon.hero.heroClass, tier));
 		}
 	}
 
-	public void pickup( Item item, int cell) {
-		pickedUp.reset( item,
-			cell,
-			btnJournal.journalIcon.x + btnJournal.journalIcon.width()/2f,
-			btnJournal.journalIcon.y + btnJournal.journalIcon.height()/2f);
+	public void pickup(Item item, int cell) {
+		pickedUp.reset(item, cell, btnJournal.journalIcon.x + btnJournal.journalIcon.width() / 2f,
+				btnJournal.journalIcon.y + btnJournal.journalIcon.height() / 2f);
 	}
-	
-	public void flash(){
+
+	public void flash() {
 		btnJournal.flashing = true;
 	}
-	
-	public void updateKeys(){
+
+	public void updateKeys() {
 		btnJournal.updateKeyDisplay();
 	}
 
@@ -250,13 +248,13 @@ public class StatusPane extends Component {
 		private Image bg;
 		private Image journalIcon;
 		private KeyDisplay keyIcon;
-		
+
 		private boolean flashing;
 
 		public JournalButton() {
 			super();
 
-			width = bg.width + 13; //includes the depth display to the left
+			width = bg.width + 13; // includes the depth display to the left
 			height = bg.height + 4;
 		}
 
@@ -264,12 +262,12 @@ public class StatusPane extends Component {
 		protected void createChildren() {
 			super.createChildren();
 
-			bg = new Image( Assets.MENU, 2, 2, 13, 11 );
-			add( bg );
-			
-			journalIcon = new Image( Assets.MENU, 31, 0, 11, 7);
-			add( journalIcon );
-			
+			bg = new Image(Assets.MENU, 2, 2, 13, 11);
+			add(bg);
+
+			journalIcon = new Image(Assets.MENU, 31, 0, 11, 7);
+			add(journalIcon);
+
 			keyIcon = new KeyDisplay();
 			add(keyIcon);
 			updateKeyDisplay();
@@ -281,11 +279,11 @@ public class StatusPane extends Component {
 
 			bg.x = x + 13;
 			bg.y = y + 2;
-			
-			journalIcon.x = bg.x + (bg.width() - journalIcon.width())/2f;
-			journalIcon.y = bg.y + (bg.height() - journalIcon.height())/2f;
+
+			journalIcon.x = bg.x + (bg.width() - journalIcon.width()) / 2f;
+			journalIcon.y = bg.y + (bg.height() - journalIcon.height()) / 2f;
 			PixelScene.align(journalIcon);
-			
+
 			keyIcon.x = bg.x + 1;
 			keyIcon.y = bg.y + 1;
 			keyIcon.width = bg.width - 2;
@@ -294,15 +292,15 @@ public class StatusPane extends Component {
 		}
 
 		private float time;
-		
+
 		@Override
 		public void update() {
 			super.update();
-			
-			if (flashing){
-				journalIcon.am = (float)Math.abs(Math.cos( 3 * (time += Game.elapsed) ));
+
+			if (flashing) {
+				journalIcon.am = (float) Math.abs(Math.cos(3 * (time += Game.elapsed)));
 				keyIcon.am = journalIcon.am;
-				if (time >= 0.333f*Math.PI) {
+				if (time >= 0.333f * Math.PI) {
 					time = 0;
 				}
 			}
@@ -321,8 +319,8 @@ public class StatusPane extends Component {
 
 		@Override
 		protected void onPointerDown() {
-			bg.brightness( 1.5f );
-			Sample.INSTANCE.play( Assets.SND_CLICK );
+			bg.brightness(1.5f);
+			Sample.INSTANCE.play(Assets.SND_CLICK);
 		}
 
 		@Override
@@ -339,7 +337,7 @@ public class StatusPane extends Component {
 			flashing = false;
 			time = 0;
 			keyIcon.am = journalIcon.am = 1;
-			GameScene.show( new WndJournal() );
+			GameScene.show(new WndJournal());
 		}
 
 	}
@@ -359,8 +357,8 @@ public class StatusPane extends Component {
 		protected void createChildren() {
 			super.createChildren();
 
-			image = new Image( Assets.MENU, 17, 2, 12, 11 );
-			add( image );
+			image = new Image(Assets.MENU, 17, 2, 12, 11);
+			add(image);
 		}
 
 		@Override
@@ -373,8 +371,8 @@ public class StatusPane extends Component {
 
 		@Override
 		protected void onPointerDown() {
-			image.brightness( 1.5f );
-			Sample.INSTANCE.play( Assets.SND_CLICK );
+			image.brightness(1.5f);
+			Sample.INSTANCE.play(Assets.SND_CLICK);
 		}
 
 		@Override
@@ -384,7 +382,7 @@ public class StatusPane extends Component {
 
 		@Override
 		protected void onClick() {
-			GameScene.show( new WndGame() );
+			GameScene.show(new WndGame());
 		}
 	}
 }

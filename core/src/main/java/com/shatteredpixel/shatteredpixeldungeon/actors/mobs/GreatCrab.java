@@ -37,7 +37,7 @@ public class GreatCrab extends Crab {
 		spriteClass = GreatCrabSprite.class;
 
 		HP = HT = 25;
-		defenseSkill = 0; //see damage()
+		defenseSkill = 0; // see damage()
 		baseSpeed = 1f;
 
 		EXP = 6;
@@ -50,11 +50,12 @@ public class GreatCrab extends Crab {
 	private int moving = 0;
 
 	@Override
-	protected boolean getCloser( int target ) {
-		//this is used so that the crab remains slower, but still detects the player at the expected rate.
+	protected boolean getCloser(int target) {
+		// this is used so that the crab remains slower, but still detects the player at
+		// the expected rate.
 		moving++;
 		if (moving < 3) {
-			return super.getCloser( target );
+			return super.getCloser(target);
 		} else {
 			moving = 0;
 			return true;
@@ -63,26 +64,26 @@ public class GreatCrab extends Crab {
 	}
 
 	@Override
-	public void damage( int dmg, Object src ){
-		//crab blocks all attacks originating from its current enemy if it sees them.
-		//All direct damage is negated, no exceptions. environmental effects go through as normal.
+	public void damage(int dmg, Object src) {
+		// crab blocks all attacks originating from its current enemy if it sees them.
+		// All direct damage is negated, no exceptions. environmental effects go through
+		// as normal.
 		if ((enemySeen && state != SLEEPING && paralysed == 0)
-				&& ((src instanceof Wand && enemy == Dungeon.hero)
-				|| (src instanceof Char && enemy == src))){
-			GLog.n( Messages.get(this, "noticed") );
-			sprite.showStatus( CharSprite.NEUTRAL, Messages.get(this, "blocked") );
+				&& ((src instanceof Wand && enemy == Dungeon.hero) || (src instanceof Char && enemy == src))) {
+			GLog.n(Messages.get(this, "noticed"));
+			sprite.showStatus(CharSprite.NEUTRAL, Messages.get(this, "blocked"));
 		} else {
-			super.damage( dmg, src );
+			super.damage(dmg, src);
 		}
 	}
 
 	@Override
-	public void die( Object cause ) {
-		super.die( cause );
+	public void die(Object cause) {
+		super.die(cause);
 
 		Ghost.Quest.process();
 
-		Dungeon.level.drop( new MysteryMeat(), pos );
-		Dungeon.level.drop( new MysteryMeat(), pos ).sprite.drop();
+		Dungeon.level.drop(new MysteryMeat(), pos);
+		Dungeon.level.drop(new MysteryMeat(), pos).sprite.drop();
 	}
 }

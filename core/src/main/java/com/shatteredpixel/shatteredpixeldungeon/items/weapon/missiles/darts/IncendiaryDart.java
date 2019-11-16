@@ -36,22 +36,22 @@ public class IncendiaryDart extends TippedDart {
 	{
 		image = ItemSpriteSheet.INCENDIARY_DART;
 	}
-	
+
 	@Override
-	protected void onThrow( int cell ) {
-		Char enemy = Actor.findChar( cell );
+	protected void onThrow(int cell) {
+		Char enemy = Actor.findChar(cell);
 		if ((enemy == null || enemy == curUser) && Dungeon.level.flamable[cell]) {
 			GameScene.add(Blob.seed(cell, 4, Fire.class));
 			Dungeon.level.drop(new Dart(), cell).sprite.drop();
-		} else{
+		} else {
 			super.onThrow(cell);
 		}
 	}
-	
+
 	@Override
-	public int proc( Char attacker, Char defender, int damage ) {
-		Buff.affect( defender, Burning.class ).reignite( defender );
-		return super.proc( attacker, defender, damage );
+	public int proc(Char attacker, Char defender, int damage) {
+		Buff.affect(defender, Burning.class).reignite(defender);
+		return super.proc(attacker, defender, damage);
 	}
-	
+
 }

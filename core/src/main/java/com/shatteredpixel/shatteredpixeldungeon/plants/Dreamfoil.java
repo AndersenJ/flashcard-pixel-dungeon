@@ -46,25 +46,25 @@ public class Dreamfoil extends Plant {
 	}
 
 	@Override
-	public void activate( Char ch ) {
+	public void activate(Char ch) {
 
 		if (ch != null) {
 			if (ch instanceof Mob) {
 				Buff.affect(ch, MagicalSleep.class);
-			} else if (ch instanceof Hero){
-				GLog.i( Messages.get(this, "refreshed") );
-				Buff.detach( ch, Poison.class );
-				Buff.detach( ch, Cripple.class );
-				Buff.detach( ch, Weakness.class );
-				Buff.detach( ch, Bleeding.class );
-				Buff.detach( ch, Drowsy.class );
-				Buff.detach( ch, Slow.class );
-				Buff.detach( ch, Vertigo.class);
-				
-				if (((Hero) ch).subClass == HeroSubClass.WARDEN){
+			} else if (ch instanceof Hero) {
+				GLog.i(Messages.get(this, "refreshed"));
+				Buff.detach(ch, Poison.class);
+				Buff.detach(ch, Cripple.class);
+				Buff.detach(ch, Weakness.class);
+				Buff.detach(ch, Bleeding.class);
+				Buff.detach(ch, Drowsy.class);
+				Buff.detach(ch, Slow.class);
+				Buff.detach(ch, Vertigo.class);
+
+				if (((Hero) ch).subClass == HeroSubClass.WARDEN) {
 					Buff.affect(ch, BlobImmunity.class, 10f);
 				}
-				
+
 			}
 		}
 	}

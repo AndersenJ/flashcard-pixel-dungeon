@@ -36,7 +36,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TalismanOfForesight extends Artifact {
 
@@ -56,21 +56,23 @@ public class TalismanOfForesight extends Artifact {
 	public static final String AC_SCRY = "SCRY";
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		if (isEquipped( hero ) && charge == chargeCap && !cursed)
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
+		if (isEquipped(hero) && charge == chargeCap && !cursed)
 			actions.add(AC_SCRY);
 		return actions;
 	}
 
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Hero hero, String action) {
 		super.execute(hero, action);
 
-		if (action.equals(AC_SCRY)){
+		if (action.equals(AC_SCRY)) {
 
-			if (!isEquipped(hero))        GLog.i( Messages.get(Artifact.class, "need_to_equip") );
-			else if (charge != chargeCap) GLog.i( Messages.get(this, "no_charge") );
+			if (!isEquipped(hero))
+				GLog.i(Messages.get(Artifact.class, "need_to_equip"));
+			else if (charge != chargeCap)
+				GLog.i(Messages.get(this, "no_charge"));
 			else {
 				hero.sprite.operate(hero.pos);
 				hero.busy();
@@ -89,7 +91,7 @@ public class TalismanOfForesight extends Artifact {
 					}
 				}
 
-				GLog.p( Messages.get(this, "scry") );
+				GLog.p(Messages.get(this, "scry"));
 
 				updateQuickslot();
 
@@ -103,15 +105,15 @@ public class TalismanOfForesight extends Artifact {
 	protected ArtifactBuff passiveBuff() {
 		return new Foresight();
 	}
-	
+
 	@Override
 	public void charge(Hero target) {
-		if (charge < chargeCap){
+		if (charge < chargeCap) {
 			charge += 4f;
 			if (charge >= chargeCap) {
 				charge = chargeCap;
 				partialCharge = 0;
-				GLog.p( Messages.get(Foresight.class, "full_charge") );
+				GLog.p(Messages.get(Foresight.class, "full_charge"));
 			}
 		}
 	}
@@ -120,7 +122,7 @@ public class TalismanOfForesight extends Artifact {
 	public String desc() {
 		String desc = super.desc();
 
-		if ( isEquipped( Dungeon.hero ) ){
+		if (isEquipped(Dungeon.hero)) {
 			if (!cursed) {
 				desc += "\n\n" + Messages.get(this, "desc_worn");
 
@@ -131,28 +133,28 @@ public class TalismanOfForesight extends Artifact {
 
 		return desc;
 	}
-	
+
 	private static final String WARN = "warn";
-	
+
 	@Override
 	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
 		bundle.put(WARN, warn);
 	}
-	
+
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
 		warn = bundle.getInt(WARN);
 	}
-	
+
 	private int warn = 0;
-	
-	public class Foresight extends ArtifactBuff{
+
+	public class Foresight extends ArtifactBuff {
 
 		@Override
 		public boolean act() {
-			spend( TICK );
+			spend(TICK);
 
 			boolean smthFound = false;
 
@@ -180,9 +182,7 @@ public class TalismanOfForesight extends Artifact {
 			for (int y = ay; y <= by; y++) {
 				for (int x = ax, p = ax + y * Dungeon.level.width(); x <= bx; x++, p++) {
 
-					if (Dungeon.level.heroFOV[p]
-							&& Dungeon.level.secret[p]
-							&& Dungeon.level.map[p] != Terrain.SECRET_DOOR) {
+					if (Dungeon.level.heroFOV[p] && Dungeon.level.secret[p] && Dungeon.level.map[p] != Terrain.SECRET_DOOR) {
 						if (Dungeon.level.traps.get(p) != null && Dungeon.level.traps.get(p).canBeSearched) {
 							smthFound = true;
 						}
@@ -190,25 +190,25 @@ public class TalismanOfForesight extends Artifact {
 				}
 			}
 
-			if (smthFound && !cursed){
-				if (warn == 0){
-					GLog.w( Messages.get(this, "uneasy") );
-					if (target instanceof Hero){
-						((Hero)target).interrupt();
+			if (smthFound && !cursed) {
+				if (warn == 0) {
+					GLog.w(Messages.get(this, "uneasy"));
+					if (target instanceof Hero) {
+						((Hero) target).interrupt();
 					}
 				}
 				warn = 3;
 			} else {
-				if (warn > 0){
-					warn --;
+				if (warn > 0) {
+					warn--;
 				}
 			}
 			BuffIndicator.refreshHero();
 
-			//fully charges in 2000 turns at lvl=0, scaling to 667 turns at lvl = 10.
+			// fully charges in 2000 turns at lvl=0, scaling to 667 turns at lvl = 10.
 			LockedFloor lock = target.buff(LockedFloor.class);
 			if (charge < chargeCap && !cursed && (lock == null || lock.regenOn())) {
-				partialCharge += 0.05+(level()*0.01);
+				partialCharge += 0.05 + (level() * 0.01);
 
 				if (partialCharge > 1 && charge < chargeCap) {
 					partialCharge--;
@@ -216,19 +216,19 @@ public class TalismanOfForesight extends Artifact {
 					updateQuickslot();
 				} else if (charge >= chargeCap) {
 					partialCharge = 0;
-					GLog.p( Messages.get(this, "full_charge") );
+					GLog.p(Messages.get(this, "full_charge"));
 				}
 			}
 
 			return true;
 		}
 
-		public void charge(){
-			charge = Math.min(charge+(2+(level()/3)), chargeCap);
+		public void charge() {
+			charge = Math.min(charge + (2 + (level() / 3)), chargeCap);
 			exp++;
 			if (exp >= 4 && level() < levelCap) {
 				upgrade();
-				GLog.p( Messages.get(this, "levelup") );
+				GLog.p(Messages.get(this, "levelup"));
 				exp -= 4;
 			}
 			updateQuickslot();
@@ -236,7 +236,7 @@ public class TalismanOfForesight extends Artifact {
 
 		@Override
 		public String toString() {
-			return  Messages.get(this, "name");
+			return Messages.get(this, "name");
 		}
 
 		@Override

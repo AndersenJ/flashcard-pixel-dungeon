@@ -39,10 +39,10 @@ public class ConfusionGas extends Blob {
 		Char ch;
 		int cell;
 
-		for (int i = area.left; i < area.right; i++){
-			for (int j = area.top; j < area.bottom; j++){
-				cell = i + j*Dungeon.level.width();
-				if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
+		for (int i = area.left; i < area.right; i++) {
+			for (int j = area.top; j < area.bottom; j++) {
+				cell = i + j * Dungeon.level.width();
+				if (cur[cell] > 0 && (ch = Actor.findChar(cell)) != null) {
 					if (!ch.isImmune(this.getClass())) {
 						Buff.prolong(ch, Vertigo.class, 2);
 					}
@@ -52,10 +52,10 @@ public class ConfusionGas extends Blob {
 	}
 
 	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
 
-		emitter.pour( Speck.factory( Speck.CONFUSION, true ), 0.4f );
+		emitter.pour(Speck.factory(Speck.CONFUSION, true), 0.4f);
 	}
 
 	@Override

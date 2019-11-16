@@ -29,87 +29,77 @@ import java.util.HashMap;
 
 public class BitmapCache {
 
-	private static final String DEFAULT	= "__default";
-	
-	private static HashMap<String,Layer> layers = new HashMap<>();
-	
-	public static Pixmap get( String assetName ) {
-		return get( DEFAULT, assetName );
+	private static final String DEFAULT = "__default";
+
+	private static HashMap<String, Layer> layers = new HashMap<>();
+
+	public static Pixmap get(String assetName) {
+		return get(DEFAULT, assetName);
 	}
-	
-	public static Pixmap get( String layerName, String assetName ) {
-		
+
+	public static Pixmap get(String layerName, String assetName) {
+
 		Layer layer;
-		if (!layers.containsKey( layerName )) {
+		if (!layers.containsKey(layerName)) {
 			layer = new Layer();
-			layers.put( layerName, layer );
+			layers.put(layerName, layer);
 		} else {
-			layer = layers.get( layerName );
+			layer = layers.get(layerName);
 		}
-		
-		if (layer.containsKey( assetName )) {
-			return layer.get( assetName );
+
+		if (layer.containsKey(assetName)) {
+			return layer.get(assetName);
 		} else {
-			
+
 			try {
-				Pixmap bmp = new Pixmap( Gdx.files.internal(assetName) );
-				layer.put( assetName, bmp );
+				Pixmap bmp = new Pixmap(Gdx.files.internal(assetName));
+				layer.put(assetName, bmp);
 				return bmp;
 			} catch (Exception e) {
-				Game.reportException( e );
+				Game.reportException(e);
 				return null;
 			}
-			
+
 		}
 	}
-	
-	//Unused, LibGDX does not support resource Ids
+
+	// Unused, LibGDX does not support resource Ids
 	/*
-	public static Pixmap get( int resID ) {
-		return get( DEFAULT, resID );
-	}
-	
-	public static Pixmap get( String layerName, int resID ) {
-		
-		Layer layer;
-		if (!layers.containsKey( layerName )) {
-			layer = new Layer();
-			layers.put( layerName, layer );
-		} else {
-			layer = layers.get( layerName );
-		}
-		
-		if (layer.containsKey( resID )) {
-			return layer.get( resID );
-		} else {
-			
-			Bitmap bmp = BitmapFactory.decodeResource( context.getResources(), resID );
-			layer.put( resID, bmp );
-			return bmp;
-			
-		}
-	}*/
-	
-	public static void clear( String layerName ) {
-		if (layers.containsKey( layerName )) {
-			layers.get( layerName ).clear();
-			layers.remove( layerName );
+	 * public static Pixmap get( int resID ) { return get( DEFAULT, resID ); }
+	 * 
+	 * public static Pixmap get( String layerName, int resID ) {
+	 * 
+	 * Layer layer; if (!layers.containsKey( layerName )) { layer = new Layer();
+	 * layers.put( layerName, layer ); } else { layer = layers.get( layerName ); }
+	 * 
+	 * if (layer.containsKey( resID )) { return layer.get( resID ); } else {
+	 * 
+	 * Bitmap bmp = BitmapFactory.decodeResource( context.getResources(), resID );
+	 * layer.put( resID, bmp ); return bmp;
+	 * 
+	 * } }
+	 */
+
+	public static void clear(String layerName) {
+		if (layers.containsKey(layerName)) {
+			layers.get(layerName).clear();
+			layers.remove(layerName);
 		}
 	}
-	
+
 	public static void clear() {
-		for (Layer layer:layers.values()) {
+		for (Layer layer : layers.values()) {
 			layer.clear();
 		}
 		layers.clear();
 	}
-	
+
 	@SuppressWarnings("serial")
-	private static class Layer extends HashMap<Object,Pixmap> {
-		
+	private static class Layer extends HashMap<Object, Pixmap> {
+
 		@Override
 		public void clear() {
-			for (Pixmap bmp:values()) {
+			for (Pixmap bmp : values()) {
 				bmp.dispose();
 			}
 			super.clear();

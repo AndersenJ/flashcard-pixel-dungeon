@@ -34,18 +34,18 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
 public class ShockingBrew extends Brew {
-	
+
 	{
 		image = ItemSpriteSheet.BREW_SHOCKING;
 	}
-	
+
 	@Override
 	public void shatter(int cell) {
 		if (Dungeon.level.heroFOV[cell]) {
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 2 );
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 2);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				GameScene.add(Blob.seed(i, 20, Electricity.class));
@@ -53,24 +53,25 @@ public class ShockingBrew extends Brew {
 		}
 		Sample.INSTANCE.play(Assets.SND_LIGHTNING);
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (40 + 40);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfParalyticGas.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfParalyticGas.class, AlchemicalCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 8;
-			
+
 			output = ShockingBrew.class;
 			outQuantity = 1;
 		}
-		
+
 	}
 }

@@ -37,22 +37,23 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoneOfShock extends Runestone {
-	
+
 	{
 		image = ItemSpriteSheet.STONE_SHOCK;
 	}
-	
+
 	@Override
 	protected void activate(int cell) {
-		
-		Sample.INSTANCE.play( Assets.SND_LIGHTNING );
-		
-		ArrayList<Lightning.Arc> arcs = new ArrayList<>();
+
+		Sample.INSTANCE.play(Assets.SND_LIGHTNING);
+
+		List<Lightning.Arc> arcs = new ArrayList<>();
 		int hits = 0;
-		
-		PathFinder.buildDistanceMap( cell, BArray.not( Dungeon.level.solid, null ), 2 );
+
+		PathFinder.buildDistanceMap(cell, BArray.not(Dungeon.level.solid, null), 2);
 		for (int i = 0; i < PathFinder.distance.length; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 				Char n = Actor.findChar(i);
@@ -63,16 +64,16 @@ public class StoneOfShock extends Runestone {
 				}
 			}
 		}
-		
-		CellEmitter.center( cell ).burst( SparkParticle.FACTORY, 3 );
-		
+
+		CellEmitter.center(cell).burst(SparkParticle.FACTORY, 3);
+
 		if (hits > 0) {
-			curUser.sprite.parent.addToFront( new Lightning( arcs, null ) );
+			curUser.sprite.parent.addToFront(new Lightning(arcs, null));
 			curUser.sprite.centerEmitter().burst(EnergyParticle.FACTORY, 10);
-			Sample.INSTANCE.play( Assets.SND_LIGHTNING );
-			
+			Sample.INSTANCE.play(Assets.SND_LIGHTNING);
+
 			curUser.belongings.charge(1f + hits);
 		}
-	
+
 	}
 }

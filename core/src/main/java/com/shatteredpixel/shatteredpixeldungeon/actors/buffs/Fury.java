@@ -25,30 +25,30 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 
 public class Fury extends Buff {
-	
-	public static float LEVEL	= 0.5f;
+
+	public static float LEVEL = 0.5f;
 
 	{
 		type = buffType.POSITIVE;
 		announced = true;
 	}
-	
+
 	@Override
 	public boolean act() {
 		if (target.HP > target.HT * LEVEL) {
 			detach();
 		}
-		
-		spend( TICK );
-		
+
+		spend(TICK);
+
 		return true;
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.FURY;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");

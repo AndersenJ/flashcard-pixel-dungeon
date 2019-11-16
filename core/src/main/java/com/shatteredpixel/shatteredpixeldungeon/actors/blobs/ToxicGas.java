@@ -37,15 +37,15 @@ public class ToxicGas extends Blob implements Hero.Doom {
 	protected void evolve() {
 		super.evolve();
 
-		int damage = 1 + Dungeon.depth/5;
+		int damage = 1 + Dungeon.depth / 5;
 
 		Char ch;
 		int cell;
 
-		for (int i = area.left; i < area.right; i++){
-			for (int j = area.top; j < area.bottom; j++){
-				cell = i + j*Dungeon.level.width();
-				if (cur[cell] > 0 && (ch = Actor.findChar( cell )) != null) {
+		for (int i = area.left; i < area.right; i++) {
+			for (int j = area.top; j < area.bottom; j++) {
+				cell = i + j * Dungeon.level.width();
+				if (cur[cell] > 0 && (ch = Actor.findChar(cell)) != null) {
 					if (!ch.isImmune(this.getClass())) {
 
 						ch.damage(damage, this);
@@ -54,25 +54,25 @@ public class ToxicGas extends Blob implements Hero.Doom {
 			}
 		}
 	}
-	
-	@Override
-	public void use( BlobEmitter emitter ) {
-		super.use( emitter );
 
-		emitter.pour( Speck.factory( Speck.TOXIC ), 0.4f );
+	@Override
+	public void use(BlobEmitter emitter) {
+		super.use(emitter);
+
+		emitter.pour(Speck.factory(Speck.TOXIC), 0.4f);
 	}
-	
+
 	@Override
 	public String tileDesc() {
 		return Messages.get(this, "desc");
 	}
-	
+
 	@Override
 	public void onDeath() {
-		
+
 		Badges.validateDeathFromGas();
-		
-		Dungeon.fail( getClass() );
-		GLog.n( Messages.get(this, "ondeath") );
+
+		Dungeon.fail(getClass());
+		GLog.n(Messages.get(this, "ondeath"));
 	}
 }

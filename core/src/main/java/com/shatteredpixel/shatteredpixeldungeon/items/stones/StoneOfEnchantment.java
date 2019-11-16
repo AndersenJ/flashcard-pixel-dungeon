@@ -32,38 +32,38 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 
 public class StoneOfEnchantment extends InventoryStone {
-	
+
 	{
 		mode = WndBag.Mode.ENCHANTABLE;
 		image = ItemSpriteSheet.STONE_ENCHANT;
 	}
-	
+
 	@Override
 	protected void onItemSelected(Item item) {
-		
+
 		if (item instanceof Weapon) {
-			
-			((Weapon)item).enchant();
-			
+
+			((Weapon) item).enchant();
+
 		} else {
-			
-			((Armor)item).inscribe();
-			
+
+			((Armor) item).inscribe();
+
 		}
-		
-		curUser.sprite.emitter().start( Speck.factory( Speck.LIGHT ), 0.1f, 5 );
-		Enchanting.show( curUser, item );
-		
+
+		curUser.sprite.emitter().start(Speck.factory(Speck.LIGHT), 0.1f, 5);
+		Enchanting.show(curUser, item);
+
 		if (item instanceof Weapon) {
 			GLog.p(Messages.get(this, "weapon"));
 		} else {
 			GLog.p(Messages.get(this, "armor"));
 		}
-		
+
 		useAnimation();
-		
+
 	}
-	
+
 	@Override
 	public int price() {
 		return 30 * quantity;

@@ -48,86 +48,85 @@ public class IconTitle extends Component {
 		super();
 	}
 
-	public IconTitle( Item item ) {
+	public IconTitle(Item item) {
 		ItemSprite icon = new ItemSprite();
-		icon( icon );
-		label( Messages.titleCase( item.toString() ) );
-		icon.view( item );
-	}
-	
-	public IconTitle( Heap heap ){
-		ItemSprite icon = new ItemSprite();
-		icon( icon );
-		label( Messages.titleCase( heap.toString() ) );
-		icon.view( heap );
+		icon(icon);
+		label(Messages.titleCase(item.toString()));
+		icon.view(item);
 	}
 
-	public IconTitle( Image icon, String label ) {
+	public IconTitle(Heap heap) {
+		ItemSprite icon = new ItemSprite();
+		icon(icon);
+		label(Messages.titleCase(heap.toString()));
+		icon.view(heap);
+	}
+
+	public IconTitle(Image icon, String label) {
 		super();
 
-		icon( icon );
-		label( label );
+		icon(icon);
+		label(label);
 	}
 
 	@Override
 	protected void createChildren() {
 		imIcon = new Image();
-		add( imIcon );
+		add(imIcon);
 
-		tfLabel = PixelScene.renderTextBlock( (int)FONT_SIZE );
-		tfLabel.hardlight( Window.TITLE_COLOR );
+		tfLabel = PixelScene.renderTextBlock((int) FONT_SIZE);
+		tfLabel.hardlight(Window.TITLE_COLOR);
 		tfLabel.setHightlighting(false);
-		add( tfLabel );
+		add(tfLabel);
 
 		health = new HealthBar();
-		add( health );
+		add(health);
 	}
 
 	@Override
 	protected void layout() {
 
-		health.visible = !Float.isNaN( healthLvl );
+		health.visible = !Float.isNaN(healthLvl);
 
-		imIcon.x = x + (Math.max(0, 8 - imIcon.width()/2));
-		imIcon.y = y + (Math.max(0, 8 - imIcon.height()/2));
+		imIcon.x = x + (Math.max(0, 8 - imIcon.width() / 2));
+		imIcon.y = y + (Math.max(0, 8 - imIcon.height() / 2));
 		PixelScene.align(imIcon);
 
-		int imWidth = (int)Math.max(imIcon.width(), 16);
-		int imHeight = (int)Math.max(imIcon.height(), 16);
+		int imWidth = (int) Math.max(imIcon.width(), 16);
+		int imHeight = (int) Math.max(imIcon.height(), 16);
 
-		tfLabel.maxWidth((int)(width - (imWidth + GAP)));
-		tfLabel.setPos(x + imWidth + GAP,
-						imHeight > tfLabel.height() ? y +(imHeight - tfLabel.height()) / 2 : y);
+		tfLabel.maxWidth((int) (width - (imWidth + GAP)));
+		tfLabel.setPos(x + imWidth + GAP, imHeight > tfLabel.height() ? y + (imHeight - tfLabel.height()) / 2 : y);
 		PixelScene.align(tfLabel);
 
 		if (health.visible) {
-			health.setRect( tfLabel.left(), tfLabel.bottom(), tfLabel.maxWidth(), 0 );
-			height = Math.max( imHeight, health.bottom() );
+			health.setRect(tfLabel.left(), tfLabel.bottom(), tfLabel.maxWidth(), 0);
+			height = Math.max(imHeight, health.bottom());
 		} else {
-			height = Math.max( imHeight, tfLabel.height() );
+			height = Math.max(imHeight, tfLabel.height());
 		}
 	}
 
-	public void icon( Image icon ) {
-		remove( imIcon );
-		add( imIcon = icon );
+	public void icon(Image icon) {
+		remove(imIcon);
+		add(imIcon = icon);
 	}
 
-	public void label( String label ) {
-		tfLabel.text( label );
+	public void label(String label) {
+		tfLabel.text(label);
 	}
 
-	public void label( String label, int color ) {
-		tfLabel.text( label );
-		tfLabel.hardlight( color );
+	public void label(String label, int color) {
+		tfLabel.text(label);
+		tfLabel.hardlight(color);
 	}
 
-	public void color( int color ) {
-		tfLabel.hardlight( color );
+	public void color(int color) {
+		tfLabel.hardlight(color);
 	}
 
-	public void health( float value ) {
-		health.level( healthLvl = value );
+	public void health(float value) {
+		health.level(healthLvl = value);
 		layout();
 	}
 }

@@ -35,7 +35,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
-public class DisarmingTrap extends Trap{
+public class DisarmingTrap extends Trap {
 
 	{
 		color = RED;
@@ -44,16 +44,16 @@ public class DisarmingTrap extends Trap{
 
 	@Override
 	public void activate() {
-		Heap heap = Dungeon.level.heaps.get( pos );
+		Heap heap = Dungeon.level.heaps.get(pos);
 
-		if (heap != null){
+		if (heap != null) {
 			int cell = Dungeon.level.randomRespawnCell();
 
 			if (cell != -1) {
 				Item item = heap.pickUp();
-				Dungeon.level.drop( item, cell ).seen = true;
+				Dungeon.level.drop(item, cell).seen = true;
 				for (int i : PathFinder.NEIGHBOURS9)
-					Dungeon.level.visited[cell+i] = true;
+					Dungeon.level.visited[cell + i] = true;
 				GameScene.updateFog();
 
 				Sample.INSTANCE.play(Assets.SND_TELEPORT);
@@ -61,7 +61,7 @@ public class DisarmingTrap extends Trap{
 			}
 		}
 
-		if (Dungeon.hero.pos == pos && !Dungeon.hero.flying){
+		if (Dungeon.hero.pos == pos && !Dungeon.hero.flying) {
 			Hero hero = Dungeon.hero;
 			KindOfWeapon weapon = hero.belongings.weapon;
 
@@ -71,14 +71,14 @@ public class DisarmingTrap extends Trap{
 				if (cell != -1) {
 					hero.belongings.weapon = null;
 					Dungeon.quickslot.clearItem(weapon);
-					weapon.updateQuickslot();
+					Item.updateQuickslot();
 
 					Dungeon.level.drop(weapon, cell).seen = true;
 					for (int i : PathFinder.NEIGHBOURS9)
-						Dungeon.level.visited[cell+i] = true;
+						Dungeon.level.visited[cell + i] = true;
 					GameScene.updateFog();
 
-					GLog.w( Messages.get(this, "disarm") );
+					GLog.w(Messages.get(this, "disarm"));
 
 					Sample.INSTANCE.play(Assets.SND_TELEPORT);
 					CellEmitter.get(pos).burst(Speck.factory(Speck.LIGHT), 4);

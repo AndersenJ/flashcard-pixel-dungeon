@@ -32,23 +32,23 @@ public class Acidic extends Scorpio {
 
 	{
 		spriteClass = AcidicSprite.class;
-		
+
 		properties.add(Property.ACIDIC);
 	}
-	
+
 	@Override
-	public int defenseProc( Char enemy, int damage ) {
-		
-		int dmg = Random.IntRange( 0, damage );
+	public int defenseProc(Char enemy, int damage) {
+
+		int dmg = Random.IntRange(0, damage);
 		if (dmg > 0) {
-			enemy.damage( dmg, this );
+			enemy.damage(dmg, this);
 			if (!enemy.isAlive() && enemy == Dungeon.hero) {
 				Dungeon.fail(getClass());
 				GLog.n(Messages.capitalize(Messages.get(Char.class, "kill", name)));
 			}
 		}
-		
-		return super.defenseProc( enemy, damage );
+
+		return super.defenseProc(enemy, damage);
 	}
-	
+
 }

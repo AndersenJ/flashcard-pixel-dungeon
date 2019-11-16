@@ -62,6 +62,7 @@ public class FeatherFall extends Spell {
 		return Math.round(quantity * ((30 + 40) / 2f));
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
 		
 		{

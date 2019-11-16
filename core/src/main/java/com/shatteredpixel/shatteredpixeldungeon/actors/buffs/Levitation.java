@@ -29,45 +29,47 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.watabou.noosa.Image;
 
 public class Levitation extends FlavourBuff {
-	
+
 	{
 		type = buffType.POSITIVE;
 	}
 
-	public static final float DURATION	= 20f;
-	
+	public static final float DURATION = 20f;
+
 	@Override
-	public boolean attachTo( Char target ) {
-		if (super.attachTo( target )) {
+	public boolean attachTo(Char target) {
+		if (super.attachTo(target)) {
 			target.flying = true;
-			Roots.detach( target, Roots.class );
+			Roots.detach(target, Roots.class);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void detach() {
 		target.flying = false;
-		Dungeon.level.occupyCell(target );
+		Dungeon.level.occupyCell(target);
 		super.detach();
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.LEVITATION;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 5f, cooldown());
 	}
-	
+
 	@Override
 	public void fx(boolean on) {
-		if (on) target.sprite.add(CharSprite.State.LEVITATING);
-		else target.sprite.remove(CharSprite.State.LEVITATING);
+		if (on)
+			target.sprite.add(CharSprite.State.LEVITATING);
+		else
+			target.sprite.remove(CharSprite.State.LEVITATING);
 	}
 
 	@Override

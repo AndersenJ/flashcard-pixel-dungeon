@@ -27,19 +27,19 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.watabou.utils.Random;
 
 public class StripedRoom extends StandardRoom {
-	
+
 	@Override
 	public float[] sizeCatProbs() {
-		return new float[]{2, 1, 0};
+		return new float[] { 2, 1, 0 };
 	}
-	
+
 	@Override
 	public void paint(Level level) {
-		Painter.fill( level, this, Terrain.WALL );
+		Painter.fill(level, this, Terrain.WALL);
 		for (Door door : connected.values()) {
-			door.set( Door.Type.REGULAR );
+			door.set(Door.Type.REGULAR);
 		}
-		
+
 		if (sizeCat == SizeCategory.NORMAL) {
 			Painter.fill(level, this, 1, Terrain.EMPTY_SP);
 			if (width() > height() || (width() == height() && Random.Int(2) == 0)) {
@@ -51,10 +51,10 @@ public class StripedRoom extends StandardRoom {
 					Painter.fill(level, left + 1, i, width() - 2, 1, Terrain.HIGH_GRASS);
 				}
 			}
-			
-		} else if (sizeCat == SizeCategory.LARGE){
-			int layers = (Math.min(width(), height())-1)/2;
-			for (int i = 1; i <= layers; i++){
+
+		} else if (sizeCat == SizeCategory.LARGE) {
+			int layers = (Math.min(width(), height()) - 1) / 2;
+			for (int i = 1; i <= layers; i++) {
 				Painter.fill(level, this, i, (i % 2 == 1) ? Terrain.EMPTY_SP : Terrain.HIGH_GRASS);
 			}
 		}

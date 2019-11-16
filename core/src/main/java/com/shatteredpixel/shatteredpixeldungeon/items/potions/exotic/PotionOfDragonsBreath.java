@@ -43,64 +43,63 @@ import com.watabou.utils.PathFinder;
 import java.util.HashSet;
 
 public class PotionOfDragonsBreath extends ExoticPotion {
-	
+
 	{
 		initials = 6;
 	}
-	
-	//a lot of this is copy-paste from wand of fireblast
-	
-	//the actual affected cells
+
+	// a lot of this is copy-paste from wand of fireblast
+
+	// the actual affected cells
 	private HashSet<Integer> affectedCells;
-	//the cells to trace fire shots to, for visual effects.
+	// the cells to trace fire shots to, for visual effects.
 	private HashSet<Integer> visualCells;
 	private int direction = 0;
-	
+
 	@Override
-	//need to override drink so that time isn't spent right away
+	// need to override drink so that time isn't spent right away
 	protected void drink(final Hero hero) {
-		curItem = detach( hero.belongings.backpack );
+		curItem = detach(hero.belongings.backpack);
 		setKnown();
-		
+
 		GameScene.selectCell(targeter);
 	}
-	
+
 	private CellSelector.Listener targeter = new CellSelector.Listener() {
 		@Override
 		public void onSelect(final Integer cell) {
-			
-			if (cell == null){
-				//TODO if this can ever be found un-IDed, need logic for that
+
+			if (cell == null) {
+				// TODO if this can ever be found un-IDed, need logic for that
 				curItem.collect();
 			} else {
-				Sample.INSTANCE.play( Assets.SND_DRINK );
+				Sample.INSTANCE.play(Assets.SND_DRINK);
 				curUser.sprite.operate(curUser.pos, new Callback() {
 					@Override
 					public void call() {
-						
+
 						curUser.spend(1f);
 						curUser.sprite.idle();
 						curUser.sprite.zap(cell);
-						
-						final Ballistica bolt
-								= new Ballistica(curUser.pos, cell, Ballistica.MAGIC_BOLT);
-						
+
+						final Ballistica bolt = new Ballistica(curUser.pos, cell, Ballistica.MAGIC_BOLT);
+
 						affectedCells = new HashSet<>();
 						visualCells = new HashSet<>();
-						
+
 						int maxDist = 6;
 						int dist = Math.min(bolt.dist, maxDist);
-						
+
 						for (int i = 0; i < PathFinder.CIRCLE8.length; i++) {
 							if (bolt.sourcePos + PathFinder.CIRCLE8[i] == bolt.path.get(1)) {
 								direction = i;
 								break;
 							}
 						}
-						
+
 						float strength = maxDist;
 						for (int c : bolt.subPath(1, dist)) {
-							strength--; //as we start at dist 1, not 0.
+							strength--; // as we start at dist 1, not 0.
 							affectedCells.add(c);
 							if (strength > 1) {
 								spreadFlames(c + PathFinder.CIRCLE8[left(direction)], strength - 1);
@@ -110,59 +109,53 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 								visualCells.add(c);
 							}
 						}
-						
-						//going to call this one manually
+
+						// going to call this one manually
 						visualCells.remove(bolt.path.get(dist));
-						
+
 						for (int c : visualCells) {
-							//this way we only get the cells at the tip, much better performance.
-							((MagicMissile) curUser.sprite.parent.recycle(MagicMissile.class)).reset(
-									MagicMissile.FIRE_CONE,
-									curUser.sprite,
-									c,
-									null
-							);
+							// this way we only get the cells at the tip, much better performance.
+							((MagicMissile) curUser.sprite.parent.recycle(MagicMissile.class)).reset(MagicMissile.FIRE_CONE,
+									curUser.sprite, c, null);
 						}
-						
-						MagicMissile.boltFromChar(curUser.sprite.parent,
-								MagicMissile.FIRE_CONE,
-								curUser.sprite,
-								bolt.path.get(dist / 2),
-								new Callback() {
+
+						MagicMissile.boltFromChar(curUser.sprite.parent, MagicMissile.FIRE_CONE, curUser.sprite,
+								bolt.path.get(dist / 2), new Callback() {
 									@Override
 									public void call() {
-										for (int cell : affectedCells){
-											//ignore caster cell
-											if (cell == bolt.sourcePos){
+										for (int cell : affectedCells) {
+											// ignore caster cell
+											if (cell == bolt.sourcePos) {
 												continue;
 											}
-											
-											GameScene.add( Blob.seed( cell, 5, Fire.class ) );
-											
-											Char ch = Actor.findChar( cell );
+
+											GameScene.add(Blob.seed(cell, 5, Fire.class));
+
+											Char ch = Actor.findChar(cell);
 											if (ch != null) {
-												
-												Buff.affect( ch, Burning.class ).reignite( ch );
-												Buff.affect(ch, Cripple.class, 5f); break;
+
+												Buff.affect(ch, Burning.class).reignite(ch);
+												Buff.affect(ch, Cripple.class, 5f);
+												break;
 											}
 										}
 									}
 								});
-						
+
 					}
 				});
 			}
 		}
-		
+
 		@Override
 		public String prompt() {
 			return Messages.get(PotionOfDragonsBreath.class, "prompt");
 		}
 	};
-	
-	//burn... BURNNNNN!.....
-	private void spreadFlames(int cell, float strength){
-		if (strength >= 0 && (Dungeon.level.passable[cell] || Dungeon.level.flamable[cell])){
+
+	// burn... BURNNNNN!.....
+	private void spreadFlames(int cell, float strength) {
+		if (strength >= 0 && (Dungeon.level.passable[cell] || Dungeon.level.flamable[cell])) {
 			affectedCells.add(cell);
 			if (strength >= 1.5f) {
 				visualCells.remove(cell);
@@ -175,13 +168,13 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 		} else if (!Dungeon.level.passable[cell])
 			visualCells.add(cell);
 	}
-	
-	private int  left(int direction){
-		return direction == 0 ? 7 : direction-1;
+
+	private int left(int direction) {
+		return direction == 0 ? 7 : direction - 1;
 	}
-	
-	private int right(int direction){
-		return direction == 7 ? 0 : direction+1;
+
+	private int right(int direction) {
+		return direction == 7 ? 0 : direction + 1;
 	}
-	
+
 }

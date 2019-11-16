@@ -35,16 +35,24 @@ public class ImpShopRoom extends ShopRoom {
 
 	private boolean impSpawned = false;
 
-	//force a certain size here to guarantee enough room for 48 items, and the same center space
+	// force a certain size here to guarantee enough room for 48 items, and the same
+	// center space
 	@Override
 	public int minWidth() {
 		return 9;
 	}
+
 	public int minHeight() {
 		return 9;
 	}
-	public int maxWidth() { return 9; }
-	public int maxHeight() { return 9; }
+
+	public int maxWidth() {
+		return 9;
+	}
+
+	public int maxHeight() {
+		return 9;
+	}
 
 	@Override
 	public int maxConnections(int direction) {
@@ -53,15 +61,15 @@ public class ImpShopRoom extends ShopRoom {
 
 	@Override
 	public void paint(Level level) {
-		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.EMPTY_SP );
-		Painter.fill( level, this, 3, Terrain.WATER);
+		Painter.fill(level, this, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.EMPTY_SP);
+		Painter.fill(level, this, 3, Terrain.WATER);
 
 		for (Door door : connected.values()) {
-			door.set( Door.Type.REGULAR );
+			door.set(Door.Type.REGULAR);
 		}
 
-		if (Imp.Quest.isCompleted()){
+		if (Imp.Quest.isCompleted()) {
 			impSpawned = true;
 			placeItems(level);
 			placeShopkeeper(level);
@@ -78,19 +86,14 @@ public class ImpShopRoom extends ShopRoom {
 
 		Mob shopkeeper = new ImpShopkeeper();
 		shopkeeper.pos = pos;
-		level.mobs.add( shopkeeper );
+		level.mobs.add(shopkeeper);
 
 	}
 
-	//fix for connections not being bundled normally
+	// fix for connections not being bundled normally
 	@Override
 	public Door entrance() {
-		return connected.isEmpty() ? new Door(left, top+2) : super.entrance();
-	}
-
-	private void spawnShop(Level level){
-		impSpawned = true;
-		super.paint(level);
+		return connected.isEmpty() ? new Door(left, top + 2) : super.entrance();
 	}
 
 	private static final String IMP = "imp_spawned";
@@ -111,7 +114,7 @@ public class ImpShopRoom extends ShopRoom {
 	public void onLevelLoad(Level level) {
 		super.onLevelLoad(level);
 
-		if (Imp.Quest.isCompleted() && !impSpawned){
+		if (Imp.Quest.isCompleted() && !impSpawned) {
 			impSpawned = true;
 			placeItems(level);
 			placeShopkeeper(level);

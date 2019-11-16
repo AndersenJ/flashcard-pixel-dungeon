@@ -48,7 +48,7 @@ public class FetidRat extends Rat {
 	}
 
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 12;
 	}
 
@@ -58,17 +58,17 @@ public class FetidRat extends Rat {
 	}
 
 	@Override
-	public int attackProc( Char enemy, int damage ) {
-		damage = super.attackProc( enemy, damage );
+	public int attackProc(Char enemy, int damage) {
+		damage = super.attackProc(enemy, damage);
 		if (Random.Int(3) == 0) {
-			Buff.affect(enemy, Ooze.class).set( 20f );
+			Buff.affect(enemy, Ooze.class).set(20f);
 		}
 
 		return damage;
 	}
 
 	@Override
-	public int defenseProc( Char enemy, int damage ) {
+	public int defenseProc(Char enemy, int damage) {
 
 		GameScene.add(Blob.seed(pos, 20, StenchGas.class));
 
@@ -76,13 +76,13 @@ public class FetidRat extends Rat {
 	}
 
 	@Override
-	public void die( Object cause ) {
-		super.die( cause );
+	public void die(Object cause) {
+		super.die(cause);
 
 		Ghost.Quest.process();
 	}
-	
+
 	{
-		immunities.add( StenchGas.class );
+		immunities.add(StenchGas.class);
 	}
 }

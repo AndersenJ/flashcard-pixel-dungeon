@@ -36,11 +36,11 @@ public class OozeTrap extends Trap {
 
 	@Override
 	public void activate() {
-		Char ch = Actor.findChar( pos );
+		Char ch = Actor.findChar(pos);
 
-		if (ch != null && !ch.flying){
-			Buff.affect(ch, Ooze.class).set( 20f );
-			Splash.at( pos, 0x000000, 5);
+		if (ch != null && !ch.flying) {
+			Buff.affect(ch, Ooze.class).set(20f);
+			Splash.at(pos, 0x000000, 5);
 		}
 	}
 }

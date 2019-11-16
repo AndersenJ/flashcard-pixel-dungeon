@@ -41,6 +41,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SewerBossLevel extends SewerLevel {
 
@@ -48,52 +49,47 @@ public class SewerBossLevel extends SewerLevel {
 		color1 = 0x48763c;
 		color2 = 0x59994a;
 	}
-	
+
 	private int stairs = 0;
-	
+
 	@Override
-	protected ArrayList<Room> initRooms() {
-		ArrayList<Room> initRooms = new ArrayList<>();
-		
-		initRooms.add( roomEntrance = new SewerBossEntranceRoom() );
-		initRooms.add( roomExit = new SewerBossExitRoom() );
-		
+	protected List<Room> initRooms() {
+		List<Room> initRooms = new ArrayList<>();
+
+		initRooms.add(roomEntrance = new SewerBossEntranceRoom());
+		initRooms.add(roomExit = new SewerBossExitRoom());
+
 		int standards = standardRooms();
 		for (int i = 0; i < standards; i++) {
 			StandardRoom s = StandardRoom.createRoom();
-			//force to normal size
+			// force to normal size
 			s.setSizeCat(0, 0);
 			initRooms.add(s);
 		}
-		
+
 		GooBossRoom gooRoom = GooBossRoom.randomGooRoom();
 		initRooms.add(gooRoom);
-		((FigureEightBuilder)builder).setLandmarkRoom(gooRoom);
+		((FigureEightBuilder) builder).setLandmarkRoom(gooRoom);
 		initRooms.add(new RatKingRoom());
 		return initRooms;
 	}
-	
+
 	@Override
 	protected int standardRooms() {
-		//2 to 3, average 2.5
-		return 2+Random.chances(new float[]{1, 1});
+		// 2 to 3, average 2.5
+		return 2 + Random.chances(new float[] { 1, 1 });
 	}
-	
-	protected Builder builder(){
-		return new FigureEightBuilder()
-				.setLoopShape( 2 , Random.Float(0.4f, 0.7f), Random.Float(0f, 0.5f))
-				.setPathLength(1f, new float[]{1})
-				.setTunnelLength(new float[]{1, 2}, new float[]{1});
+
+	protected Builder builder() {
+		return new FigureEightBuilder().setLoopShape(2, Random.Float(0.4f, 0.7f), Random.Float(0f, 0.5f))
+				.setPathLength(1f, new float[] { 1 }).setTunnelLength(new float[] { 1, 2 }, new float[] { 1 });
 	}
-	
+
 	@Override
 	protected Painter painter() {
-		return new SewerPainter()
-				.setWater(0.50f, 5)
-				.setGrass(0.20f, 4)
-				.setTraps(nTraps(), trapClasses(), trapChances());
+		return new SewerPainter().setWater(0.50f, 5).setGrass(0.20f, 4).setTraps(nTraps(), trapClasses(), trapChances());
 	}
-	
+
 	protected int nTraps() {
 		return 0;
 	}
@@ -101,11 +97,11 @@ public class SewerBossLevel extends SewerLevel {
 	@Override
 	protected void createMobs() {
 	}
-	
+
 	public Actor respawner() {
 		return null;
 	}
-	
+
 	@Override
 	protected void createItems() {
 		Item item = Bones.get();
@@ -114,7 +110,7 @@ public class SewerBossLevel extends SewerLevel {
 			do {
 				pos = pointToCell(roomEntrance.random());
 			} while (pos == entrance || solid[pos]);
-			drop( item, pos ).setHauntedIfCursed(1f).type = Heap.Type.REMAINS;
+			drop(item, pos).setHauntedIfCursed(1f).type = Heap.Type.REMAINS;
 		}
 	}
 
@@ -127,55 +123,56 @@ public class SewerBossLevel extends SewerLevel {
 		return pos;
 	}
 
-	
 	public void seal() {
 		if (entrance != 0) {
 
 			super.seal();
-			
-			set( entrance, Terrain.WATER );
-			GameScene.updateMap( entrance );
-			GameScene.ripple( entrance );
-			
+
+			set(entrance, Terrain.WATER);
+			GameScene.updateMap(entrance);
+			GameScene.ripple(entrance);
+
 			stairs = entrance;
 			entrance = 0;
 		}
 	}
-	
+
 	public void unseal() {
 		if (stairs != 0) {
 
 			super.unseal();
-			
+
 			entrance = stairs;
 			stairs = 0;
-			
-			set( entrance, Terrain.ENTRANCE );
-			GameScene.updateMap( entrance );
+
+			set(entrance, Terrain.ENTRANCE);
+			GameScene.updateMap(entrance);
 
 		}
 	}
-	
+
 	@Override
 	public Group addVisuals() {
 		super.addVisuals();
-		if (map[exit-1] != Terrain.WALL_DECO) visuals.add(new PrisonLevel.Torch(exit-1));
-		if (map[exit+1] != Terrain.WALL_DECO) visuals.add(new PrisonLevel.Torch(exit+1));
+		if (map[exit - 1] != Terrain.WALL_DECO)
+			visuals.add(new PrisonLevel.Torch(exit - 1));
+		if (map[exit + 1] != Terrain.WALL_DECO)
+			visuals.add(new PrisonLevel.Torch(exit + 1));
 		return visuals;
 	}
-	
-	private static final String STAIRS	= "stairs";
-	
+
+	private static final String STAIRS = "stairs";
+
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( STAIRS, stairs );
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(STAIRS, stairs);
 	}
-	
+
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		stairs = bundle.getInt( STAIRS );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		stairs = bundle.getInt(STAIRS);
 		roomExit = roomEntrance;
 	}
 }

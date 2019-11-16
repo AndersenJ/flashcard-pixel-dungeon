@@ -31,18 +31,18 @@ public class Blindness extends FlavourBuff {
 		type = buffType.NEGATIVE;
 		announced = true;
 	}
-	
+
 	@Override
 	public void detach() {
 		super.detach();
 		Dungeon.observe();
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.BLINDNESS;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");

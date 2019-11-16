@@ -49,7 +49,7 @@ public class WarpingTrap extends Trap {
 	public void activate() {
 		CellEmitter.get(pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
 		Sample.INSTANCE.play(Assets.SND_TELEPORT);
-		
+
 		Char ch = Actor.findChar(pos);
 		if (ch != null && !ch.flying) {
 			if (ch instanceof Hero) {
@@ -58,7 +58,7 @@ public class WarpingTrap extends Trap {
 				BArray.setFalse(Dungeon.level.mapped);
 				GameScene.updateFog();
 				Dungeon.observe();
-				
+
 			} else {
 				int count = 10;
 				int pos;
@@ -68,33 +68,33 @@ public class WarpingTrap extends Trap {
 						break;
 					}
 				} while (pos == -1);
-				
+
 				if (pos == -1 || Dungeon.bossLevel()) {
-					
+
 					GLog.w(Messages.get(ScrollOfTeleportation.class, "no_tele"));
-					
+
 				} else {
-					
+
 					ch.pos = pos;
 					if (ch instanceof Mob && ((Mob) ch).state == ((Mob) ch).HUNTING) {
 						((Mob) ch).state = ((Mob) ch).WANDERING;
 					}
 					ch.sprite.place(ch.pos);
 					ch.sprite.visible = Dungeon.level.heroFOV[pos];
-					
+
 				}
 			}
 		}
-		
+
 		Heap heap = Dungeon.level.heaps.get(pos);
-		
-		if (heap != null){
+
+		if (heap != null) {
 			int cell = Dungeon.level.randomRespawnCell();
-			
+
 			Item item = heap.pickUp();
-			
+
 			if (cell != -1) {
-				Dungeon.level.drop( item, cell );
+				Dungeon.level.drop(item, cell);
 			}
 		}
 

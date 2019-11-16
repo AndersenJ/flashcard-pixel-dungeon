@@ -24,7 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Sword extends MeleeWeapon {
-	
+
 	{
 		image = ItemSpriteSheet.SWORD;
 

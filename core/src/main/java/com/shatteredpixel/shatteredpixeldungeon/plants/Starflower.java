@@ -38,28 +38,28 @@ public class Starflower extends Plant {
 	}
 
 	@Override
-	public void activate( Char ch ) {
+	public void activate(Char ch) {
 
 		if (ch != null) {
 			Buff.prolong(ch, Bless.class, Bless.DURATION);
-			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
+			if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
 				Buff.prolong(ch, Recharging.class, Bless.DURATION);
 			}
 		}
 
-		if (Random.Int(5) == 0){
+		if (Random.Int(5) == 0) {
 			Dungeon.level.drop(new Seed(), pos).sprite.drop();
 		}
 	}
 
-	public static class Seed extends Plant.Seed{
+	public static class Seed extends Plant.Seed {
 
 		{
 			image = ItemSpriteSheet.SEED_STARFLOWER;
 
 			plantClass = Starflower.class;
 		}
-		
+
 		@Override
 		public int price() {
 			return 30 * quantity;

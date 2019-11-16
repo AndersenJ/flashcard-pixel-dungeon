@@ -32,7 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Flashbang extends Bomb {
-	
+
 	{
 		image = ItemSpriteSheet.FLASHBANG;
 	}
@@ -42,24 +42,24 @@ public class Flashbang extends Bomb {
 		super.explode(cell);
 
 		Level l = Dungeon.level;
-		for (Char ch : Actor.chars()){
-			if (ch.fieldOfView != null && ch.fieldOfView[cell]){
-				int power = 16 - 4*l.distance(ch.pos, cell);
-				if (power > 0){
+		for (Char ch : Actor.chars()) {
+			if (ch.fieldOfView != null && ch.fieldOfView[cell]) {
+				int power = 16 - 4 * l.distance(ch.pos, cell);
+				if (power > 0) {
 					Buff.prolong(ch, Blindness.class, power);
 					Buff.prolong(ch, Cripple.class, power);
 				}
-				if (ch == Dungeon.hero){
+				if (ch == Dungeon.hero) {
 					GameScene.flash(0xFFFFFF);
 				}
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (20 + 40);
 	}
 }

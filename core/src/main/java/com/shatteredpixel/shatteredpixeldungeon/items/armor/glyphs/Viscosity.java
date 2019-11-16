@@ -37,112 +37,112 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Viscosity extends Glyph {
-	
-	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing( 0x8844CC );
-	
-	@Override
-	public int proc( Armor armor, Char attacker, Char defender, int damage ) {
 
-		//FIXME this glyph should really just proc after DR is accounted for.
-		//should build in functionality for that, but this works for now
-		int realDamage = damage - Random.NormalIntRange( armor.DRMin(), armor.DRMax());
+	private static ItemSprite.Glowing PURPLE = new ItemSprite.Glowing(0x8844CC);
+
+	@Override
+	public int proc(Armor armor, Char attacker, Char defender, int damage) {
+
+		// FIXME this glyph should really just proc after DR is accounted for.
+		// should build in functionality for that, but this works for now
+		int realDamage = damage - Random.NormalIntRange(armor.DRMin(), armor.DRMax());
 
 		if (realDamage <= 0) {
 			return 0;
 		}
 
-		int level = Math.max( 0, armor.level() );
-		
-		float percent = (level+1)/(float)(level+6);
-		int amount = (int)Math.ceil(realDamage * percent);
+		int level = Math.max(0, armor.level());
 
-		DeferedDamage deferred = Buff.affect( defender, DeferedDamage.class );
-		deferred.prolong( amount );
-		
-		defender.sprite.showStatus( CharSprite.WARNING, Messages.get(this, "deferred", amount) );
-		
+		float percent = (level + 1) / (float) (level + 6);
+		int amount = (int) Math.ceil(realDamage * percent);
+
+		DeferedDamage deferred = Buff.affect(defender, DeferedDamage.class);
+		deferred.prolong(amount);
+
+		defender.sprite.showStatus(CharSprite.WARNING, Messages.get(this, "deferred", amount));
+
 		return damage - amount;
-		
+
 	}
 
 	@Override
 	public Glowing glowing() {
 		return PURPLE;
 	}
-	
+
 	public static class DeferedDamage extends Buff {
-		
+
 		{
 			type = buffType.NEGATIVE;
 		}
-		
+
 		protected int damage = 0;
-		
-		private static final String DAMAGE	= "damage";
-		
+
+		private static final String DAMAGE = "damage";
+
 		@Override
-		public void storeInBundle( Bundle bundle ) {
-			super.storeInBundle( bundle );
-			bundle.put( DAMAGE, damage );
-			
+		public void storeInBundle(Bundle bundle) {
+			super.storeInBundle(bundle);
+			bundle.put(DAMAGE, damage);
+
 		}
-		
+
 		@Override
-		public void restoreFromBundle( Bundle bundle ) {
-			super.restoreFromBundle( bundle );
-			damage = bundle.getInt( DAMAGE );
+		public void restoreFromBundle(Bundle bundle) {
+			super.restoreFromBundle(bundle);
+			damage = bundle.getInt(DAMAGE);
 		}
-		
+
 		@Override
-		public boolean attachTo( Char target ) {
-			if (super.attachTo( target )) {
-				postpone( TICK );
+		public boolean attachTo(Char target) {
+			if (super.attachTo(target)) {
+				postpone(TICK);
 				return true;
 			} else {
 				return false;
 			}
 		}
-		
-		public void prolong( int damage ) {
+
+		public void prolong(int damage) {
 			this.damage += damage;
 		}
-		
+
 		@Override
 		public int icon() {
 			return BuffIndicator.DEFERRED;
 		}
-		
+
 		@Override
 		public String toString() {
 			return Messages.get(this, "name");
 		}
-		
+
 		@Override
 		public boolean act() {
 			if (target.isAlive()) {
 
-				int damageThisTick = Math.max(1, (int)(damage*0.1f));
-				target.damage( damageThisTick, this );
+				int damageThisTick = Math.max(1, (int) (damage * 0.1f));
+				target.damage(damageThisTick, this);
 				if (target == Dungeon.hero && !target.isAlive()) {
 
-					Dungeon.fail( getClass() );
-					GLog.n( Messages.get(this, "ondeath") );
-					
+					Dungeon.fail(getClass());
+					GLog.n(Messages.get(this, "ondeath"));
+
 					Badges.validateDeathFromGlyph();
 				}
-				spend( TICK );
+				spend(TICK);
 
 				damage -= damageThisTick;
 				if (damage <= 0) {
 					detach();
 				}
-				
+
 			} else {
-				
+
 				detach();
-				
+
 			}
-			
+
 			return true;
 		}
 

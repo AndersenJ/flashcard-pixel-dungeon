@@ -30,32 +30,32 @@ import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 
 public class ToxicImbue extends Buff {
-	
+
 	{
 		type = buffType.POSITIVE;
 		announced = true;
 	}
 
-	public static final float DURATION	= 50f;
+	public static final float DURATION = 50f;
 
 	protected float left;
 
-	private static final String LEFT	= "left";
+	private static final String LEFT = "left";
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( LEFT, left );
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(LEFT, left);
 
 	}
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		left = bundle.getFloat( LEFT );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		left = bundle.getFloat(LEFT);
 	}
 
-	public void set( float duration ) {
+	public void set(float duration) {
 		this.left = duration;
 	}
 
@@ -65,9 +65,9 @@ public class ToxicImbue extends Buff {
 
 		spend(TICK);
 		left -= TICK;
-		if (left <= 0){
+		if (left <= 0) {
 			detach();
-		} else if (left < 5){
+		} else if (left < 5) {
 			BuffIndicator.refreshHero();
 		}
 
@@ -78,7 +78,7 @@ public class ToxicImbue extends Buff {
 	public int icon() {
 		return BuffIndicator.IMMUNITY;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		FlavourBuff.greyIcon(icon, 5f, left);
@@ -95,7 +95,7 @@ public class ToxicImbue extends Buff {
 	}
 
 	{
-		immunities.add( ToxicGas.class );
-		immunities.add( Poison.class );
+		immunities.add(ToxicGas.class);
+		immunities.add(Poison.class);
 	}
 }

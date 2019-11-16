@@ -36,33 +36,34 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class VaultRoom extends SpecialRoom {
 
-	public void paint( Level level ) {
+	public void paint(Level level) {
 
-		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.EMPTY_SP );
-		Painter.fill( level, this, 2, Terrain.EMPTY );
-		
+		Painter.fill(level, this, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.EMPTY_SP);
+		Painter.fill(level, this, 2, Terrain.EMPTY);
+
 		int cx = (left + right) / 2;
 		int cy = (top + bottom) / 2;
 		int c = cx + cy * level.width();
-		
+
 		Random.shuffle(prizeClasses);
-		
+
 		Item i1, i2;
-		i1 = prize( level );
-		i2 = prize( level );
-		level.drop( i1, c ).type = Heap.Type.CRYSTAL_CHEST;
-		level.drop( i2, c + PathFinder.NEIGHBOURS8[Random.Int( 8 )]).type = Heap.Type.CRYSTAL_CHEST;
-		level.addItemToSpawn( new CrystalKey( Dungeon.depth ) );
-		
-		entrance().set( Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey( Dungeon.depth ) );
+		i1 = prize(level);
+		i2 = prize(level);
+		level.drop(i1, c).type = Heap.Type.CRYSTAL_CHEST;
+		level.drop(i2, c + PathFinder.NEIGHBOURS8[Random.Int(8)]).type = Heap.Type.CRYSTAL_CHEST;
+		level.addItemToSpawn(new CrystalKey(Dungeon.depth));
+
+		entrance().set(Door.Type.LOCKED);
+		level.addItemToSpawn(new IronKey(Dungeon.depth));
 	}
-	
-	private Item prize( Level level ) {
+
+	private Item prize(Level level) {
 		Generator.Category cat = prizeClasses.remove(0);
 		Item prize = null;
 		do {
@@ -70,9 +71,7 @@ public class VaultRoom extends SpecialRoom {
 		} while (prize == null || Challenges.isItemBlocked(prize));
 		return prize;
 	}
-	
-	private ArrayList<Generator.Category> prizeClasses = new ArrayList<>(
-			Arrays.asList(Generator.Category.WAND,
-					Generator.Category.RING,
-					Generator.Category.ARTIFACT));
+
+	private List<Generator.Category> prizeClasses = new ArrayList<>(
+			Arrays.asList(Generator.Category.WAND, Generator.Category.RING, Generator.Category.ARTIFACT));
 }

@@ -30,50 +30,51 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 
 public class Alchemize extends Spell implements AlchemyScene.AlchemyProvider {
-	
+
 	{
 		image = ItemSpriteSheet.ALCHEMIZE;
 	}
-	
+
 	@Override
 	protected void onCast(Hero hero) {
 		if (hero.visibleEnemies() > hero.mindVisionEnemies.size()) {
-			GLog.i( Messages.get(this, "enemy_near") );
+			GLog.i(Messages.get(this, "enemy_near"));
 			return;
 		}
-		detach( curUser.belongings.backpack );
+		detach(curUser.belongings.backpack);
 		updateQuickslot();
 		AlchemyScene.setProvider(this);
 		ShatteredPixelDungeon.switchScene(AlchemyScene.class);
 	}
-	
+
 	@Override
 	public int getEnergy() {
 		return 0;
 	}
-	
+
 	@Override
 	public void spendEnergy(int reduction) {
-		//do nothing
+		// do nothing
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients, divided by output quantity
+		// prices of ingredients, divided by output quantity
 		return Math.round(quantity * ((40 + 40) / 4f));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{ArcaneCatalyst.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { ArcaneCatalyst.class, AlchemicalCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 6;
-			
+
 			output = Alchemize.class;
 			outQuantity = 4;
 		}
-		
+
 	}
 }

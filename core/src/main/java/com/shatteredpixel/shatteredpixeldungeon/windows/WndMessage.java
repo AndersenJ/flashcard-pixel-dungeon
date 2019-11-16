@@ -31,18 +31,16 @@ public class WndMessage extends Window {
 	private static final int WIDTH_P = 120;
 	private static final int WIDTH_L = 144;
 	private static final int MARGIN = 4;
-	
-	public WndMessage( String text ) {
-		
+
+	public WndMessage(String text) {
+
 		super();
-		
-		RenderedTextBlock info = PixelScene.renderTextBlock( text, 6 );
+
+		RenderedTextBlock info = PixelScene.renderTextBlock(text, 6);
 		info.maxWidth((SPDSettings.landscape() ? WIDTH_L : WIDTH_P) - MARGIN * 2);
 		info.setPos(MARGIN, MARGIN);
-		add( info );
+		add(info);
 
-		resize(
-			(int)info.width() + MARGIN * 2,
-			(int)info.height() + MARGIN * 2 );
+		resize((int) info.width() + MARGIN * 2, (int) info.height() + MARGIN * 2);
 	}
 }

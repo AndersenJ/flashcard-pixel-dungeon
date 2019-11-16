@@ -26,25 +26,25 @@ import com.watabou.utils.Random;
 
 //for wands that directly damage a target
 //wands with AOE effects count here (e.g. fireblast), but wands with indrect damage do not (e.g. venom, transfusion)
-public abstract class DamageWand extends Wand{
+public abstract class DamageWand extends Wand {
 
-	public int min(){
+	public int min() {
 		return min(level());
 	}
 
 	public abstract int min(int lvl);
 
-	public int max(){
+	public int max() {
 		return max(level());
 	}
 
 	public abstract int max(int lvl);
 
-	public int damageRoll(){
+	public int damageRoll() {
 		return Random.NormalIntRange(min(), max());
 	}
 
-	public int damageRoll(int lvl){
+	public int damageRoll(int lvl) {
 		return Random.NormalIntRange(min(lvl), max(lvl));
 	}
 

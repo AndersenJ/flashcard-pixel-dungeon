@@ -38,11 +38,11 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class CeremonialCandle extends Item {
 
-	//generated with the wandmaker quest
+	// generated with the wandmaker quest
 	public static int ritualPos;
 
 	{
@@ -76,21 +76,16 @@ public class CeremonialCandle extends Item {
 		checkCandles();
 	}
 
-	private static void checkCandles(){
+	private static void checkCandles() {
 		Heap heapTop = Dungeon.level.heaps.get(ritualPos - Dungeon.level.width());
 		Heap heapRight = Dungeon.level.heaps.get(ritualPos + 1);
 		Heap heapBottom = Dungeon.level.heaps.get(ritualPos + Dungeon.level.width());
 		Heap heapLeft = Dungeon.level.heaps.get(ritualPos - 1);
 
-		if (heapTop != null &&
-				heapRight != null &&
-				heapBottom != null &&
-				heapLeft != null){
+		if (heapTop != null && heapRight != null && heapBottom != null && heapLeft != null) {
 
-			if (heapTop.peek() instanceof CeremonialCandle &&
-					heapRight.peek() instanceof CeremonialCandle &&
-					heapBottom.peek() instanceof CeremonialCandle &&
-					heapLeft.peek() instanceof CeremonialCandle){
+			if (heapTop.peek() instanceof CeremonialCandle && heapRight.peek() instanceof CeremonialCandle
+					&& heapBottom.peek() instanceof CeremonialCandle && heapLeft.peek() instanceof CeremonialCandle) {
 
 				heapTop.pickUp();
 				heapRight.pickUp();
@@ -98,17 +93,17 @@ public class CeremonialCandle extends Item {
 				heapLeft.pickUp();
 
 				NewbornElemental elemental = new NewbornElemental();
-				Char ch = Actor.findChar( ritualPos );
+				Char ch = Actor.findChar(ritualPos);
 				if (ch != null) {
-					ArrayList<Integer> candidates = new ArrayList<>();
+					List<Integer> candidates = new ArrayList<>();
 					for (int n : PathFinder.NEIGHBOURS8) {
 						int cell = ritualPos + n;
-						if ((Dungeon.level.passable[cell] || Dungeon.level.avoid[cell]) && Actor.findChar( cell ) == null) {
-							candidates.add( cell );
+						if ((Dungeon.level.passable[cell] || Dungeon.level.avoid[cell]) && Actor.findChar(cell) == null) {
+							candidates.add(cell);
 						}
 					}
 					if (candidates.size() > 0) {
-						elemental.pos = Random.element( candidates );
+						elemental.pos = Random.element(candidates);
 					} else {
 						elemental.pos = ritualPos;
 					}
@@ -118,8 +113,8 @@ public class CeremonialCandle extends Item {
 				elemental.state = elemental.HUNTING;
 				GameScene.add(elemental, 1);
 
-				for (int i : PathFinder.NEIGHBOURS9){
-					CellEmitter.get(ritualPos+i).burst(ElmoParticle.FACTORY, 10);
+				for (int i : PathFinder.NEIGHBOURS9) {
+					CellEmitter.get(ritualPos + i).burst(ElmoParticle.FACTORY, 10);
 				}
 				Sample.INSTANCE.play(Assets.SND_BURNING);
 			}

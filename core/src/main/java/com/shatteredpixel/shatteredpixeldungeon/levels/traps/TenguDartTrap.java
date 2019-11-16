@@ -25,17 +25,17 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.NewTengu;
 
 public class TenguDartTrap extends PoisonDartTrap {
-	
+
 	{
 		canBeHidden = true;
 		canBeSearched = false;
 	}
-	
+
 	@Override
 	protected int poisonAmount() {
-		return 8; //17 damage total
+		return 8; // 17 damage total
 	}
-	
+
 	@Override
 	protected boolean canTarget(Char ch) {
 		return !(ch instanceof NewTengu);

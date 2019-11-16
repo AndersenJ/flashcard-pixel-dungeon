@@ -27,15 +27,16 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWea
 import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PinCushion extends Buff {
 
-	private ArrayList<MissileWeapon> items = new ArrayList<>();
+	private List<MissileWeapon> items = new ArrayList<>();
 
-	public void stick(MissileWeapon projectile){
-		for (Item item : items){
-			if (item.isSimilar(projectile)){
+	public void stick(MissileWeapon projectile) {
+		for (Item item : items) {
+			if (item.isSimilar(projectile)) {
 				item.merge(projectile);
 				return;
 			}
@@ -46,7 +47,7 @@ public class PinCushion extends Buff {
 	@Override
 	public void detach() {
 		for (Item item : items)
-			Dungeon.level.drop( item, target.pos).sprite.drop();
+			Dungeon.level.drop(item, target.pos).sprite.drop();
 		super.detach();
 	}
 
@@ -54,13 +55,13 @@ public class PinCushion extends Buff {
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
-		bundle.put( ITEMS , items );
+		bundle.put(ITEMS, items);
 		super.storeInBundle(bundle);
 	}
 
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
-		items = new ArrayList<>((Collection<MissileWeapon>) ((Collection<?>) bundle.getCollection(ITEMS)));
-		super.restoreFromBundle( bundle );
+		items = bundle.getCollection(ITEMS).stream().map(item -> (MissileWeapon) item).collect(Collectors.toList());
+		super.restoreFromBundle(bundle);
 	}
 }

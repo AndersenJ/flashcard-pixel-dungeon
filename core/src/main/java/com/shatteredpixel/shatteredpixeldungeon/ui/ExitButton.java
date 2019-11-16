@@ -46,22 +46,22 @@ public class ExitButton extends Button {
 		super.createChildren();
 
 		image = Icons.EXIT.get();
-		add( image );
+		add(image);
 	}
 
 	@Override
 	protected void layout() {
 		super.layout();
 
-		image.x = x + (width - image.width)/2f;
-		image.y = y + (height - image.height)/2f;
+		image.x = x + (width - image.width) / 2f;
+		image.y = y + (height - image.height) / 2f;
 		PixelScene.align(image);
 	}
 
 	@Override
 	protected void onPointerDown() {
-		image.brightness( 1.5f );
-		Sample.INSTANCE.play( Assets.SND_CLICK );
+		image.brightness(1.5f);
+		Sample.INSTANCE.play(Assets.SND_CLICK);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class ExitButton extends Button {
 		if (Game.scene() instanceof TitleScene) {
 			Game.instance.finish();
 		} else {
-			ShatteredPixelDungeon.switchNoFade( TitleScene.class );
+			ShatteredPixelDungeon.switchNoFade(TitleScene.class);
 		}
 	}
 }

@@ -32,6 +32,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScrollOfIdentify extends InventoryScroll {
 
@@ -41,36 +42,36 @@ public class ScrollOfIdentify extends InventoryScroll {
 
 		bones = true;
 	}
-	
+
 	@Override
 	public void empoweredRead() {
-		ArrayList<Item> unIDed = new ArrayList<>();
-		
-		for( Item i : curUser.belongings){
-			if (!i.isIdentified()){
+		List<Item> unIDed = new ArrayList<>();
+
+		for (Item i : curUser.belongings) {
+			if (!i.isIdentified()) {
 				unIDed.add(i);
 			}
 		}
-		
+
 		if (unIDed.size() > 1) {
 			Random.element(unIDed).identify();
-			Sample.INSTANCE.play( Assets.SND_TELEPORT );
+			Sample.INSTANCE.play(Assets.SND_TELEPORT);
 		}
-		
+
 		doRead();
 	}
-	
+
 	@Override
-	protected void onItemSelected( Item item ) {
-		
-		curUser.sprite.parent.add( new Identification( curUser.sprite.center().offset( 0, -16 ) ) );
-		
+	protected void onItemSelected(Item item) {
+
+		curUser.sprite.parent.add(new Identification(curUser.sprite.center().offset(0, -16)));
+
 		item.identify();
-		GLog.i( Messages.get(this, "it_is", item) );
-		
-		Badges.validateItemLevelAquired( item );
+		GLog.i(Messages.get(this, "it_is", item));
+
+		Badges.validateItemLevelAquired(item);
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 30 * quantity : super.price();

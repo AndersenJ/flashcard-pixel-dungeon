@@ -54,7 +54,7 @@ public class RotHeart extends Mob {
 
 	@Override
 	public void damage(int dmg, Object src) {
-		//TODO: when effect properties are done, change this to FIRE
+		// TODO: when effect properties are done, change this to FIRE
 		if (src instanceof Burning) {
 			destroy();
 			sprite.die();
@@ -72,7 +72,7 @@ public class RotHeart extends Mob {
 
 	@Override
 	public void beckon(int cell) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class RotHeart extends Mob {
 	@Override
 	public void destroy() {
 		super.destroy();
-		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[Dungeon.level.mobs.size()])){
-			if (mob instanceof RotLasher){
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[Dungeon.level.mobs.size()])) {
+			if (mob instanceof RotLasher) {
 				mob.die(null);
 			}
 		}
@@ -93,7 +93,7 @@ public class RotHeart extends Mob {
 	@Override
 	public void die(Object cause) {
 		super.die(cause);
-		Dungeon.level.drop( new Rotberry.Seed(), pos ).sprite.drop();
+		Dungeon.level.drop(new Rotberry.Seed(), pos).sprite.drop();
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class RotHeart extends Mob {
 	}
 
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 0;
 	}
 
@@ -115,14 +115,14 @@ public class RotHeart extends Mob {
 	public int drRoll() {
 		return Random.NormalIntRange(0, 5);
 	}
-	
+
 	{
-		immunities.add( Paralysis.class );
-		immunities.add( Amok.class );
-		immunities.add( Sleep.class );
-		immunities.add( ToxicGas.class );
-		immunities.add( Terror.class );
-		immunities.add( Vertigo.class );
+		immunities.add(Paralysis.class);
+		immunities.add(Amok.class);
+		immunities.add(Sleep.class);
+		immunities.add(ToxicGas.class);
+		immunities.add(Terror.class);
+		immunities.add(Vertigo.class);
 	}
 
 }

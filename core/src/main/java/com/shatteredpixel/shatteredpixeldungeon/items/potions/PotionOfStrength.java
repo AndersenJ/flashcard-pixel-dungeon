@@ -32,15 +32,15 @@ public class PotionOfStrength extends Potion {
 	{
 		initials = 10;
 	}
-	
+
 	@Override
-	public void apply( Hero hero ) {
+	public void apply(Hero hero) {
 		setKnown();
-		
+
 		hero.STR++;
-		hero.sprite.showStatus( CharSprite.POSITIVE, Messages.get(this, "msg_1") );
-		GLog.p( Messages.get(this, "msg_2") );
-		
+		hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "msg_1"));
+		GLog.p(Messages.get(this, "msg_2"));
+
 		Badges.validateStrengthAttained();
 	}
 

@@ -26,16 +26,16 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 
 public class PotionOfShielding extends ExoticPotion {
-	
+
 	{
 		initials = 3;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
 		setKnown();
-		
-		//~75% of a potion of healing
-		Buff.affect(hero, Barrier.class).setShield((int)(0.6f*hero.HT + 10));
+
+		// ~75% of a potion of healing
+		Buff.affect(hero, Barrier.class).setShield((int) (0.6f * hero.HT + 10));
 	}
 }

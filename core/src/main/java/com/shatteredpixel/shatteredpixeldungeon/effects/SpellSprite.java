@@ -32,71 +32,71 @@ import java.util.HashMap;
 
 public class SpellSprite extends Image {
 
-	public static final int FOOD		= 0;
-	public static final int MAP			= 1;
-	public static final int CHARGE		= 2;
-	public static final int MASTERY		= 3;
-	public static final int BERSERK     = 4;
-	
-	private static final int SIZE	= 16;
-	
+	public static final int FOOD = 0;
+	public static final int MAP = 1;
+	public static final int CHARGE = 2;
+	public static final int MASTERY = 3;
+	public static final int BERSERK = 4;
+
+	private static final int SIZE = 16;
+
 	private enum Phase {
 		FADE_IN, STATIC, FADE_OUT
 	}
-	
-	private static final float FADE_IN_TIME		= 0.2f;
-	private static final float STATIC_TIME		= 0.8f;
-	private static final float FADE_OUT_TIME	= 0.4f;
-	
+
+	private static final float FADE_IN_TIME = 0.2f;
+	private static final float STATIC_TIME = 0.8f;
+	private static final float FADE_OUT_TIME = 0.4f;
+
 	private static TextureFilm film;
-	
+
 	private Char target;
-	
+
 	private Phase phase;
 	private float duration;
 	private float passed;
-	
-	private static HashMap<Char,SpellSprite> all = new HashMap<>();
-	
+
+	private static HashMap<Char, SpellSprite> all = new HashMap<>();
+
 	public SpellSprite() {
-		super( Assets.SPELL_ICONS );
-		
+		super(Assets.SPELL_ICONS);
+
 		if (film == null) {
-			film = new TextureFilm( texture, SIZE );
+			film = new TextureFilm(texture, SIZE);
 		}
 	}
-	
-	public void reset( int index ) {
-		frame( film.get( index ) );
-		origin.set( width / 2, height / 2 );
-		
+
+	public void reset(int index) {
+		frame(film.get(index));
+		origin.set(width / 2, height / 2);
+
 		phase = Phase.FADE_IN;
-		
+
 		duration = FADE_IN_TIME;
 		passed = 0;
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
-		
+
 		if (target.sprite != null) {
 			x = target.sprite.center().x - SIZE / 2;
 			y = target.sprite.y - SIZE;
 		}
-		
+
 		switch (phase) {
 		case FADE_IN:
-			alpha( passed / duration );
-			scale.set( passed / duration );
+			alpha(passed / duration);
+			scale.set(passed / duration);
 			break;
 		case STATIC:
 			break;
 		case FADE_OUT:
-			alpha( 1 - passed / duration );
+			alpha(1 - passed / duration);
 			break;
 		}
-		
+
 		if ((passed += Game.elapsed) > duration) {
 			switch (phase) {
 			case FADE_IN:
@@ -111,32 +111,32 @@ public class SpellSprite extends Image {
 				kill();
 				break;
 			}
-			
+
 			passed = 0;
 		}
 	}
-	
+
 	@Override
 	public void kill() {
 		super.kill();
-		all.remove( target );
+		all.remove(target);
 	}
-	
-	public static void show( Char ch, int index ) {
-		
+
+	public static void show(Char ch, int index) {
+
 		if (!ch.sprite.visible) {
 			return;
 		}
-		
-		SpellSprite old = all.get( ch );
+
+		SpellSprite old = all.get(ch);
 		if (old != null) {
 			old.kill();
 		}
-		
+
 		SpellSprite sprite = GameScene.spellSprite();
 		sprite.revive();
-		sprite.reset( index );
+		sprite.reset(index);
 		sprite.target = ch;
-		all.put( ch,  sprite );
+		all.put(ch, sprite);
 	}
 }

@@ -29,51 +29,52 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Random;
 
 public class MeleeWeapon extends Weapon {
-	
+
 	public int tier;
 
 	@Override
 	public int min(int lvl) {
-		return  tier +  //base
-				lvl;    //level scaling
+		return tier + // base
+				lvl; // level scaling
 	}
 
 	@Override
 	public int max(int lvl) {
-		return  5*(tier+1) +    //base
-				lvl*(tier+1);   //level scaling
+		return 5 * (tier + 1) + // base
+				lvl * (tier + 1); // level scaling
 	}
 
-	public int STRReq(int lvl){
+	public int STRReq(int lvl) {
 		lvl = Math.max(0, lvl);
-		//strength req decreases at +1,+3,+6,+10,etc.
-		return (8 + tier * 2) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
+		// strength req decreases at +1,+3,+6,+10,etc.
+		return (8 + tier * 2) - (int) (Math.sqrt(8 * lvl + 1) - 1) / 2;
 	}
-	
+
 	@Override
 	public int damageRoll(Char owner) {
-		int damage = augment.damageFactor(super.damageRoll( owner ));
+		int damage = augment.damageFactor(super.damageRoll(owner));
 
 		if (owner instanceof Hero) {
-			int exStr = ((Hero)owner).STR() - STRReq();
+			int exStr = ((Hero) owner).STR() - STRReq();
 			if (exStr > 0) {
-				damage += Random.IntRange( 0, exStr );
+				damage += Random.IntRange(0, exStr);
 			}
 		}
-		
+
 		return damage;
 	}
-	
+
 	@Override
 	public String info() {
 
 		String info = desc();
 
 		if (levelKnown) {
-			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()), augment.damageFactor(max()), STRReq());
+			info += "\n\n" + Messages.get(MeleeWeapon.class, "stats_known", tier, augment.damageFactor(min()),
+					augment.damageFactor(max()), STRReq());
 			if (STRReq() > Dungeon.hero.STR()) {
 				info += " " + Messages.get(Weapon.class, "too_heavy");
-			} else if (Dungeon.hero.STR() > STRReq()){
+			} else if (Dungeon.hero.STR() > STRReq()) {
 				info += " " + Messages.get(Weapon.class, "excess_str", Dungeon.hero.STR() - STRReq());
 			}
 		} else {
@@ -84,38 +85,39 @@ public class MeleeWeapon extends Weapon {
 		}
 
 		String statsInfo = statsInfo();
-		if (!statsInfo.equals("")) info += "\n\n" + statsInfo;
+		if (!statsInfo.equals(""))
+			info += "\n\n" + statsInfo;
 
 		switch (augment) {
-			case SPEED:
-				info += "\n\n" + Messages.get(Weapon.class, "faster");
-				break;
-			case DAMAGE:
-				info += "\n\n" + Messages.get(Weapon.class, "stronger");
-				break;
-			case NONE:
+		case SPEED:
+			info += "\n\n" + Messages.get(Weapon.class, "faster");
+			break;
+		case DAMAGE:
+			info += "\n\n" + Messages.get(Weapon.class, "stronger");
+			break;
+		case NONE:
 		}
 
-		if (enchantment != null && (cursedKnown || !enchantment.curse())){
+		if (enchantment != null && (cursedKnown || !enchantment.curse())) {
 			info += "\n\n" + Messages.get(Weapon.class, "enchanted", enchantment.name());
 			info += " " + Messages.get(enchantment, "desc");
 		}
 
-		if (cursed && isEquipped( Dungeon.hero )) {
+		if (cursed && isEquipped(Dungeon.hero)) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed_worn");
 		} else if (cursedKnown && cursed) {
 			info += "\n\n" + Messages.get(Weapon.class, "cursed");
-		} else if (!isIdentified() && cursedKnown){
+		} else if (!isIdentified() && cursedKnown) {
 			info += "\n\n" + Messages.get(Weapon.class, "not_cursed");
 		}
-		
+
 		return info;
 	}
-	
-	public String statsInfo(){
+
+	public String statsInfo() {
 		return Messages.get(this, "stats_desc");
 	}
-	
+
 	@Override
 	public int price() {
 		int price = 20 * tier;

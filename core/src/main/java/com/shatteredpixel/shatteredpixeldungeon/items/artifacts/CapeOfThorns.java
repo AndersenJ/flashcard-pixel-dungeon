@@ -41,29 +41,29 @@ public class CapeOfThorns extends Artifact {
 		chargeCap = 100;
 		cooldown = 0;
 
-		defaultAction = "NONE"; //so it can be quickslotted
+		defaultAction = "NONE"; // so it can be quickslotted
 	}
 
 	@Override
 	protected ArtifactBuff passiveBuff() {
 		return new Thorns();
 	}
-	
+
 	@Override
 	public void charge(Hero target) {
 		if (cooldown == 0) {
 			charge += 4;
 			updateQuickslot();
 		}
-		if (charge >= chargeCap){
+		if (charge >= chargeCap) {
 			target.buff(Thorns.class).proc(0, null, null);
 		}
 	}
-	
+
 	@Override
 	public String desc() {
 		String desc = Messages.get(this, "desc");
-		if (isEquipped( Dungeon.hero )) {
+		if (isEquipped(Dungeon.hero)) {
 			desc += "\n\n";
 			if (cooldown == 0)
 				desc += Messages.get(this, "desc_inactive");
@@ -74,15 +74,15 @@ public class CapeOfThorns extends Artifact {
 		return desc;
 	}
 
-	public class Thorns extends ArtifactBuff{
+	public class Thorns extends ArtifactBuff {
 
 		@Override
-		public boolean act(){
+		public boolean act() {
 			if (cooldown > 0) {
 				cooldown--;
 				if (cooldown == 0) {
 					BuffIndicator.refreshHero();
-					GLog.w( Messages.get(this, "inert") );
+					GLog.w(Messages.get(this, "inert"));
 				}
 				updateQuickslot();
 			}
@@ -90,18 +90,18 @@ public class CapeOfThorns extends Artifact {
 			return true;
 		}
 
-		public int proc(int damage, Char attacker, Char defender){
-			if (cooldown == 0){
-				charge += damage*(0.5+level()*0.05);
-				if (charge >= chargeCap){
+		public int proc(int damage, Char attacker, Char defender) {
+			if (cooldown == 0) {
+				charge += damage * (0.5 + level() * 0.05);
+				if (charge >= chargeCap) {
 					charge = 0;
-					cooldown = 10+level();
-					GLog.p( Messages.get(this, "radiating") );
+					cooldown = 10 + level();
+					GLog.p(Messages.get(this, "radiating"));
 					BuffIndicator.refreshHero();
 				}
 			}
 
-			if (cooldown != 0){
+			if (cooldown != 0) {
 				int deflected = Random.NormalIntRange(0, damage);
 				damage -= deflected;
 
@@ -109,12 +109,12 @@ public class CapeOfThorns extends Artifact {
 					attacker.damage(deflected, this);
 				}
 
-				exp+= deflected;
+				exp += deflected;
 
-				if (exp >= (level()+1)*5 && level() < levelCap){
-					exp -= (level()+1)*5;
+				if (exp >= (level() + 1) * 5 && level() < levelCap) {
+					exp -= (level() + 1) * 5;
 					upgrade();
-					GLog.p( Messages.get(this, "levelup") );
+					GLog.p(Messages.get(this, "levelup"));
 				}
 
 			}
@@ -124,7 +124,7 @@ public class CapeOfThorns extends Artifact {
 
 		@Override
 		public String toString() {
-				return Messages.get(this, "name");
+			return Messages.get(this, "name");
 		}
 
 		@Override
@@ -141,13 +141,12 @@ public class CapeOfThorns extends Artifact {
 		}
 
 		@Override
-		public void detach(){
+		public void detach() {
 			cooldown = 0;
 			charge = 0;
 			super.detach();
 		}
 
 	}
-
 
 }

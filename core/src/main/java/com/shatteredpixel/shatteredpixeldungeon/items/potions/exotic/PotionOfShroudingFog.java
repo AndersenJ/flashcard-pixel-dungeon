@@ -29,22 +29,22 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Sample;
 
 public class PotionOfShroudingFog extends ExoticPotion {
-	
+
 	{
 		initials = 4;
 	}
-	
+
 	@Override
-	public void shatter( int cell ) {
-		
+	public void shatter(int cell) {
+
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
-			
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		GameScene.add( Blob.seed( cell, 1000, SmokeScreen.class ) );
+
+		GameScene.add(Blob.seed(cell, 1000, SmokeScreen.class));
 	}
-	
+
 }

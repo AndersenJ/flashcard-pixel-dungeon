@@ -56,9 +56,9 @@ public class LastLevel extends Level {
 	@Override
 	public void create() {
 		super.create();
-		for (int i=0; i < length(); i++) {
+		for (int i = 0; i < length(); i++) {
 			int flags = Terrain.flags[map[i]];
-			if ((flags & Terrain.PIT) != 0){
+			if ((flags & Terrain.PIT) != 0) {
 				passable[i] = avoid[i] = false;
 				solid[i] = true;
 			}
@@ -67,41 +67,42 @@ public class LastLevel extends Level {
 
 	@Override
 	protected boolean build() {
-		
+
 		setSize(16, 64);
-		Arrays.fill( map, Terrain.CHASM );
+		Arrays.fill(map, Terrain.CHASM);
 
-		int mid = width/2;
+		int mid = width / 2;
 
-		Painter.fill( this, 0, height-1, width, 1, Terrain.WALL );
-		Painter.fill( this, mid - 1, 10, 3, (height-11), Terrain.EMPTY);
-		Painter.fill( this, mid - 2, height - 3, 5, 1, Terrain.EMPTY);
-		Painter.fill( this, mid - 3, height - 2, 7, 1, Terrain.EMPTY);
+		Painter.fill(this, 0, height - 1, width, 1, Terrain.WALL);
+		Painter.fill(this, mid - 1, 10, 3, (height - 11), Terrain.EMPTY);
+		Painter.fill(this, mid - 2, height - 3, 5, 1, Terrain.EMPTY);
+		Painter.fill(this, mid - 3, height - 2, 7, 1, Terrain.EMPTY);
 
-		Painter.fill( this, mid - 2, 9, 5, 7, Terrain.EMPTY);
-		Painter.fill( this, mid - 3, 10, 7, 5, Terrain.EMPTY);
+		Painter.fill(this, mid - 2, 9, 5, 7, Terrain.EMPTY);
+		Painter.fill(this, mid - 3, 10, 7, 5, Terrain.EMPTY);
 
-		entrance = (height-2) * width() + mid;
+		entrance = (height - 2) * width() + mid;
 		map[entrance] = Terrain.ENTRANCE;
 
-		pedestal = 12*(width()) + mid;
+		pedestal = 12 * (width()) + mid;
 		map[pedestal] = Terrain.PEDESTAL;
-		map[pedestal-1-width()] = map[pedestal+1-width()] = map[pedestal-1+width()] = map[pedestal+1+width()] = Terrain.STATUE_SP;
+		map[pedestal - 1 - width()] = map[pedestal + 1
+				- width()] = map[pedestal - 1 + width()] = map[pedestal + 1 + width()] = Terrain.STATUE_SP;
 
 		exit = pedestal;
 
 		int pos = pedestal;
 
-		map[pos-width()] = map[pos-1] = map[pos+1] = map[pos-2] = map[pos+2] = Terrain.WATER;
-		pos+=width();
-		map[pos] = map[pos-2] = map[pos+2] = map[pos-3] = map[pos+3] = Terrain.WATER;
-		pos+=width();
-		map[pos-3] = map[pos-2] = map[pos-1] = map[pos] = map[pos+1] = map[pos+2] = map[pos+3] = Terrain.WATER;
-		pos+=width();
-		map[pos-2] = map[pos+2] = Terrain.WATER;
-		
-		for (int i=0; i < length(); i++) {
-			if (map[i] == Terrain.EMPTY && Random.Int( 10 ) == 0) {
+		map[pos - width()] = map[pos - 1] = map[pos + 1] = map[pos - 2] = map[pos + 2] = Terrain.WATER;
+		pos += width();
+		map[pos] = map[pos - 2] = map[pos + 2] = map[pos - 3] = map[pos + 3] = Terrain.WATER;
+		pos += width();
+		map[pos - 3] = map[pos - 2] = map[pos - 1] = map[pos] = map[pos + 1] = map[pos + 2] = map[pos + 3] = Terrain.WATER;
+		pos += width();
+		map[pos - 2] = map[pos + 2] = Terrain.WATER;
+
+		for (int i = 0; i < length(); i++) {
+			if (map[i] == Terrain.EMPTY && Random.Int(10) == 0) {
 				map[i] = Terrain.EMPTY_DECO;
 			}
 		}
@@ -110,12 +111,12 @@ public class LastLevel extends Level {
 
 		return true;
 	}
-	
+
 	@Override
 	public Mob createMob() {
 		return null;
 	}
-	
+
 	@Override
 	protected void createMobs() {
 	}
@@ -126,7 +127,7 @@ public class LastLevel extends Level {
 
 	@Override
 	protected void createItems() {
-		drop( new Amulet(), pedestal );
+		drop(new Amulet(), pedestal);
 	}
 
 	@Override
@@ -139,39 +140,39 @@ public class LastLevel extends Level {
 	}
 
 	@Override
-	public String tileName( int tile ) {
+	public String tileName(int tile) {
 		switch (tile) {
-			case Terrain.WATER:
-				return Messages.get(HallsLevel.class, "water_name");
-			case Terrain.GRASS:
-				return Messages.get(HallsLevel.class, "grass_name");
-			case Terrain.HIGH_GRASS:
-				return Messages.get(HallsLevel.class, "high_grass_name");
-			case Terrain.STATUE:
-			case Terrain.STATUE_SP:
-				return Messages.get(HallsLevel.class, "statue_name");
-			default:
-				return super.tileName( tile );
+		case Terrain.WATER:
+			return Messages.get(HallsLevel.class, "water_name");
+		case Terrain.GRASS:
+			return Messages.get(HallsLevel.class, "grass_name");
+		case Terrain.HIGH_GRASS:
+			return Messages.get(HallsLevel.class, "high_grass_name");
+		case Terrain.STATUE:
+		case Terrain.STATUE_SP:
+			return Messages.get(HallsLevel.class, "statue_name");
+		default:
+			return super.tileName(tile);
 		}
 	}
 
 	@Override
 	public String tileDesc(int tile) {
 		switch (tile) {
-			case Terrain.WATER:
-				return Messages.get(HallsLevel.class, "water_desc");
-			case Terrain.STATUE:
-			case Terrain.STATUE_SP:
-				return Messages.get(HallsLevel.class, "statue_desc");
-			case Terrain.BOOKSHELF:
-				return Messages.get(HallsLevel.class, "bookshelf_desc");
-			default:
-				return super.tileDesc( tile );
+		case Terrain.WATER:
+			return Messages.get(HallsLevel.class, "water_desc");
+		case Terrain.STATUE:
+		case Terrain.STATUE_SP:
+			return Messages.get(HallsLevel.class, "statue_desc");
+		case Terrain.BOOKSHELF:
+			return Messages.get(HallsLevel.class, "bookshelf_desc");
+		default:
+			return super.tileDesc(tile);
 		}
 	}
 
 	@Override
-	public Group addVisuals () {
+	public Group addVisuals() {
 		super.addVisuals();
 		HallsLevel.addHallsVisuals(this, visuals);
 		return visuals;
@@ -180,9 +181,9 @@ public class LastLevel extends Level {
 	@Override
 	public void restoreFromBundle(Bundle bundle) {
 		super.restoreFromBundle(bundle);
-		for (int i=0; i < length(); i++) {
+		for (int i = 0; i < length(); i++) {
 			int flags = Terrain.flags[map[i]];
-			if ((flags & Terrain.PIT) != 0){
+			if ((flags & Terrain.PIT) != 0) {
 				passable[i] = avoid[i] = false;
 				solid[i] = true;
 			}

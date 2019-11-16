@@ -32,7 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Ankh extends Item {
 
@@ -41,55 +41,55 @@ public class Ankh extends Item {
 	{
 		image = ItemSpriteSheet.ANKH;
 
-		//You tell the ankh no, don't revive me, and then it comes back to revive you again in another run.
-		//I'm not sure if that's enthusiasm or passive-aggression.
+		// You tell the ankh no, don't revive me, and then it comes back to revive you
+		// again in another run.
+		// I'm not sure if that's enthusiasm or passive-aggression.
 		bones = true;
 	}
 
 	private Boolean blessed = false;
-	
+
 	@Override
 	public boolean isUpgradable() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isIdentified() {
 		return true;
 	}
 
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions(hero);
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
 		DewVial vial = hero.belongings.getItem(DewVial.class);
 		if (vial != null && vial.isFull() && !blessed)
-			actions.add( AC_BLESS );
+			actions.add(AC_BLESS);
 		return actions;
 	}
 
 	@Override
-	public void execute( final Hero hero, String action ) {
+	public void execute(final Hero hero, String action) {
 
-		super.execute( hero, action );
+		super.execute(hero, action);
 
-		if (action.equals( AC_BLESS )) {
+		if (action.equals(AC_BLESS)) {
 
 			DewVial vial = hero.belongings.getItem(DewVial.class);
-			if (vial != null){
+			if (vial != null) {
 				blessed = true;
 				vial.empty();
-				GLog.p( Messages.get(this, "bless") );
-				hero.spend( 1f );
+				GLog.p(Messages.get(this, "bless"));
+				hero.spend(1f);
 				hero.busy();
 
-
-				Sample.INSTANCE.play( Assets.SND_DRINK );
+				Sample.INSTANCE.play(Assets.SND_DRINK);
 				CellEmitter.get(hero.pos).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
-				hero.sprite.operate( hero.pos );
+				hero.sprite.operate(hero.pos);
 			}
 		}
 	}
-	
+
 	@Override
 	public String desc() {
 		if (blessed)
@@ -98,11 +98,11 @@ public class Ankh extends Item {
 			return super.desc();
 	}
 
-	public Boolean isBlessed(){
+	public Boolean isBlessed() {
 		return blessed;
 	}
 
-	private static final Glowing WHITE = new Glowing( 0xFFFFCC );
+	private static final Glowing WHITE = new Glowing(0xFFFFCC);
 
 	@Override
 	public Glowing glowing() {
@@ -112,17 +112,17 @@ public class Ankh extends Item {
 	private static final String BLESSED = "blessed";
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
-		super.storeInBundle( bundle );
-		bundle.put( BLESSED, blessed );
+	public void storeInBundle(Bundle bundle) {
+		super.storeInBundle(bundle);
+		bundle.put(BLESSED, blessed);
 	}
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		blessed	= bundle.getBoolean( BLESSED );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		blessed = bundle.getBoolean(BLESSED);
 	}
-	
+
 	@Override
 	public int price() {
 		return 50 * quantity;

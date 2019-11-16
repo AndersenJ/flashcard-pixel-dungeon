@@ -40,7 +40,7 @@ import com.watabou.utils.Random;
 
 public class Guard extends Mob {
 
-	//they can only use their chains once
+	// they can only use their chains once
 	private boolean chainsUsed = false;
 
 	{
@@ -56,7 +56,7 @@ public class Guard extends Mob {
 		lootChance = 0.1667f;
 
 		properties.add(Property.UNDEAD);
-		
+
 		HUNTING = new Hunting();
 	}
 
@@ -65,34 +65,32 @@ public class Guard extends Mob {
 		return Random.NormalIntRange(4, 12);
 	}
 
-	private boolean chain(int target){
+	private boolean chain(int target) {
 		if (chainsUsed || enemy.properties().contains(Property.IMMOVABLE))
 			return false;
 
 		Ballistica chain = new Ballistica(pos, target, Ballistica.PROJECTILE);
 
-		if (chain.collisionPos != enemy.pos
-				|| chain.path.size() < 2
-				|| Dungeon.level.pit[chain.path.get(1)])
+		if (chain.collisionPos != enemy.pos || chain.path.size() < 2 || Dungeon.level.pit[chain.path.get(1)])
 			return false;
 		else {
 			int newPos = -1;
-			for (int i : chain.subPath(1, chain.dist)){
-				if (!Dungeon.level.solid[i] && Actor.findChar(i) == null){
+			for (int i : chain.subPath(1, chain.dist)) {
+				if (!Dungeon.level.solid[i] && Actor.findChar(i) == null) {
 					newPos = i;
 					break;
 				}
 			}
 
-			if (newPos == -1){
+			if (newPos == -1) {
 				return false;
 			} else {
 				final int newPosFinal = newPos;
 				this.target = newPos;
-				yell( Messages.get(this, "scorpion") );
+				yell(Messages.get(this, "scorpion"));
 				sprite.parent.add(new Chains(sprite.center(), enemy.sprite.center(), new Callback() {
 					public void call() {
-						Actor.addDelayed(new Pushing(enemy, enemy.pos, newPosFinal, new Callback(){
+						Actor.addDelayed(new Pushing(enemy, enemy.pos, newPosFinal, new Callback() {
 							public void call() {
 								enemy.pos = newPosFinal;
 								Dungeon.level.occupyCell(enemy);
@@ -114,7 +112,7 @@ public class Guard extends Mob {
 	}
 
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 14;
 	}
 
@@ -126,9 +124,9 @@ public class Guard extends Mob {
 	@Override
 	protected Item createLoot() {
 		Armor loot;
-		do{
+		do {
 			loot = Generator.randomArmor();
-		//50% chance of re-rolling tier 4 or 5 items
+			// 50% chance of re-rolling tier 4 or 5 items
 		} while (loot.tier >= 4 && Random.Int(2) == 0);
 		loot.level(0);
 		return loot;
@@ -147,25 +145,21 @@ public class Guard extends Mob {
 		super.restoreFromBundle(bundle);
 		chainsUsed = bundle.getBoolean(CHAINSUSED);
 	}
-	
-	private class Hunting extends Mob.Hunting{
+
+	private class Hunting extends Mob.Hunting {
 		@Override
-		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
+		public boolean act(boolean enemyInFOV, boolean justAlerted) {
 			enemySeen = enemyInFOV;
-			
-			if (!chainsUsed
-					&& enemyInFOV
-					&& !isCharmedBy( enemy )
-					&& !canAttack( enemy )
-					&& Dungeon.level.distance( pos, enemy.pos ) < 5
-					&& Random.Int(3) == 0
-					
-					&& chain(enemy.pos)){
+
+			if (!chainsUsed && enemyInFOV && !isCharmedBy(enemy) && !canAttack(enemy)
+					&& Dungeon.level.distance(pos, enemy.pos) < 5 && Random.Int(3) == 0
+
+					&& chain(enemy.pos)) {
 				return false;
 			} else {
-				return super.act( enemyInFOV, justAlerted );
+				return super.act(enemyInFOV, justAlerted);
 			}
-			
+
 		}
 	}
 }

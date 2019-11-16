@@ -35,18 +35,18 @@ public class PotionOfToxicGas extends Potion {
 	}
 
 	@Override
-	public void shatter( int cell ) {
+	public void shatter(int cell) {
 
 		if (Dungeon.level.heroFOV[cell]) {
 			setKnown();
 
-			splash( cell );
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+			splash(cell);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
 
-		GameScene.add( Blob.seed( cell, 1000, ToxicGas.class ) );
+		GameScene.add(Blob.seed(cell, 1000, ToxicGas.class));
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 30 * quantity : super.price();

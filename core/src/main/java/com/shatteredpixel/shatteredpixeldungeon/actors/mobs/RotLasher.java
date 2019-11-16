@@ -70,8 +70,8 @@ public class RotLasher extends Mob {
 
 	@Override
 	public int attackProc(Char enemy, int damage) {
-		damage = super.attackProc( enemy, damage );
-		Buff.affect( enemy, Cripple.class, 2f );
+		damage = super.attackProc(enemy, damage);
+		Buff.affect(enemy, Cripple.class, 2f);
 		return super.attackProc(enemy, damage);
 	}
 
@@ -96,7 +96,7 @@ public class RotLasher extends Mob {
 	}
 
 	@Override
-	public int attackSkill( Char target ) {
+	public int attackSkill(Char target) {
 		return 15;
 	}
 
@@ -104,10 +104,11 @@ public class RotLasher extends Mob {
 	public int drRoll() {
 		return Random.NormalIntRange(0, 8);
 	}
-	
+
 	{
-		immunities.add( ToxicGas.class );
+		immunities.add(ToxicGas.class);
 	}
 
-	private class Waiting extends Mob.Wandering{}
+	private class Waiting extends Mob.Wandering {
+	}
 }

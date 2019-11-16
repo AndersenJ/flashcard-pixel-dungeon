@@ -38,55 +38,54 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class AquaBlast extends TargetedSpell {
-	
+
 	{
 		image = ItemSpriteSheet.AQUA_BLAST;
 	}
-	
+
 	@Override
 	protected void affectTarget(Ballistica bolt, Hero hero) {
 		int cell = bolt.collisionPos;
-		
+
 		Splash.at(cell, 0x00AAFF, 10);
-		
-		for (int i : PathFinder.NEIGHBOURS9){
-			if (i == 0 || Random.Int(5) != 0){
+
+		for (int i : PathFinder.NEIGHBOURS9) {
+			if (i == 0 || Random.Int(5) != 0) {
 				int terr = Dungeon.level.map[cell + i];
-				if (terr == Terrain.EMPTY || terr == Terrain.GRASS ||
-						terr == Terrain.EMBERS || terr == Terrain.EMPTY_SP ||
-						terr == Terrain.HIGH_GRASS || terr == Terrain.FURROWED_GRASS ||
-						terr == Terrain.EMPTY_DECO) {
+				if (terr == Terrain.EMPTY || terr == Terrain.GRASS || terr == Terrain.EMBERS || terr == Terrain.EMPTY_SP
+						|| terr == Terrain.HIGH_GRASS || terr == Terrain.FURROWED_GRASS || terr == Terrain.EMPTY_DECO) {
 					Level.set(cell + i, Terrain.WATER);
 					GameScene.updateMap(cell + i);
 				}
 			}
 		}
-		
+
 		Char target = Actor.findChar(cell);
-		
-		if (target != null && target != hero){
-			//just enough to skip their current turn
+
+		if (target != null && target != hero) {
+			// just enough to skip their current turn
 			Buff.affect(target, Paralysis.class, 0f);
 		}
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients, divided by output quantity
+		// prices of ingredients, divided by output quantity
 		return Math.round(quantity * ((60 + 40) / 12f));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfStormClouds.class, ArcaneCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfStormClouds.class, ArcaneCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 4;
-			
+
 			output = AquaBlast.class;
 			outQuantity = 12;
 		}
-		
+
 	}
 }

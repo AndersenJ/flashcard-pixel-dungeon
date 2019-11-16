@@ -37,7 +37,7 @@ public class Slow extends FlavourBuff {
 	public int icon() {
 		return BuffIndicator.SLOW;
 	}
-	
+
 	@Override
 	public String toString() {
 		return Messages.get(this, "name");
@@ -47,5 +47,5 @@ public class Slow extends FlavourBuff {
 	public String desc() {
 		return Messages.get(this, "desc", dispTurns());
 	}
-	
+
 }

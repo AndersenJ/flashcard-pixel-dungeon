@@ -30,7 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 
-public class ChillingTrap extends Trap{
+public class ChillingTrap extends Trap {
 
 	{
 		color = WHITE;
@@ -39,12 +39,12 @@ public class ChillingTrap extends Trap{
 
 	@Override
 	public void activate() {
-		if (Dungeon.level.heroFOV[ pos ]){
-			Splash.at( pos, 0xFFB2D6FF, 5);
-			Sample.INSTANCE.play( Assets.SND_SHATTER );
+		if (Dungeon.level.heroFOV[pos]) {
+			Splash.at(pos, 0xFFB2D6FF, 5);
+			Sample.INSTANCE.play(Assets.SND_SHATTER);
 		}
-		
-		for( int i : PathFinder.NEIGHBOURS9) {
+
+		for (int i : PathFinder.NEIGHBOURS9) {
 			if (!Dungeon.level.solid[pos + i]) {
 				GameScene.add(Blob.seed(pos + i, 10, Freezing.class));
 			}

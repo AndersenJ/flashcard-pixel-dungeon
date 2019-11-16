@@ -30,7 +30,7 @@ import com.watabou.utils.Random;
 
 public class Thorns extends Armor.Glyph {
 
-	private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
+	private static ItemSprite.Glowing RED = new ItemSprite.Glowing(0x660022);
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
@@ -40,9 +40,9 @@ public class Thorns extends Armor.Glyph {
 		// lvl 0 - 16.7%
 		// lvl 1 - 28.6%
 		// lvl 2 - 37.5%
-		if ( Random.Int( level + 6) >= 5) {
+		if (Random.Int(level + 6) >= 5) {
 
-			Buff.affect( attacker, Bleeding.class).set( 4 + level );
+			Buff.affect(attacker, Bleeding.class).set(4 + level);
 
 		}
 

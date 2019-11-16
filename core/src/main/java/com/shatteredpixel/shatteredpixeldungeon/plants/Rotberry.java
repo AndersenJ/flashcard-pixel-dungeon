@@ -38,23 +38,23 @@ public class Rotberry extends Plant {
 	}
 
 	@Override
-	public void activate( Char ch ) {
-		if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN){
+	public void activate(Char ch) {
+		if (ch instanceof Hero && ((Hero) ch).subClass == HeroSubClass.WARDEN) {
 			Buff.affect(ch, AdrenalineSurge.class).reset(1, 200f);
 		}
-		
-		Dungeon.level.drop( new Seed(), pos ).sprite.drop();
+
+		Dungeon.level.drop(new Seed(), pos).sprite.drop();
 	}
-	
+
 	@Override
 	public void wither() {
-		Dungeon.level.uproot( pos );
-		
+		Dungeon.level.uproot(pos);
+
 		if (Dungeon.level.heroFOV[pos]) {
-			CellEmitter.get( pos ).burst( LeafParticle.GENERAL, 6 );
+			CellEmitter.get(pos).burst(LeafParticle.GENERAL, 6);
 		}
-		
-		//no warden benefit
+
+		// no warden benefit
 	}
 
 	public static class Seed extends Plant.Seed {
@@ -63,7 +63,7 @@ public class Rotberry extends Plant {
 
 			plantClass = Rotberry.class;
 		}
-		
+
 		@Override
 		public int price() {
 			return 30 * quantity;

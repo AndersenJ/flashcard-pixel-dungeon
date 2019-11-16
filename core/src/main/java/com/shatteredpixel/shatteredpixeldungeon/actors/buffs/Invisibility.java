@@ -35,18 +35,18 @@ import com.watabou.noosa.Image;
 
 public class Invisibility extends FlavourBuff {
 
-	public static final float DURATION	= 20f;
+	public static final float DURATION = 20f;
 
 	{
 		type = buffType.POSITIVE;
 		announced = true;
 	}
-	
+
 	@Override
-	public boolean attachTo( Char target ) {
-		if (super.attachTo( target )) {
+	public boolean attachTo(Char target) {
+		if (super.attachTo(target)) {
 			target.invisible++;
-			if (target instanceof Hero && ((Hero) target).subClass == HeroSubClass.ASSASSIN){
+			if (target instanceof Hero && ((Hero) target).subClass == HeroSubClass.ASSASSIN) {
 				Buff.affect(target, Preparation.class);
 			}
 			return true;
@@ -54,19 +54,19 @@ public class Invisibility extends FlavourBuff {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void detach() {
 		if (target.invisible > 0)
 			target.invisible--;
 		super.detach();
 	}
-	
+
 	@Override
 	public int icon() {
 		return BuffIndicator.INVISIBLE;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 5f, cooldown());
@@ -74,8 +74,10 @@ public class Invisibility extends FlavourBuff {
 
 	@Override
 	public void fx(boolean on) {
-		if (on) target.sprite.add( CharSprite.State.INVISIBLE );
-		else if (target.invisible == 0) target.sprite.remove( CharSprite.State.INVISIBLE );
+		if (on)
+			target.sprite.add(CharSprite.State.INVISIBLE);
+		else if (target.invisible == 0)
+			target.sprite.remove(CharSprite.State.INVISIBLE);
 	}
 
 	@Override
@@ -89,28 +91,28 @@ public class Invisibility extends FlavourBuff {
 	}
 
 	public static void dispel() {
-		Invisibility buff = Dungeon.hero.buff( Invisibility.class );
+		Invisibility buff = Dungeon.hero.buff(Invisibility.class);
 		if (buff != null) {
 			buff.detach();
 		}
-		CloakOfShadows.cloakStealth cloakBuff = Dungeon.hero.buff( CloakOfShadows.cloakStealth.class );
+		CloakOfShadows.cloakStealth cloakBuff = Dungeon.hero.buff(CloakOfShadows.cloakStealth.class);
 		if (cloakBuff != null) {
 			cloakBuff.dispel();
 		}
-		
-		//these aren't forms of invisibilty, but do dispel at the same time as it.
-		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff( TimekeepersHourglass.timeFreeze.class );
+
+		// these aren't forms of invisibilty, but do dispel at the same time as it.
+		TimekeepersHourglass.timeFreeze timeFreeze = Dungeon.hero.buff(TimekeepersHourglass.timeFreeze.class);
 		if (timeFreeze != null) {
 			timeFreeze.detach();
 		}
-		
-		Preparation prep = Dungeon.hero.buff( Preparation.class );
-		if (prep != null){
+
+		Preparation prep = Dungeon.hero.buff(Preparation.class);
+		if (prep != null) {
 			prep.detach();
 		}
-		
-		Swiftthistle.TimeBubble bubble =  Dungeon.hero.buff( Swiftthistle.TimeBubble.class );
-		if (bubble != null){
+
+		Swiftthistle.TimeBubble bubble = Dungeon.hero.buff(Swiftthistle.TimeBubble.class);
+		if (bubble != null) {
 			bubble.detach();
 		}
 	}

@@ -37,18 +37,18 @@ public class WandOfMagicMissile extends DamageWand {
 		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
 	}
 
-	public int min(int lvl){
-		return 2+lvl;
+	public int min(int lvl) {
+		return 2 + lvl;
 	}
 
-	public int max(int lvl){
-		return 8+2*lvl;
+	public int max(int lvl) {
+		return 8 + 2 * lvl;
 	}
-	
+
 	@Override
-	protected void onZap( Ballistica bolt ) {
-				
-		Char ch = Actor.findChar( bolt.collisionPos );
+	protected void onZap(Ballistica bolt) {
+
+		Char ch = Actor.findChar(bolt.collisionPos);
 		if (ch != null) {
 
 			processSoulMark(ch, chargesPerCast());
@@ -63,11 +63,11 @@ public class WandOfMagicMissile extends DamageWand {
 
 	@Override
 	public void onHit(MagesStaff staff, Char attacker, Char defender, int damage) {
-		Buff.prolong( attacker, Recharging.class, 1 + staff.level()/2f);
+		Buff.prolong(attacker, Recharging.class, 1 + staff.level() / 2f);
 		SpellSprite.show(attacker, SpellSprite.CHARGE);
 
 	}
-	
+
 	protected int initialCharges() {
 		return 3;
 	}

@@ -29,10 +29,10 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 //TODO figure out where this should go, tunnel room type perhaps?
 public class MazeRoom extends Room {
 
-	public void paint( Level level ) {
+	public void paint(Level level) {
 		Painter.fill(level, this, 1, Terrain.EMPTY);
 
-		//true = space, false = wall
+		// true = space, false = wall
 		Maze.allowDiagonals = false;
 		boolean[][] maze = Maze.generate(this);
 

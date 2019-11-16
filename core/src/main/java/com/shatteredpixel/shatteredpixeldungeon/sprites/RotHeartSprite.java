@@ -32,45 +32,45 @@ public class RotHeartSprite extends MobSprite {
 
 	private Emitter cloud;
 
-	public RotHeartSprite(){
+	public RotHeartSprite() {
 		super();
 
 		perspectiveRaise = 0.2f;
 
-		texture( Assets.ROT_HEART );
+		texture(Assets.ROT_HEART);
 
-		TextureFilm frames = new TextureFilm( texture, 16, 16 );
+		TextureFilm frames = new TextureFilm(texture, 16, 16);
 
-		idle = new MovieClip.Animation( 1, true );
-		idle.frames( frames, 0);
+		idle = new MovieClip.Animation(1, true);
+		idle.frames(frames, 0);
 
-		run = new MovieClip.Animation( 1, true );
-		run.frames( frames, 0 );
+		run = new MovieClip.Animation(1, true);
+		run.frames(frames, 0);
 
-		attack = new MovieClip.Animation( 1, false );
-		attack.frames( frames, 0 );
+		attack = new MovieClip.Animation(1, false);
+		attack.frames(frames, 0);
 
-		die = new MovieClip.Animation( 8, false );
-		die.frames( frames, 1, 2, 3, 4, 5, 6, 7, 7, 7 );
+		die = new MovieClip.Animation(8, false);
+		die.frames(frames, 1, 2, 3, 4, 5, 6, 7, 7, 7);
 
-		play( idle );
+		play(idle);
 	}
 
 	@Override
-	public void link( Char ch ) {
-		super.link( ch );
+	public void link(Char ch) {
+		super.link(ch);
 
 		renderShadow = false;
 
 		if (cloud == null) {
 			cloud = emitter();
-			cloud.pour( Speck.factory(Speck.TOXIC), 0.7f );
+			cloud.pour(Speck.factory(Speck.TOXIC), 0.7f);
 		}
 	}
 
 	@Override
 	public void turnTo(int from, int to) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override

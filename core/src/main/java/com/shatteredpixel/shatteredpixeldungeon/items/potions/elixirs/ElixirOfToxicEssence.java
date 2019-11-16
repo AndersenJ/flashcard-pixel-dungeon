@@ -30,41 +30,42 @@ import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfToxicGas;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class ElixirOfToxicEssence extends Elixir {
-	
+
 	{
-		//TODO finish visuals
+		// TODO finish visuals
 		image = ItemSpriteSheet.ELIXIR_TOXIC;
 	}
-	
+
 	@Override
 	public void apply(Hero hero) {
 		Buff.affect(hero, ToxicImbue.class).set(ToxicImbue.DURATION);
 		hero.sprite.emitter().burst(PoisonParticle.SPLASH, 10);
 	}
-	
+
 	@Override
 	protected int splashColor() {
 		return 0xFF00B34A;
 	}
-	
+
 	@Override
 	public int price() {
-		//prices of ingredients
+		// prices of ingredients
 		return quantity * (30 + 40);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static class Recipe extends com.shatteredpixel.shatteredpixeldungeon.items.Recipe.SimpleRecipe {
-		
+
 		{
-			inputs =  new Class[]{PotionOfToxicGas.class, AlchemicalCatalyst.class};
-			inQuantity = new int[]{1, 1};
-			
+			inputs = new Class[] { PotionOfToxicGas.class, AlchemicalCatalyst.class };
+			inQuantity = new int[] { 1, 1 };
+
 			cost = 6;
-			
+
 			output = ElixirOfToxicEssence.class;
 			outQuantity = 1;
 		}
-		
+
 	}
-	
+
 }

@@ -39,19 +39,16 @@ public class AboutScene extends PixelScene {
 
 	private static final String TTL_SHPX = "Shattered Pixel Dungeon";
 
-	private static final String TXT_SHPX =
-			"Design, Code, & Graphics: Evan";
+	private static final String TXT_SHPX = "Design, Code, & Graphics: Evan";
 
 	private static final String LNK_SHPX = "ShatteredPixel.com";
 
 	private static final String TTL_WATA = "Pixel Dungeon";
 
-	private static final String TXT_WATA =
-			"Code & Graphics: Watabou\n" +
-			"Music: Cube_Code";
-	
+	private static final String TXT_WATA = "Code & Graphics: Watabou\n" + "Music: Cube_Code";
+
 	private static final String LNK_WATA = "pixeldungeon.watabou.ru";
-	
+
 	@Override
 	public void create() {
 		super.create();
@@ -64,99 +61,90 @@ public class AboutScene extends PixelScene {
 		shpx.x = (colWidth - shpx.width()) / 2;
 		shpx.y = colTop;
 		align(shpx);
-		add( shpx );
+		add(shpx);
 
-		new Flare( 7, 64 ).color( 0x225511, true ).show( shpx, 0 ).angularSpeed = +20;
+		new Flare(7, 64).color(0x225511, true).show(shpx, 0).angularSpeed = +20;
 
-		RenderedTextBlock shpxtitle = renderTextBlock( TTL_SHPX, 8 );
-		shpxtitle.hardlight( Window.SHPX_COLOR );
-		add( shpxtitle );
+		RenderedTextBlock shpxtitle = renderTextBlock(TTL_SHPX, 8);
+		shpxtitle.hardlight(Window.SHPX_COLOR);
+		add(shpxtitle);
 
-		shpxtitle.setPos(
-				(colWidth - shpxtitle.width()) / 2,
-				shpx.y + shpx.height + 5
-		);
+		shpxtitle.setPos((colWidth - shpxtitle.width()) / 2, shpx.y + shpx.height + 5);
 		align(shpxtitle);
 
-		RenderedTextBlock shpxtext = renderTextBlock( TXT_SHPX, 8 );
-		shpxtext.maxWidth((int)Math.min(colWidth, 120));
-		add( shpxtext );
+		RenderedTextBlock shpxtext = renderTextBlock(TXT_SHPX, 8);
+		shpxtext.maxWidth((int) Math.min(colWidth, 120));
+		add(shpxtext);
 
 		shpxtext.setPos((colWidth - shpxtext.width()) / 2, shpxtitle.bottom() + 12);
 		align(shpxtext);
 
-		RenderedTextBlock shpxlink = renderTextBlock( LNK_SHPX, 8 );
+		RenderedTextBlock shpxlink = renderTextBlock(LNK_SHPX, 8);
 		shpxlink.maxWidth(shpxtext.maxWidth());
-		shpxlink.hardlight( Window.SHPX_COLOR );
-		add( shpxlink );
+		shpxlink.hardlight(Window.SHPX_COLOR);
+		add(shpxlink);
 
 		shpxlink.setPos((colWidth - shpxlink.width()) / 2, shpxtext.bottom() + 6);
 		align(shpxlink);
 
-		PointerArea shpxhotArea = new PointerArea( shpxlink.left(), shpxlink.top(), shpxlink.width(), shpxlink.height() ) {
+		PointerArea shpxhotArea = new PointerArea(shpxlink.left(), shpxlink.top(), shpxlink.width(), shpxlink.height()) {
 			@Override
-			protected void onClick( PointerEvent event ) {
-				DeviceCompat.openURI( "https://" + LNK_SHPX );
+			protected void onClick(PointerEvent event) {
+				DeviceCompat.openURI("https://" + LNK_SHPX);
 			}
 		};
-		add( shpxhotArea );
+		add(shpxhotArea);
 
 		Image wata = Icons.WATA.get();
 		wata.x = wataOffset + (colWidth - wata.width()) / 2;
-		wata.y = SPDSettings.landscape() ?
-						colTop:
-						shpxlink.top() + wata.height + 20;
+		wata.y = SPDSettings.landscape() ? colTop : shpxlink.top() + wata.height + 20;
 		align(wata);
-		add( wata );
+		add(wata);
 
-		new Flare( 7, 64 ).color( 0x112233, true ).show( wata, 0 ).angularSpeed = +20;
+		new Flare(7, 64).color(0x112233, true).show(wata, 0).angularSpeed = +20;
 
-		RenderedTextBlock wataTitle = renderTextBlock( TTL_WATA, 8 );
+		RenderedTextBlock wataTitle = renderTextBlock(TTL_WATA, 8);
 		wataTitle.hardlight(Window.TITLE_COLOR);
-		add( wataTitle );
+		add(wataTitle);
 
-		wataTitle.setPos(
-				wataOffset + (colWidth - wataTitle.width()) / 2,
-				wata.y + wata.height + 11
-		);
+		wataTitle.setPos(wataOffset + (colWidth - wataTitle.width()) / 2, wata.y + wata.height + 11);
 		align(wataTitle);
 
-		RenderedTextBlock wataText = renderTextBlock( TXT_WATA, 8 );
-		wataText.maxWidth((int)Math.min(colWidth, 120));
-		wataText.setHightlighting(false); //underscore in cube_code
-		add( wataText );
+		RenderedTextBlock wataText = renderTextBlock(TXT_WATA, 8);
+		wataText.maxWidth((int) Math.min(colWidth, 120));
+		wataText.setHightlighting(false); // underscore in cube_code
+		add(wataText);
 
 		wataText.setPos(wataOffset + (colWidth - wataText.width()) / 2, wataTitle.bottom() + 12);
 		align(wataText);
-		
-		RenderedTextBlock wataLink = renderTextBlock( LNK_WATA, 8 );
-		wataLink.maxWidth((int)Math.min(colWidth, 120));
+
+		RenderedTextBlock wataLink = renderTextBlock(LNK_WATA, 8);
+		wataLink.maxWidth((int) Math.min(colWidth, 120));
 		wataLink.hardlight(Window.TITLE_COLOR);
 		add(wataLink);
-		
-		wataLink.setPos(wataOffset + (colWidth - wataLink.width()) / 2 , wataText.bottom() + 6);
+
+		wataLink.setPos(wataOffset + (colWidth - wataLink.width()) / 2, wataText.bottom() + 6);
 		align(wataLink);
-		
-		PointerArea hotArea = new PointerArea( wataLink.left(), wataLink.top(), wataLink.width(), wataLink.height() ) {
+
+		PointerArea hotArea = new PointerArea(wataLink.left(), wataLink.top(), wataLink.width(), wataLink.height()) {
 			@Override
-			protected void onClick( PointerEvent event ) {
-				DeviceCompat.openURI( "https://" + LNK_WATA );
+			protected void onClick(PointerEvent event) {
+				DeviceCompat.openURI("https://" + LNK_WATA);
 			}
 		};
-		add( hotArea );
+		add(hotArea);
 
-		
 		Archs archs = new Archs();
-		archs.setSize( Camera.main.width, Camera.main.height );
-		addToBack( archs );
+		archs.setSize(Camera.main.width, Camera.main.height);
+		addToBack(archs);
 
 		ExitButton btnExit = new ExitButton();
-		btnExit.setPos( Camera.main.width - btnExit.width(), 0 );
-		add( btnExit );
+		btnExit.setPos(Camera.main.width - btnExit.width(), 0);
+		add(btnExit);
 
 		fadeIn();
 	}
-	
+
 	@Override
 	protected void onBackPressed() {
 		ShatteredPixelDungeon.switchNoFade(TitleScene.class);

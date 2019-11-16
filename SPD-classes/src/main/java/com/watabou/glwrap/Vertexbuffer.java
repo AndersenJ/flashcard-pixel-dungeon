@@ -21,10 +21,12 @@
 
 package com.watabou.glwrap;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Vertexbuffer {
 
@@ -32,9 +34,9 @@ public class Vertexbuffer {
 	private FloatBuffer vertices;
 	private int updateStart, updateEnd;
 
-	private static final ArrayList<Vertexbuffer> buffers = new ArrayList<>();
+	private static final List<Vertexbuffer> buffers = new ArrayList<>();
 
-	public Vertexbuffer( FloatBuffer vertices ) {
+	public Vertexbuffer(FloatBuffer vertices) {
 		synchronized (buffers) {
 			id = Gdx.gl.glGenBuffer();
 
@@ -46,18 +48,18 @@ public class Vertexbuffer {
 		}
 	}
 
-	//For flagging the buffer for a full update without changing anything
-	public void updateVertices(){
+	// For flagging the buffer for a full update without changing anything
+	public void updateVertices() {
 		updateVertices(vertices);
 	}
 
-	//For flagging an update with a full set of new data
-	public void updateVertices( FloatBuffer vertices ){
+	// For flagging an update with a full set of new data
+	public void updateVertices(FloatBuffer vertices) {
 		updateVertices(vertices, 0, vertices.limit());
 	}
 
-	//For flagging an update with a subset of data changed
-	public void updateVertices( FloatBuffer vertices, int start, int end){
+	// For flagging an update with a subset of data changed
+	public void updateVertices(FloatBuffer vertices, int start, int end) {
 		this.vertices = vertices;
 
 		if (updateStart == -1)
@@ -71,38 +73,39 @@ public class Vertexbuffer {
 			updateEnd = Math.max(end, updateEnd);
 	}
 
-	public void updateGLData(){
-		if (updateStart == -1) return;
+	public void updateGLData() {
+		if (updateStart == -1)
+			return;
 
 		vertices.position(updateStart);
 		bind();
 
-		if (updateStart == 0 && updateEnd == vertices.limit()){
-			Gdx.gl.glBufferData(Gdx.gl.GL_ARRAY_BUFFER, vertices.limit()*4, vertices, Gdx.gl.GL_DYNAMIC_DRAW);
+		if (updateStart == 0 && updateEnd == vertices.limit()) {
+			Gdx.gl.glBufferData(GL20.GL_ARRAY_BUFFER, vertices.limit() * 4, vertices, GL20.GL_DYNAMIC_DRAW);
 		} else {
-			Gdx.gl.glBufferSubData(Gdx.gl.GL_ARRAY_BUFFER, updateStart*4, (updateEnd - updateStart)*4, vertices);
+			Gdx.gl.glBufferSubData(GL20.GL_ARRAY_BUFFER, updateStart * 4, (updateEnd - updateStart) * 4, vertices);
 		}
 
 		release();
 		updateStart = updateEnd = -1;
 	}
 
-	public void bind(){
-		Gdx.gl.glBindBuffer(Gdx.gl.GL_ARRAY_BUFFER, id);
+	public void bind() {
+		Gdx.gl.glBindBuffer(GL20.GL_ARRAY_BUFFER, id);
 	}
 
-	public void release(){
-		Gdx.gl.glBindBuffer(Gdx.gl.GL_ARRAY_BUFFER, 0);
+	public void release() {
+		Gdx.gl.glBindBuffer(GL20.GL_ARRAY_BUFFER, 0);
 	}
 
-	public void delete(){
+	public void delete() {
 		synchronized (buffers) {
-			Gdx.gl.glDeleteBuffer( id );
+			Gdx.gl.glDeleteBuffer(id);
 			buffers.remove(this);
 		}
 	}
 
-	public static void refreshAllBuffers(){
+	public static void refreshAllBuffers() {
 		synchronized (buffers) {
 			for (Vertexbuffer buf : buffers) {
 				buf.updateVertices();

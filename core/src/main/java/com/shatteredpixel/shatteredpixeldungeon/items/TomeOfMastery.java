@@ -34,37 +34,37 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseWay;
 import com.watabou.noosa.audio.Sample;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TomeOfMastery extends Item {
-	
+
 	public static final float TIME_TO_READ = 10;
-	
-	public static final String AC_READ	= "READ";
-	
+
+	public static final String AC_READ = "READ";
+
 	{
 		stackable = false;
 		image = ItemSpriteSheet.MASTERY;
-		
+
 		unique = true;
 	}
-	
+
 	@Override
-	public ArrayList<String> actions( Hero hero ) {
-		ArrayList<String> actions = super.actions( hero );
-		actions.add( AC_READ );
+	public List<String> actions(Hero hero) {
+		List<String> actions = super.actions(hero);
+		actions.add(AC_READ);
 		return actions;
 	}
-	
+
 	@Override
-	public void execute( Hero hero, String action ) {
+	public void execute(Hero hero, String action) {
 
-		super.execute( hero, action );
+		super.execute(hero, action);
 
-		if (action.equals( AC_READ )) {
-			
+		if (action.equals(AC_READ)) {
+
 			curUser = hero;
-			
+
 			HeroSubClass way1 = null;
 			HeroSubClass way2 = null;
 			switch (hero.heroClass) {
@@ -85,42 +85,42 @@ public class TomeOfMastery extends Item {
 				way2 = HeroSubClass.WARDEN;
 				break;
 			}
-			GameScene.show( new WndChooseWay( this, way1, way2 ) );
-			
+			GameScene.show(new WndChooseWay(this, way1, way2));
+
 		}
 	}
-	
+
 	@Override
-	public boolean doPickUp( Hero hero ) {
+	public boolean doPickUp(Hero hero) {
 		Badges.validateMastery();
-		return super.doPickUp( hero );
+		return super.doPickUp(hero);
 	}
-	
+
 	@Override
 	public boolean isUpgradable() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isIdentified() {
 		return true;
 	}
-	
-	public void choose( HeroSubClass way ) {
-		
-		detach( curUser.belongings.backpack );
-		
-		curUser.spend( TomeOfMastery.TIME_TO_READ );
+
+	public void choose(HeroSubClass way) {
+
+		detach(curUser.belongings.backpack);
+
+		curUser.spend(TomeOfMastery.TIME_TO_READ);
 		curUser.busy();
-		
+
 		curUser.subClass = way;
-		
-		curUser.sprite.operate( curUser.pos );
-		Sample.INSTANCE.play( Assets.SND_MASTERY );
-		
-		SpellSprite.show( curUser, SpellSprite.MASTERY );
-		curUser.sprite.emitter().burst( Speck.factory( Speck.MASTERY ), 12 );
-		GLog.w( Messages.get(this, "way", way.title()) );
-		
+
+		curUser.sprite.operate(curUser.pos);
+		Sample.INSTANCE.play(Assets.SND_MASTERY);
+
+		SpellSprite.show(curUser, SpellSprite.MASTERY);
+		curUser.sprite.emitter().burst(Speck.factory(Speck.MASTERY), 12);
+		GLog.w(Messages.get(this, "way", way.title()));
+
 	}
 }

@@ -38,11 +38,11 @@ public class BurningTrap extends Trap {
 
 	@Override
 	public void activate() {
-		
-		for( int i : PathFinder.NEIGHBOURS9) {
+
+		for (int i : PathFinder.NEIGHBOURS9) {
 			if (!Dungeon.level.solid[pos + i]) {
-				GameScene.add( Blob.seed( pos+i, 2, Fire.class ) );
-				CellEmitter.get( pos+i ).burst( FlameParticle.FACTORY, 5 );
+				GameScene.add(Blob.seed(pos + i, 2, Fire.class));
+				CellEmitter.get(pos + i).burst(FlameParticle.FACTORY, 5);
 			}
 		}
 

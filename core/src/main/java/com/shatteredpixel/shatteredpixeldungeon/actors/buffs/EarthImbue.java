@@ -30,15 +30,15 @@ import com.watabou.noosa.Image;
 
 //pre-0.7.0, otherwise unused
 public class EarthImbue extends FlavourBuff {
-	
+
 	{
 		type = buffType.POSITIVE;
 		announced = true;
 	}
 
-	public static final float DURATION	= 30f;
+	public static final float DURATION = 30f;
 
-	public void proc(Char enemy){
+	public void proc(Char enemy) {
 		Buff.affect(enemy, Cripple.class, 2);
 		CellEmitter.bottom(enemy.pos).start(EarthParticle.FACTORY, 0.05f, 8);
 	}
@@ -47,7 +47,7 @@ public class EarthImbue extends FlavourBuff {
 	public int icon() {
 		return BuffIndicator.ROOTS;
 	}
-	
+
 	@Override
 	public void tintIcon(Image icon) {
 		greyIcon(icon, 5f, cooldown());
@@ -62,5 +62,5 @@ public class EarthImbue extends FlavourBuff {
 	public String desc() {
 		return Messages.get(this, "desc", dispTurns());
 	}
-	
+
 }

@@ -24,11 +24,11 @@ package com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 
 public class Trident extends MissileWeapon {
-	
+
 	{
 		image = ItemSpriteSheet.TRIDENT;
-		
+
 		tier = 5;
 	}
-	
+
 }

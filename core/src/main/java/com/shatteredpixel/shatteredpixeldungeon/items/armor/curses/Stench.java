@@ -31,14 +31,14 @@ import com.watabou.utils.Random;
 
 public class Stench extends Armor.Glyph {
 
-	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing( 0x000000 );
+	private static ItemSprite.Glowing BLACK = new ItemSprite.Glowing(0x000000);
 
 	@Override
 	public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-		if ( Random.Int( 8 ) == 0) {
+		if (Random.Int(8) == 0) {
 
-			GameScene.add( Blob.seed( defender.pos, 250, ToxicGas.class ) );
+			GameScene.add(Blob.seed(defender.pos, 250, ToxicGas.class));
 
 		}
 

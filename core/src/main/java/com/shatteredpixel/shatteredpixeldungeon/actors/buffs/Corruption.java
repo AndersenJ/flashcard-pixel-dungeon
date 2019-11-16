@@ -34,22 +34,22 @@ public class Corruption extends Buff {
 	}
 
 	private float buildToDamage = 0f;
-	
+
 	@Override
 	public boolean attachTo(Char target) {
-		if (super.attachTo(target)){
+		if (super.attachTo(target)) {
 			target.alignment = Char.Alignment.ALLY;
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean act() {
-		buildToDamage += target.HT/200f;
+		buildToDamage += target.HT / 200f;
 
-		int damage = (int)buildToDamage;
+		int damage = (int) buildToDamage;
 		buildToDamage -= damage;
 
 		if (damage > 0)
@@ -62,8 +62,10 @@ public class Corruption extends Buff {
 
 	@Override
 	public void fx(boolean on) {
-		if (on) target.sprite.add( CharSprite.State.DARKENED );
-		else if (target.invisible == 0) target.sprite.remove( CharSprite.State.DARKENED );
+		if (on)
+			target.sprite.add(CharSprite.State.DARKENED);
+		else if (target.invisible == 0)
+			target.sprite.remove(CharSprite.State.DARKENED);
 	}
 
 	@Override

@@ -33,68 +33,68 @@ import com.watabou.utils.Bundle;
 
 public class Hunger extends Buff implements Hero.Doom {
 
-	private static final float STEP	= 10f;
+	private static final float STEP = 10f;
 
-	public static final float HUNGRY	= 300f;
-	public static final float STARVING	= 450f;
+	public static final float HUNGRY = 300f;
+	public static final float STARVING = 450f;
 
 	private float level;
 	private float partialDamage;
 
-	private static final String LEVEL			= "level";
-	private static final String PARTIALDAMAGE 	= "partialDamage";
+	private static final String LEVEL = "level";
+	private static final String PARTIALDAMAGE = "partialDamage";
 
 	@Override
-	public void storeInBundle( Bundle bundle ) {
+	public void storeInBundle(Bundle bundle) {
 		super.storeInBundle(bundle);
-		bundle.put( LEVEL, level );
-		bundle.put( PARTIALDAMAGE, partialDamage );
+		bundle.put(LEVEL, level);
+		bundle.put(PARTIALDAMAGE, partialDamage);
 	}
 
 	@Override
-	public void restoreFromBundle( Bundle bundle ) {
-		super.restoreFromBundle( bundle );
-		level = bundle.getFloat( LEVEL );
+	public void restoreFromBundle(Bundle bundle) {
+		super.restoreFromBundle(bundle);
+		level = bundle.getFloat(LEVEL);
 		partialDamage = bundle.getFloat(PARTIALDAMAGE);
 	}
 
 	@Override
 	public boolean act() {
 
-		if (Dungeon.level.locked || target.buff(WellFed.class) != null){
+		if (Dungeon.level.locked || target.buff(WellFed.class) != null) {
 			spend(STEP);
 			return true;
 		}
 
 		if (target.isAlive() && target instanceof Hero) {
 
-			Hero hero = (Hero)target;
+			Hero hero = (Hero) target;
 
 			if (isStarving()) {
 
-				partialDamage += STEP * target.HT/1000f;
+				partialDamage += STEP * target.HT / 1000f;
 
-				if (partialDamage > 1){
-					target.damage( (int)partialDamage, this);
-					partialDamage -= (int)partialDamage;
+				if (partialDamage > 1) {
+					target.damage((int) partialDamage, this);
+					partialDamage -= (int) partialDamage;
 				}
-				
+
 			} else {
 
 				float newLevel = level + STEP;
 				boolean statusUpdated = false;
 				if (newLevel >= STARVING) {
 
-					GLog.n( Messages.get(this, "onstarving") );
+					GLog.n(Messages.get(this, "onstarving"));
 					hero.resting = false;
-					hero.damage( 1, this );
+					hero.damage(1, this);
 					statusUpdated = true;
 
 					hero.interrupt();
 
 				} else if (newLevel >= HUNGRY && level < HUNGRY) {
 
-					GLog.w( Messages.get(this, "onhungry") );
+					GLog.w(Messages.get(this, "onhungry"));
 					statusUpdated = true;
 
 				}
@@ -105,8 +105,8 @@ public class Hunger extends Buff implements Hero.Doom {
 				}
 
 			}
-			
-			spend( target.buff( Shadows.class ) == null ? STEP : STEP * 1.5f );
+
+			spend(target.buff(Shadows.class) == null ? STEP : STEP * 1.5f);
 
 		} else {
 
@@ -117,19 +117,19 @@ public class Hunger extends Buff implements Hero.Doom {
 		return true;
 	}
 
-	public void satisfy( float energy ) {
+	public void satisfy(float energy) {
 
-		Artifact.ArtifactBuff buff = target.buff( HornOfPlenty.hornRecharge.class );
-		if (buff != null && buff.isCursed()){
+		Artifact.ArtifactBuff buff = target.buff(HornOfPlenty.hornRecharge.class);
+		if (buff != null && buff.isCursed()) {
 			energy *= 0.67f;
-			GLog.n( Messages.get(this, "cursedhorn") );
+			GLog.n(Messages.get(this, "cursedhorn"));
 		}
 
-		reduceHunger( energy );
+		reduceHunger(energy);
 	}
 
-	//directly interacts with hunger, no checks.
-	public void reduceHunger( float energy ) {
+	// directly interacts with hunger, no checks.
+	public void reduceHunger(float energy) {
 
 		level -= energy;
 		if (level < 0) {
@@ -137,7 +137,7 @@ public class Hunger extends Buff implements Hero.Doom {
 		} else if (level > STARVING) {
 			float excess = level - STARVING;
 			level = STARVING;
-			partialDamage += excess * (target.HT/1000f);
+			partialDamage += excess * (target.HT / 1000f);
 		}
 
 		BuffIndicator.refreshHero();
@@ -148,7 +148,7 @@ public class Hunger extends Buff implements Hero.Doom {
 	}
 
 	public int hunger() {
-		return (int)Math.ceil(level);
+		return (int) Math.ceil(level);
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class Hunger extends Buff implements Hero.Doom {
 
 		Badges.validateDeathFromHunger();
 
-		Dungeon.fail( getClass() );
-		GLog.n( Messages.get(this, "ondeath") );
+		Dungeon.fail(getClass());
+		GLog.n(Messages.get(this, "ondeath"));
 	}
 }

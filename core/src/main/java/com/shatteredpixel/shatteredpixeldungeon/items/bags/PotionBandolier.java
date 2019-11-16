@@ -34,7 +34,7 @@ public class PotionBandolier extends Bag {
 	}
 
 	@Override
-	public boolean grab( Item item ) {
+	public boolean grab(Item item) {
 		return item instanceof Potion;
 	}
 

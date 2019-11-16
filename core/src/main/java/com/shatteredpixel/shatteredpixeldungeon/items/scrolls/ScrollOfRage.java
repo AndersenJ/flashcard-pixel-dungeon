@@ -44,8 +44,8 @@ public class ScrollOfRage extends Scroll {
 	@Override
 	public void doRead() {
 
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
-			mob.beckon( curUser.pos );
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
+			mob.beckon(curUser.pos);
 			if (mob.alignment != Char.Alignment.ALLY && Dungeon.level.heroFOV[mob.pos]) {
 				Buff.prolong(mob, Amok.class, 5f);
 			}
@@ -53,41 +53,41 @@ public class ScrollOfRage extends Scroll {
 
 		for (Heap heap : Dungeon.level.heaps.valueList()) {
 			if (heap.type == Heap.Type.MIMIC) {
-				Mimic m = Mimic.spawnAt( heap.pos, heap.items );
+				Mimic m = Mimic.spawnAt(heap.pos, heap.items);
 				if (m != null) {
-					m.beckon( curUser.pos );
+					m.beckon(curUser.pos);
 					heap.destroy();
 				}
 			}
 		}
 
-		GLog.w( Messages.get(this, "roar") );
+		GLog.w(Messages.get(this, "roar"));
 		setKnown();
-		
-		curUser.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-		Sample.INSTANCE.play( Assets.SND_CHALLENGE );
+
+		curUser.sprite.centerEmitter().start(Speck.factory(Speck.SCREAM), 0.3f, 3);
+		Sample.INSTANCE.play(Assets.SND_CHALLENGE);
 		Invisibility.dispel();
 
 		readAnimation();
 	}
-	
+
 	@Override
 	public void empoweredRead() {
-		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {
+		for (Mob mob : Dungeon.level.mobs.toArray(new Mob[0])) {
 			if (Dungeon.level.heroFOV[mob.pos]) {
 				Buff.prolong(mob, Amok.class, 5f);
 			}
 		}
-		
+
 		setKnown();
-		
-		curUser.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-		Sample.INSTANCE.play( Assets.SND_READ );
+
+		curUser.sprite.centerEmitter().start(Speck.factory(Speck.SCREAM), 0.3f, 3);
+		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
-		
+
 		readAnimation();
 	}
-	
+
 	@Override
 	public int price() {
 		return isKnown() ? 40 * quantity : super.price();

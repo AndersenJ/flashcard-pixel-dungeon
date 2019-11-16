@@ -29,7 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.InterlevelScene;
 import com.watabou.noosa.Game;
 
-public class DistortionTrap extends Trap{
+public class DistortionTrap extends Trap {
 
 	{
 		color = TEAL;
@@ -40,16 +40,16 @@ public class DistortionTrap extends Trap{
 	public void activate() {
 		InterlevelScene.returnDepth = Dungeon.depth;
 		Belongings belongings = Dungeon.hero.belongings;
-		
-		for (Notes.Record rec : Notes.getRecords()){
-			if (rec.depth() == Dungeon.depth){
+
+		for (Notes.Record rec : Notes.getRecords()) {
+			if (rec.depth() == Dungeon.depth) {
 				Notes.remove(rec);
 			}
 		}
-		
-		for (Item i : belongings){
+
+		for (Item i : belongings) {
 			if (i instanceof LloydsBeacon && ((LloydsBeacon) i).returnDepth == Dungeon.depth)
-					((LloydsBeacon) i).returnDepth = -1;
+				((LloydsBeacon) i).returnDepth = -1;
 		}
 
 		InterlevelScene.mode = InterlevelScene.Mode.RESET;

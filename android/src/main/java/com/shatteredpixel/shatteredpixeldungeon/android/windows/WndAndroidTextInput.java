@@ -53,51 +53,51 @@ public class WndAndroidTextInput extends Window {
 
 	private EditText textInput;
 
-	private static final int WIDTH 			= 120;
-	private static final int W_LAND_MULTI 	= 200; //in the specific case of multiline in landscape
-	private static final int MARGIN 		= 2;
-	private static final int BUTTON_HEIGHT	= 16;
+	private static final int WIDTH = 120;
+	private static final int W_LAND_MULTI = 200; // in the specific case of multiline in landscape
+	private static final int MARGIN = 2;
+	private static final int BUTTON_HEIGHT = 16;
 
-	//default maximum lengths for inputted text
+	// default maximum lengths for inputted text
 	private static final int MAX_LEN_SINGLE = 20;
-	private static final int MAX_LEN_MULTI 	= 2000;
+	private static final int MAX_LEN_MULTI = 2000;
 
-	public WndAndroidTextInput(String title, String initialValue, boolean multiLine, String posTxt, String negTxt){
-		this( title, initialValue, multiLine ? MAX_LEN_MULTI : MAX_LEN_SINGLE, multiLine, posTxt, negTxt);
+	public WndAndroidTextInput(String title, String initialValue, boolean multiLine, String posTxt, String negTxt) {
+		this(title, initialValue, multiLine ? MAX_LEN_MULTI : MAX_LEN_SINGLE, multiLine, posTxt, negTxt);
 	}
 
 	public WndAndroidTextInput(final String title, final String initialValue, final int maxLength,
-	                           final boolean multiLine, final String posTxt, final String negTxt){
+			final boolean multiLine, final String posTxt, final String negTxt) {
 		super();
 
-		//need to offset to give space for the soft keyboard
+		// need to offset to give space for the soft keyboard
 		if (SPDSettings.landscape()) {
-			offset( multiLine ? -45 : -45 );
+			offset(multiLine ? -45 : -45);
 		} else {
-			offset( multiLine ? -60 : -45 );
+			offset(multiLine ? -60 : -45);
 		}
 
 		final int width;
-		if (SPDSettings.landscape() && multiLine){
-			width = W_LAND_MULTI; //more editing space for landscape users
+		if (SPDSettings.landscape() && multiLine) {
+			width = W_LAND_MULTI; // more editing space for landscape users
 		} else {
 			width = WIDTH;
 		}
-		
-		final RenderedTextBlock txtTitle = PixelScene.renderTextBlock( title, 9 );
-		txtTitle.maxWidth( width );
-		txtTitle.hardlight( Window.TITLE_COLOR );
-		txtTitle.setPos( (width - txtTitle.width()) /2, 2);
+
+		final RenderedTextBlock txtTitle = PixelScene.renderTextBlock(title, 9);
+		txtTitle.maxWidth(width);
+		txtTitle.hardlight(Window.TITLE_COLOR);
+		txtTitle.setPos((width - txtTitle.width()) / 2, 2);
 		add(txtTitle);
-		
-		final RedButton positiveBtn = new RedButton( posTxt ) {
+
+		final RedButton positiveBtn = new RedButton(posTxt) {
 			@Override
 			protected void onClick() {
-				onSelect( true );
+				onSelect(true);
 				hide();
 			}
 		};
-		
+
 		final RedButton negativeBtn;
 		if (negTxt != null) {
 			negativeBtn = new RedButton(negTxt) {
@@ -110,40 +110,43 @@ public class WndAndroidTextInput extends Window {
 		} else {
 			negativeBtn = null;
 		}
-		
-		((AndroidApplication)Gdx.app).runOnUiThread(new Runnable() {
+
+		((AndroidApplication) Gdx.app).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 
-				float pos = txtTitle.bottom() + 2*MARGIN;
+				float pos = txtTitle.bottom() + 2 * MARGIN;
 
-				textInput = new EditText((AndroidApplication)Gdx.app);
-				textInput.setText( initialValue );
-				if (!SPDSettings.systemFont()){
-					textInput.setTypeface( Typeface.createFromAsset(AndroidGame.instance.getAssets(), "pixel_font.ttf") );
+				textInput = new EditText((AndroidApplication) Gdx.app);
+				textInput.setText(initialValue);
+				if (!SPDSettings.systemFont()) {
+					textInput.setTypeface(Typeface.createFromAsset(AndroidGame.instance.getAssets(), "pixel_font.ttf"));
 				}
-				textInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
-				textInput.setInputType( InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES );
+				textInput.setFilters(new InputFilter[] { new InputFilter.LengthFilter(maxLength) });
+				textInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
-				//this accounts for the game resolution differing from the display resolution in power saver mode
+				// this accounts for the game resolution differing from the display resolution
+				// in power saver mode
 				final float scaledZoom;
-				scaledZoom = camera.zoom * (Game.dispWidth / (float)Game.width);
+				scaledZoom = camera.zoom * (Game.dispWidth / (float) Game.width);
 
-				//sets different visual style depending on whether this is a single or multi line input.
+				// sets different visual style depending on whether this is a single or multi
+				// line input.
 				final float inputHeight;
 				if (multiLine) {
 
 					textInput.setSingleLine(false);
-					//This is equivalent to PixelScene.renderText(6)
-					textInput.setTextSize( TypedValue.COMPLEX_UNIT_PX, 6*scaledZoom);
-					//8 lines of text (+1 line for padding)
-					inputHeight = 9*textInput.getLineHeight() / scaledZoom;
+					// This is equivalent to PixelScene.renderText(6)
+					textInput.setTextSize(TypedValue.COMPLEX_UNIT_PX, 6 * scaledZoom);
+					// 8 lines of text (+1 line for padding)
+					inputHeight = 9 * textInput.getLineHeight() / scaledZoom;
 
 				} else {
 
-					//sets to single line and changes enter key input to be the same as the positive button
+					// sets to single line and changes enter key input to be the same as the
+					// positive button
 					textInput.setSingleLine();
-					textInput.setOnEditorActionListener( new EditText.OnEditorActionListener() {
+					textInput.setOnEditorActionListener(new EditText.OnEditorActionListener() {
 						@Override
 						public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 							onSelect(true);
@@ -152,74 +155,77 @@ public class WndAndroidTextInput extends Window {
 						}
 					});
 
-					//doesn't let the keyboard take over the whole UI
-					textInput.setImeOptions( EditorInfo.IME_FLAG_NO_EXTRACT_UI );
+					// doesn't let the keyboard take over the whole UI
+					textInput.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 
-					//centers text
+					// centers text
 					textInput.setGravity(Gravity.CENTER);
 
-					//This is equivalent to PixelScene.renderText(9)
-					textInput.setTextSize( TypedValue.COMPLEX_UNIT_PX, 9*scaledZoom);
-					//1 line of text (+1 line for padding)
-					inputHeight = 2*textInput.getLineHeight() / scaledZoom;
+					// This is equivalent to PixelScene.renderText(9)
+					textInput.setTextSize(TypedValue.COMPLEX_UNIT_PX, 9 * scaledZoom);
+					// 1 line of text (+1 line for padding)
+					inputHeight = 2 * textInput.getLineHeight() / scaledZoom;
 
 				}
 
-				//We haven't added the textInput yet, but we can anticipate its height at this point.
+				// We haven't added the textInput yet, but we can anticipate its height at this
+				// point.
 				pos += inputHeight + MARGIN;
 
-				
 				if (negTxt != null)
-					positiveBtn.setRect( MARGIN, pos, (width - MARGIN * 3) / 2, BUTTON_HEIGHT );
+					positiveBtn.setRect(MARGIN, pos, (width - MARGIN * 3) / 2, BUTTON_HEIGHT);
 				else
-					positiveBtn.setRect( MARGIN, pos, width - MARGIN * 2, BUTTON_HEIGHT );
-				add( positiveBtn );
+					positiveBtn.setRect(MARGIN, pos, width - MARGIN * 2, BUTTON_HEIGHT);
+				add(positiveBtn);
 
-				if (negTxt != null){
-					negativeBtn.setRect( positiveBtn.right() + MARGIN, pos, (width - MARGIN * 3) / 2, BUTTON_HEIGHT );
-					add( negativeBtn );
+				if (negTxt != null) {
+					negativeBtn.setRect(positiveBtn.right() + MARGIN, pos, (width - MARGIN * 3) / 2, BUTTON_HEIGHT);
+					add(negativeBtn);
 				}
 
 				pos += BUTTON_HEIGHT + MARGIN;
 
-				//The layout of the TextEdit is in display pixel space, not ingame pixel space
-				// resize the window first so we can know the screen-space coordinates for the text input.
-				resize( width, (int)pos );
-				final int inputTop = (int)(camera.cameraToScreen(0, txtTitle.bottom() + 2*MARGIN).y * (Game.dispWidth / (float)Game.width));
+				// The layout of the TextEdit is in display pixel space, not ingame pixel space
+				// resize the window first so we can know the screen-space coordinates for the
+				// text input.
+				resize(width, (int) pos);
+				final int inputTop = (int) (camera.cameraToScreen(0, txtTitle.bottom() + 2 * MARGIN).y
+						* (Game.dispWidth / (float) Game.width));
 
-				//The text input exists in a separate view ontop of the normal game view.
+				// The text input exists in a separate view ontop of the normal game view.
 				// It visually appears to be a part of the game window but is infact a separate
 				// UI element from the game entirely.
-				FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams(
-						(int)((width - MARGIN*2)*scaledZoom),
-						(int)(inputHeight * scaledZoom),
-						Gravity.CENTER_HORIZONTAL);
+				FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams((int) ((width - MARGIN * 2) * scaledZoom),
+						(int) (inputHeight * scaledZoom), Gravity.CENTER_HORIZONTAL);
 				layout.setMargins(0, inputTop, 0, 0);
-				((AndroidApplication)Gdx.app).addContentView(textInput, layout);
+				((AndroidApplication) Gdx.app).addContentView(textInput, layout);
 			}
 		});
 	}
 
-	public String getText(){
+	public String getText() {
 		return textInput.getText().toString().trim();
 	}
 
-	protected void onSelect( boolean positive ) {}
+	protected void onSelect(boolean positive) {
+	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-		if (textInput != null){
-			((AndroidApplication)Gdx.app).runOnUiThread(new Runnable() {
+		if (textInput != null) {
+			((AndroidApplication) Gdx.app).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					//make sure we remove the edit text and soft keyboard
+					// make sure we remove the edit text and soft keyboard
 					((ViewGroup) textInput.getParent()).removeView(textInput);
 
-					InputMethodManager imm = (InputMethodManager)((AndroidApplication)Gdx.app).getSystemService(Activity.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(((AndroidGraphics)Gdx.app.getGraphics()).getView().getWindowToken(), 0);
+					InputMethodManager imm = (InputMethodManager) ((AndroidApplication) Gdx.app)
+							.getSystemService(Activity.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(((AndroidGraphics) Gdx.app.getGraphics()).getView().getWindowToken(), 0);
 
-					//Soft keyboard sometimes triggers software buttons, so make sure to reassert immersive
+					// Soft keyboard sometimes triggers software buttons, so make sure to reassert
+					// immersive
 					ShatteredPixelDungeon.updateSystemUI();
 
 					textInput = null;
@@ -227,9 +233,9 @@ public class WndAndroidTextInput extends Window {
 			});
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-		//Do nothing, prevents accidentally losing writing
+		// Do nothing, prevents accidentally losing writing
 	}
 }

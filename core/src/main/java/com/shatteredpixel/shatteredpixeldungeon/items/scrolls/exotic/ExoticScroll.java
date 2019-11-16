@@ -39,60 +39,59 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.shatteredpixel.shatteredpixeldungeon.items.stones.Runestone;
 import com.watabou.utils.Reflection;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class ExoticScroll extends Scroll {
-	
-	
-	public static final HashMap<Class<?extends Scroll>, Class<?extends ExoticScroll>> regToExo = new HashMap<>();
-	public static final HashMap<Class<?extends ExoticScroll>, Class<?extends Scroll>> exoToReg = new HashMap<>();
-	static{
+
+	public static final HashMap<Class<? extends Scroll>, Class<? extends ExoticScroll>> regToExo = new HashMap<>();
+	public static final HashMap<Class<? extends ExoticScroll>, Class<? extends Scroll>> exoToReg = new HashMap<>();
+	static {
 		regToExo.put(ScrollOfIdentify.class, ScrollOfDivination.class);
 		exoToReg.put(ScrollOfDivination.class, ScrollOfIdentify.class);
-		
+
 		regToExo.put(ScrollOfUpgrade.class, ScrollOfEnchantment.class);
 		exoToReg.put(ScrollOfEnchantment.class, ScrollOfUpgrade.class);
-		
+
 		regToExo.put(ScrollOfTerror.class, ScrollOfPetrification.class);
 		exoToReg.put(ScrollOfPetrification.class, ScrollOfTerror.class);
-		
+
 		regToExo.put(ScrollOfRemoveCurse.class, ScrollOfAntiMagic.class);
 		exoToReg.put(ScrollOfAntiMagic.class, ScrollOfRemoveCurse.class);
-		
+
 		regToExo.put(ScrollOfLullaby.class, ScrollOfAffection.class);
 		exoToReg.put(ScrollOfAffection.class, ScrollOfLullaby.class);
-		
+
 		regToExo.put(ScrollOfRage.class, ScrollOfConfusion.class);
 		exoToReg.put(ScrollOfConfusion.class, ScrollOfRage.class);
-		
+
 		regToExo.put(ScrollOfTerror.class, ScrollOfPetrification.class);
 		exoToReg.put(ScrollOfPetrification.class, ScrollOfTerror.class);
-		
+
 		regToExo.put(ScrollOfRecharging.class, ScrollOfMysticalEnergy.class);
 		exoToReg.put(ScrollOfMysticalEnergy.class, ScrollOfRecharging.class);
-		
+
 		regToExo.put(ScrollOfMagicMapping.class, ScrollOfForesight.class);
 		exoToReg.put(ScrollOfForesight.class, ScrollOfMagicMapping.class);
-		
+
 		regToExo.put(ScrollOfTeleportation.class, ScrollOfPassage.class);
 		exoToReg.put(ScrollOfPassage.class, ScrollOfTeleportation.class);
-		
+
 		regToExo.put(ScrollOfRetribution.class, ScrollOfPsionicBlast.class);
 		exoToReg.put(ScrollOfPsionicBlast.class, ScrollOfRetribution.class);
-		
+
 		regToExo.put(ScrollOfMirrorImage.class, ScrollOfPrismaticImage.class);
 		exoToReg.put(ScrollOfPrismaticImage.class, ScrollOfMirrorImage.class);
-		
+
 		regToExo.put(ScrollOfTransmutation.class, ScrollOfPolymorph.class);
 		exoToReg.put(ScrollOfPolymorph.class, ScrollOfTransmutation.class);
 	}
-	
+
 	@Override
 	public boolean isKnown() {
-		return anonymous || (handler != null && handler.isKnown( exoToReg.get(this.getClass()) ));
+		return anonymous || (handler != null && handler.isKnown(exoToReg.get(this.getClass())));
 	}
-	
+
 	@Override
 	public void setKnown() {
 		if (!isKnown()) {
@@ -100,7 +99,7 @@ public abstract class ExoticScroll extends Scroll {
 			updateQuickslot();
 		}
 	}
-	
+
 	@Override
 	public void reset() {
 		super.reset();
@@ -109,63 +108,63 @@ public abstract class ExoticScroll extends Scroll {
 			rune = handler.label(exoToReg.get(this.getClass()));
 		}
 	}
-	
+
 	@Override
 	public void empoweredRead() {
-	
+
 	}
-	
+
 	@Override
-	//20 gold more than its none-exotic equivalent
+	// 20 gold more than its none-exotic equivalent
 	public int price() {
 		return (Reflection.newInstance(exoToReg.get(getClass())).price() + 20) * quantity;
 	}
-	
+
 	public static class ScrollToExotic extends Recipe {
-		
+
 		@Override
-		public boolean testIngredients(ArrayList<Item> ingredients) {
+		public boolean testIngredients(List<Item> ingredients) {
 			int r = 0;
 			Scroll s = null;
-			
-			for (Item i : ingredients){
-				if (i instanceof Runestone){
+
+			for (Item i : ingredients) {
+				if (i instanceof Runestone) {
 					r++;
 				} else if (regToExo.containsKey(i.getClass())) {
-					s = (Scroll)i;
+					s = (Scroll) i;
 				}
 			}
-			
+
 			return s != null && r == 2;
 		}
-		
+
 		@Override
-		public int cost(ArrayList<Item> ingredients) {
+		public int cost(List<Item> ingredients) {
 			return 0;
 		}
-		
+
 		@Override
-		public Item brew(ArrayList<Item> ingredients) {
+		public Item brew(List<Item> ingredients) {
 			Item result = null;
-			
-			for (Item i : ingredients){
-				i.quantity(i.quantity()-1);
+
+			for (Item i : ingredients) {
+				i.quantity(i.quantity() - 1);
 				if (regToExo.containsKey(i.getClass())) {
 					result = Reflection.newInstance(regToExo.get(i.getClass()));
 				}
 			}
 			return result;
 		}
-		
+
 		@Override
-		public Item sampleOutput(ArrayList<Item> ingredients) {
-			for (Item i : ingredients){
+		public Item sampleOutput(List<Item> ingredients) {
+			for (Item i : ingredients) {
 				if (regToExo.containsKey(i.getClass())) {
 					return Reflection.newInstance(regToExo.get(i.getClass()));
 				}
 			}
 			return null;
-			
+
 		}
 	}
 }
