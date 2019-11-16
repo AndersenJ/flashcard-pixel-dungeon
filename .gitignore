@@ -18,3 +18,12 @@ local.properties
 #intellij project files
 *.iml
 *.idea
+
+# Maven build files
+bin/
+
+# Eclipse project files
+*.dat
+.project
+.classpath
+org.eclipse.buildship.core.prefs
