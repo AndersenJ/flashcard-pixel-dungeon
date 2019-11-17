@@ -85,6 +85,8 @@ public class Item implements Bundlable {
 	// whether an item can be included in heroes remains
 	public boolean bones = false;
 
+	public boolean isTemp = false;
+
 	private static Comparator<Item> itemComparator = new Comparator<Item>() {
 		@Override
 		public int compare(Item lhs, Item rhs) {
@@ -117,6 +119,10 @@ public class Item implements Bundlable {
 		Dungeon.level.drop(detachAll(hero.belongings.backpack), hero.pos).sprite.drop(hero.pos);
 	}
 
+	public void setTemp(boolean value) {
+		isTemp = value;
+	}
+
 	// resets an item's properties, to ensure consistency between runs
 	public void reset() {
 		// resets the name incase the language has changed.
@@ -140,7 +146,7 @@ public class Item implements Bundlable {
 
 		} else if (action.equals(AC_THROW)) {
 
-			if (hero.belongings.backpack.contains(this) || isEquipped(hero)) {
+			if (hero.belongings.backpack.contains(this) || isEquipped(hero) || isTemp) {
 				doThrow(hero);
 			}
 

@@ -49,6 +49,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.particles.WindParticle;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.MysticalCard;
 import com.shatteredpixel.shatteredpixeldungeon.items.Stylus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Torch;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
@@ -164,12 +165,17 @@ public abstract class Level implements Bundlable {
 	private static final String MOBS = "mobs";
 	private static final String BLOBS = "blobs";
 	private static final String FEELING = "feeling";
+	private static final int CARDS_TO_SPAWN = 12;
 
 	public void create() {
 
 		Random.seed(Dungeon.seedCurDepth());
 
 		if (!(Dungeon.bossLevel() || Dungeon.depth == 21) /* final shop floor */) {
+
+			for (int i = 0; i < CARDS_TO_SPAWN; ++i) {
+				addItemToSpawn(new MysticalCard());
+			}
 
 			if (Dungeon.isChallenged(Challenges.NO_FOOD)) {
 				addItemToSpawn(new SmallRation());

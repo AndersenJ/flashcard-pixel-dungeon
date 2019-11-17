@@ -1,6 +1,6 @@
 /*
  * Pixel Dungeon
- * Copyright (C) 2012-2015 Oleg Dolya
+ * Copyright (C) 2012-2015  Oleg Dolya
  *
  * Shattered Pixel Dungeon
  * Copyright (C) 2014-2019 Evan Debenham
@@ -18,7 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
 package com.shatteredpixel.shatteredpixeldungeon.ui;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
@@ -37,7 +36,10 @@ public enum Icons {
 	DEPTH, WARRIOR, MAGE, ROGUE, HUNTRESS,
 
 	// main menu icons
-	ENTER, GOLD, RANKINGS, BADGES, CHANGES, SHPX,
+	ENTER, FLASH_CARD, GOLD, RANKINGS, BADGES, CHANGES, SHPX,
+
+	// flash deck icons
+	ACTIVE, INACTIVE, EDIT, DELETE,
 
 	// misc icons
 	LIBGDX, WATA, WARNING;
@@ -136,6 +138,9 @@ public enum Icons {
 		case ENTER:
 			icon.frame(icon.texture.uvRect(0, 64, 17, 81));
 			break;
+		case FLASH_CARD:
+			icon.frame(icon.texture.uvRect(102, 64, 118, 81));
+			break;
 		case RANKINGS:
 			icon.frame(icon.texture.uvRect(17, 64, 34, 81));
 			break;
@@ -150,6 +155,19 @@ public enum Icons {
 			break;
 		case GOLD:
 			icon.frame(icon.texture.uvRect(85, 64, 102, 80));
+			break;
+
+		case ACTIVE:
+			icon.frame(icon.texture.uvRect(33, 95, 45, 107));
+			break;
+		case INACTIVE:
+			icon.frame(icon.texture.uvRect(49, 95, 61, 107));
+			break;
+		case EDIT:
+			icon.frame(icon.texture.uvRect(0, 94, 14, 108));
+			break;
+		case DELETE:
+			icon.frame(icon.texture.uvRect(16, 94, 30, 108));
 			break;
 
 		case LIBGDX:

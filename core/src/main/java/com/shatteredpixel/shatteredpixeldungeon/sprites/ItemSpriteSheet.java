@@ -671,6 +671,12 @@ public class ItemSpriteSheet {
 		assignItemRect(HOLSTER, 15, 16);
 	}
 
+	private static final int MYSTICAL = xy(1, 32);
+	public static final int MYSTICAL_CARD = MYSTICAL + 0;
+	static {
+		assignItemRect(MYSTICAL_CARD, 16, 16);
+	}
+
 	// 16 free slots
 
 	private static void assignItemRect(int item, int width, int height) {

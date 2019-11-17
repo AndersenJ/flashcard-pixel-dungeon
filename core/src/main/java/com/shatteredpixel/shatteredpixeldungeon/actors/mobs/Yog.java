@@ -159,11 +159,10 @@ public class Yog extends Mob {
 	public void beckon(int cell) {
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void die(Object cause) {
 
-		for (Mob mob : (Iterable<Mob>) Dungeon.level.mobs.clone()) {
+		for (Mob mob : Dungeon.level.mobs) {
 			if (mob instanceof BurningFist || mob instanceof RottingFist) {
 				mob.die(cause);
 			}

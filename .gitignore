@@ -23,7 +23,13 @@ local.properties
 bin/
 
 # Eclipse project files
-*.dat
 .project
 .classpath
-org.eclipse.buildship.core.prefs
+.settings
+
+# Game files
+game*/
+*.dat
+
+# Mac OS
+.DS_Store
