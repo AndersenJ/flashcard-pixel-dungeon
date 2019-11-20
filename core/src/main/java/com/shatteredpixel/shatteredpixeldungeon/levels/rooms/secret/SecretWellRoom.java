@@ -60,7 +60,7 @@ public class SecretWellRoom extends SecretRoom {
 
 		Painter.set(level, well, Terrain.WELL);
 
-		Class<? extends WellWater> waterClass = Random.element(WATERS).getClass().asSubclass(WellWater.class);
+		Class<? extends WellWater> waterClass = Random.element(WATERS).asSubclass(WellWater.class);
 
 		WellWater.seed(well.x + level.width() * well.y, 1, waterClass, level);
 

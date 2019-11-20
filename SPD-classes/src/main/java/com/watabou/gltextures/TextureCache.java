@@ -27,10 +27,11 @@ import com.watabou.glwrap.Texture;
 import com.watabou.noosa.Game;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TextureCache {
 
-	private static HashMap<Object, SmartTexture> all = new HashMap<>();
+	private static Map<Object, SmartTexture> all = new HashMap<>();
 
 	public synchronized static SmartTexture createSolid(int color) {
 		final String key = "1x1:" + color;

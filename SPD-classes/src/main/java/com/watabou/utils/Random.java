@@ -23,8 +23,8 @@ package com.watabou.utils;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Random {
 
@@ -117,7 +117,7 @@ public class Random {
 	@SuppressWarnings("unchecked")
 	// returns a key element from chances, the probability of each key is the weight
 	// value it maps to
-	public static <K> K chances(HashMap<K, Float> chances) {
+	public static <K> K chances(Map<K, Float> chances) {
 
 		int size = chances.size();
 

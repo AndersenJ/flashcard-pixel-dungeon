@@ -63,6 +63,7 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Yog extends Mob {
 
@@ -110,7 +111,7 @@ public class Yog extends Mob {
 	@Override
 	public void damage(int dmg, Object src) {
 
-		HashSet<Mob> fists = new HashSet<>();
+		Set<Mob> fists = new HashSet<>();
 
 		for (Mob mob : Dungeon.level.mobs)
 			if (mob instanceof RottingFist || mob instanceof BurningFist)

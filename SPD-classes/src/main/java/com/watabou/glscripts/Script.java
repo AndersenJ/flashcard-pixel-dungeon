@@ -26,10 +26,11 @@ import com.watabou.glwrap.Shader;
 import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Script extends Program {
 
-	private static final HashMap<Class<? extends Script>, Script> all = new HashMap<>();
+	private static final Map<Class<? extends Script>, Script> all = new HashMap<>();
 
 	private static Script curScript = null;
 	private static Class<? extends Script> curScriptClass = null;

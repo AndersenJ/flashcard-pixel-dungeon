@@ -41,8 +41,8 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ScrollOfDivination extends ExoticScroll {
 
@@ -61,9 +61,9 @@ public class ScrollOfDivination extends ExoticScroll {
 		Sample.INSTANCE.play(Assets.SND_READ);
 		Invisibility.dispel();
 
-		HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
-		HashSet<Class<? extends Scroll>> scrolls = Scroll.getUnknown();
-		HashSet<Class<? extends Ring>> rings = Ring.getUnknown();
+		Set<Class<? extends Potion>> potions = Potion.getUnknown();
+		Set<Class<? extends Scroll>> scrolls = Scroll.getUnknown();
+		Set<Class<? extends Ring>> rings = Ring.getUnknown();
 
 		int total = potions.size() + scrolls.size() + rings.size();
 

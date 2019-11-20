@@ -43,6 +43,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PointF;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MissileSprite extends ItemSprite implements Tweener.Listener {
 
@@ -79,7 +80,7 @@ public class MissileSprite extends ItemSprite implements Tweener.Listener {
 
 	private static final int DEFAULT_ANGULAR_SPEED = 720;
 
-	private static final HashMap<Class<? extends Item>, Integer> ANGULAR_SPEEDS = new HashMap<>();
+	private static final Map<Class<? extends Item>, Integer> ANGULAR_SPEEDS = new HashMap<>();
 	static {
 		ANGULAR_SPEEDS.put(Dart.class, 0);
 		ANGULAR_SPEEDS.put(ThrowingKnife.class, 0);

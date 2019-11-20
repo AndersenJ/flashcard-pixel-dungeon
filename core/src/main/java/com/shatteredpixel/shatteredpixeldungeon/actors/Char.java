@@ -89,6 +89,7 @@ import com.watabou.utils.Random;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Char extends Actor {
 
@@ -120,7 +121,7 @@ public abstract class Char extends Actor {
 
 	public boolean[] fieldOfView = null;
 
-	private HashSet<Buff> buffs = new HashSet<>();
+	private Set<Buff> buffs = new HashSet<>();
 
 	@Override
 	protected boolean act() {
@@ -478,8 +479,8 @@ public abstract class Char extends Actor {
 		return new HashSet<>(buffs);
 	}
 
-	public synchronized <T extends Buff> HashSet<T> buffs(Class<T> c) {
-		HashSet<T> filtered = new HashSet<>();
+	public synchronized <T extends Buff> Set<T> buffs(Class<T> c) {
+		Set<T> filtered = new HashSet<>();
 		for (Buff b : buffs) {
 			if (c.isInstance(b)) {
 				filtered.add(c.cast(b));
@@ -602,13 +603,13 @@ public abstract class Char extends Actor {
 		next();
 	}
 
-	protected final HashSet<Class<?>> resistances = new HashSet<>();
+	protected final Set<Class<?>> resistances = new HashSet<>();
 
 	// returns percent effectiveness after resistances
 	// TODO currently resistances reduce effectiveness by a static 50%, and do not
 	// stack.
 	public float resist(Class<?> effect) {
-		HashSet<Class<?>> resists = new HashSet<>(resistances);
+		Set<Class<?>> resists = new HashSet<>(resistances);
 		for (Property p : properties()) {
 			resists.addAll(p.resistances());
 		}
@@ -625,10 +626,10 @@ public abstract class Char extends Actor {
 		return result * RingOfElements.resist(this, effect);
 	}
 
-	protected final HashSet<Class<?>> immunities = new HashSet<>();
+	protected final Set<Class<?>> immunities = new HashSet<>();
 
 	public boolean isImmune(Class<?> effect) {
-		HashSet<Class<?>> immunes = new HashSet<>(immunities);
+		Set<Class<?>> immunes = new HashSet<>(immunities);
 		for (Property p : properties()) {
 			immunes.addAll(p.immunities());
 		}
@@ -644,9 +645,9 @@ public abstract class Char extends Actor {
 		return false;
 	}
 
-	protected HashSet<Property> properties = new HashSet<>();
+	protected Set<Property> properties = new HashSet<>();
 
-	public HashSet<Property> properties() {
+	public Set<Property> properties() {
 		return new HashSet<>(properties);
 	}
 
@@ -667,23 +668,23 @@ public abstract class Char extends Actor {
 				new HashSet<Class<?>>()),
 		IMMOVABLE;
 
-		private HashSet<Class<?>> resistances;
-		private HashSet<Class<?>> immunities;
+		private Set<Class<?>> resistances;
+		private Set<Class<?>> immunities;
 
 		Property() {
 			this(new HashSet<Class<?>>(), new HashSet<Class<?>>());
 		}
 
-		Property(HashSet<Class<?>> resistances, HashSet<Class<?>> immunities) {
+		Property(Set<Class<?>> resistances, Set<Class<?>> immunities) {
 			this.resistances = resistances;
 			this.immunities = immunities;
 		}
 
-		public HashSet<Class<?>> resistances() {
+		public Set<Class<?>> resistances() {
 			return new HashSet<>(resistances);
 		}
 
-		public HashSet<Class<?>> immunities() {
+		public Set<Class<?>> immunities() {
 			return new HashSet<>(immunities);
 		}
 	}

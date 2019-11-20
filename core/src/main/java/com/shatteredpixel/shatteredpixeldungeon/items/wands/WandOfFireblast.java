@@ -45,6 +45,7 @@ import com.watabou.utils.PathFinder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WandOfFireblast extends DamageWand {
 
@@ -65,9 +66,9 @@ public class WandOfFireblast extends DamageWand {
 	}
 
 	// the actual affected cells
-	private HashSet<Integer> affectedCells;
+	private Set<Integer> affectedCells;
 	// the cells to trace fire shots to, for visual effects.
-	private HashSet<Integer> visualCells;
+	private Set<Integer> visualCells;
 	private int direction = 0;
 
 	@Override

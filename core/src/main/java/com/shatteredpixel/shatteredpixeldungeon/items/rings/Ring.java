@@ -37,9 +37,9 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Ring extends KindofMisc {
 
@@ -49,13 +49,7 @@ public class Ring extends KindofMisc {
 			RingOfForce.class, RingOfFuror.class, RingOfHaste.class, RingOfEnergy.class, RingOfMight.class,
 			RingOfSharpshooting.class, RingOfTenacity.class, RingOfWealth.class, };
 
-	private static final HashMap<String, Integer> gems = new HashMap<>(Map.ofEntries(
-			Map.entry("garnet", ItemSpriteSheet.RING_GARNET), Map.entry("ruby", ItemSpriteSheet.RING_RUBY),
-			Map.entry("topaz", ItemSpriteSheet.RING_TOPAZ), Map.entry("emerald", ItemSpriteSheet.RING_EMERALD),
-			Map.entry("onyx", ItemSpriteSheet.RING_ONYX), Map.entry("opal", ItemSpriteSheet.RING_OPAL),
-			Map.entry("tourmaline", ItemSpriteSheet.RING_TOURMALINE), Map.entry("sapphire", ItemSpriteSheet.RING_SAPPHIRE),
-			Map.entry("amethyst", ItemSpriteSheet.RING_AMETHYST), Map.entry("quartz", ItemSpriteSheet.RING_QUARTZ),
-			Map.entry("agate", ItemSpriteSheet.RING_AGATE), Map.entry("diamond", ItemSpriteSheet.RING_DIAMOND)));
+	private static final Map<String, Integer> gems = getGems();
 
 	private static ItemStatusHandler<Ring> handler;
 
@@ -222,11 +216,11 @@ public class Ring extends KindofMisc {
 		return this;
 	}
 
-	public static HashSet<Class<? extends Ring>> getKnown() {
+	public static Set<Class<? extends Ring>> getKnown() {
 		return handler.known();
 	}
 
-	public static HashSet<Class<? extends Ring>> getUnknown() {
+	public static Set<Class<? extends Ring>> getUnknown() {
 		return handler.unknown();
 	}
 
@@ -318,5 +312,22 @@ public class Ring extends KindofMisc {
 			return Ring.this.soloBonus();
 		}
 
+	}
+
+	private static Map<String, Integer> getGems() {
+		Map<String, Integer> gems = new HashMap<>();
+		gems.put("garnet", ItemSpriteSheet.RING_GARNET);
+		gems.put("ruby", ItemSpriteSheet.RING_RUBY);
+		gems.put("topaz", ItemSpriteSheet.RING_TOPAZ);
+		gems.put("emerald", ItemSpriteSheet.RING_EMERALD);
+		gems.put("onyx", ItemSpriteSheet.RING_ONYX);
+		gems.put("opal", ItemSpriteSheet.RING_OPAL);
+		gems.put("tourmaline", ItemSpriteSheet.RING_TOURMALINE);
+		gems.put("sapphire", ItemSpriteSheet.RING_SAPPHIRE);
+		gems.put("amethyst", ItemSpriteSheet.RING_AMETHYST);
+		gems.put("quartz", ItemSpriteSheet.RING_QUARTZ);
+		gems.put("agate", ItemSpriteSheet.RING_AGATE);
+		gems.put("diamond", ItemSpriteSheet.RING_DIAMOND);
+		return gems;
 	}
 }

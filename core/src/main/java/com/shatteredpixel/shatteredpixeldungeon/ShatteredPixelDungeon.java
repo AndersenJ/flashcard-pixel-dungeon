@@ -135,7 +135,7 @@ public class ShatteredPixelDungeon extends Game {
 	public static void seamlessResetScene(SceneChangeCallback callback) {
 		if (scene() instanceof PixelScene) {
 			((PixelScene) scene()).saveWindows();
-			switchNoFade((Class<? extends PixelScene>) sceneClass.getClass().asSubclass(PixelScene.class), callback);
+			switchNoFade((Class<? extends PixelScene>) sceneClass.asSubclass(PixelScene.class), callback);
 		} else {
 			resetScene();
 		}

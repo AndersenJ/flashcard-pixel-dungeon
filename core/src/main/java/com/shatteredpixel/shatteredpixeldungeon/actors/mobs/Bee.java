@@ -33,6 +33,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
+import java.util.Set;
 
 //FIXME the AI for these things is becoming a complete mess, should refactor
 public class Bee extends Mob {
@@ -142,7 +143,7 @@ public class Bee extends Mob {
 					|| (alignment == Alignment.ALLY && enemy.alignment == Alignment.ALLY)) {
 
 				// find all mobs near the pot
-				HashSet<Char> enemies = new HashSet<>();
+				Set<Char> enemies = new HashSet<>();
 				for (Mob mob : Dungeon.level.mobs) {
 					if (!(mob == this) && Dungeon.level.distance(mob.pos, potPos) <= 3 && mob.alignment != Alignment.NEUTRAL
 							&& !(alignment == Alignment.ALLY && mob.alignment == Alignment.ALLY)) {

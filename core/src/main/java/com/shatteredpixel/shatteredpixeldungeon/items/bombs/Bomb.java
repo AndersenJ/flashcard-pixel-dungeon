@@ -60,6 +60,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Bomb extends Item {
 
@@ -346,7 +347,7 @@ public class Bomb extends Item {
 			validIngredients.put(MetalShard.class, ShrapnelBomb.class);
 		}
 
-		private static final HashMap<Class<? extends Bomb>, Integer> bombCosts = new HashMap<>();
+		private static final Map<Class<? extends Bomb>, Integer> bombCosts = new HashMap<>();
 		static {
 			bombCosts.put(FrostBomb.class, 2);
 			bombCosts.put(WoollyBomb.class, 2);

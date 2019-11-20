@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Mob extends Char {
 
@@ -226,7 +227,7 @@ public abstract class Mob extends Char {
 
 		if (newEnemy) {
 
-			HashSet<Char> enemies = new HashSet<>();
+			Set<Char> enemies = new HashSet<>();
 
 			// if the mob is amoked...
 			if (buff(Amok.class) != null) {

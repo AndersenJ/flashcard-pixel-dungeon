@@ -41,11 +41,12 @@ import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class ExoticScroll extends Scroll {
 
-	public static final HashMap<Class<? extends Scroll>, Class<? extends ExoticScroll>> regToExo = new HashMap<>();
-	public static final HashMap<Class<? extends ExoticScroll>, Class<? extends Scroll>> exoToReg = new HashMap<>();
+	public static final Map<Class<? extends Scroll>, Class<? extends ExoticScroll>> regToExo = new HashMap<>();
+	public static final Map<Class<? extends ExoticScroll>, Class<? extends Scroll>> exoToReg = new HashMap<>();
 	static {
 		regToExo.put(ScrollOfIdentify.class, ScrollOfDivination.class);
 		exoToReg.put(ScrollOfDivination.class, ScrollOfIdentify.class);

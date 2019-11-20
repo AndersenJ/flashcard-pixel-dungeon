@@ -24,12 +24,13 @@ package com.watabou.gltextures;
 import com.watabou.utils.RectF;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Atlas {
 
 	public SmartTexture tx;
 
-	protected HashMap<Object, RectF> namedFrames;
+	protected Map<Object, RectF> namedFrames;
 
 	protected float uvLeft;
 	protected float uvTop;

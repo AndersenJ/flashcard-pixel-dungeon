@@ -34,13 +34,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GamesInProgress {
 
 	public static final int MAX_SLOTS = 4;
 
 	// null means we have loaded info and it is empty, no entry means unknown.
-	private static HashMap<Integer, Info> slotStates = new HashMap<>();
+	private static Map<Integer, Info> slotStates = new HashMap<>();
 	public static int curSlot;
 
 	public static HeroClass selectedClass;

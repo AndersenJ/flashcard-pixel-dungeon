@@ -29,15 +29,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ItemStatusHandler<T extends Item> {
 
 	private Class<? extends T>[] items;
-	private HashMap<Class<? extends T>, String> itemLabels;
-	private HashMap<String, Integer> labelImages;
-	private HashSet<Class<? extends T>> known;
+	private Map<Class<? extends T>, String> itemLabels;
+	private Map<String, Integer> labelImages;
+	private Set<Class<? extends T>> known;
 
-	public ItemStatusHandler(Class<? extends T>[] items, HashMap<String, Integer> labelImages) {
+	public ItemStatusHandler(Class<? extends T>[] items, Map<String, Integer> labelImages) {
 
 		this.items = items;
 
@@ -59,7 +61,7 @@ public class ItemStatusHandler<T extends Item> {
 		}
 	}
 
-	public ItemStatusHandler(Class<? extends T>[] items, HashMap<String, Integer> labelImages, Bundle bundle) {
+	public ItemStatusHandler(Class<? extends T>[] items, Map<String, Integer> labelImages, Bundle bundle) {
 
 		this.items = items;
 
@@ -199,12 +201,12 @@ public class ItemStatusHandler<T extends Item> {
 		known.add(itemCls);
 	}
 
-	public HashSet<Class<? extends T>> known() {
+	public Set<Class<? extends T>> known() {
 		return known;
 	}
 
-	public HashSet<Class<? extends T>> unknown() {
-		HashSet<Class<? extends T>> result = new HashSet<>();
+	public Set<Class<? extends T>> unknown() {
+		Set<Class<? extends T>> result = new HashSet<>();
 		for (Class<? extends T> i : items) {
 			if (!known.contains(i)) {
 				result.add(i);

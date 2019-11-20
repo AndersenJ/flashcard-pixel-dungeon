@@ -42,6 +42,7 @@ import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExoticPotion extends Potion {
 
@@ -49,8 +50,8 @@ public class ExoticPotion extends Potion {
 		// sprite = equivalent potion sprite but one row down
 	}
 
-	public static final HashMap<Class<? extends Potion>, Class<? extends ExoticPotion>> regToExo = new HashMap<>();
-	public static final HashMap<Class<? extends ExoticPotion>, Class<? extends Potion>> exoToReg = new HashMap<>();
+	public static final Map<Class<? extends Potion>, Class<? extends ExoticPotion>> regToExo = new HashMap<>();
+	public static final Map<Class<? extends ExoticPotion>, Class<? extends Potion>> exoToReg = new HashMap<>();
 	static {
 		regToExo.put(PotionOfHealing.class, PotionOfShielding.class);
 		exoToReg.put(PotionOfShielding.class, PotionOfHealing.class);

@@ -32,6 +32,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Actor implements Bundlable {
 
@@ -125,8 +126,8 @@ public abstract class Actor implements Bundlable {
 	// **********************
 	// *** Static members ***
 
-	private static HashSet<Actor> all = new HashSet<>();
-	private static HashSet<Char> chars = new HashSet<>();
+	private static Set<Actor> all = new HashSet<>();
+	private static Set<Char> chars = new HashSet<>();
 	private static volatile Actor current;
 
 	private static SparseArray<Actor> ids = new SparseArray<>();

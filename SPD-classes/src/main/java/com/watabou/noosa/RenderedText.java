@@ -35,6 +35,7 @@ import com.watabou.glwrap.Quad;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
+import java.util.Map;
 
 public class RenderedText extends Image {
 
@@ -148,7 +149,7 @@ public class RenderedText extends Image {
 		// but it skips almost all allocations, which is almost as good
 		private static RenderedText textBeingRendered = null;
 		private static float[] vertices = new float[16];
-		private static HashMap<Integer, FloatBuffer> buffers = new HashMap<>();
+		private static Map<Integer, FloatBuffer> buffers = new HashMap<>();
 
 		@Override
 		public void draw(Texture texture, float[] spriteVertices, int offset, int count) {

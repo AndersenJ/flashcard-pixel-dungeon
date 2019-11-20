@@ -40,6 +40,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PlatformSupport;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class AndroidPlatformSupport extends PlatformSupport {
@@ -163,21 +164,21 @@ public class AndroidPlatformSupport extends PlatformSupport {
 	// droid sans / roboto, or a custom pixel font, for use with Latin and Cyrillic
 	// languages
 	private static FreeTypeFontGenerator basicFontGenerator;
-	private static HashMap<Integer, BitmapFont> basicFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> basicFonts = new HashMap<>();
 
 	// droid sans / nanum gothic / noto sans, for use with Korean
 	private static FreeTypeFontGenerator KRFontGenerator;
-	private static HashMap<Integer, BitmapFont> KRFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> KRFonts = new HashMap<>();
 
 	// droid sans / noto sans, for use with Simplified Chinese
 	private static FreeTypeFontGenerator SCFontGenerator;
-	private static HashMap<Integer, BitmapFont> SCFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> SCFonts = new HashMap<>();
 
 	// droid sans / noto sans, for use with Japanese
 	private static FreeTypeFontGenerator JPFontGenerator;
-	private static HashMap<Integer, BitmapFont> JPFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> JPFonts = new HashMap<>();
 
-	private static HashMap<FreeTypeFontGenerator, HashMap<Integer, BitmapFont>> fonts;
+	private static Map<FreeTypeFontGenerator, Map<Integer, BitmapFont>> fonts;
 
 	// special logic for handling korean android 6.0 font oddities
 	private static boolean koreanAndroid6OTF = false;

@@ -72,6 +72,7 @@ import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class NewTengu extends Mob {
 
@@ -717,7 +718,7 @@ public class NewTengu extends Mob {
 		public int direction;
 		private int[] curCells;
 
-		HashSet<Integer> toCells = new HashSet<>();
+		Set<Integer> toCells = new HashSet<>();
 
 		@Override
 		public boolean act() {

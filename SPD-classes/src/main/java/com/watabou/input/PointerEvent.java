@@ -27,6 +27,7 @@ import com.watabou.utils.Signal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PointerEvent {
 
@@ -74,7 +75,7 @@ public class PointerEvent {
 
 	// Accumulated pointer events
 	private static List<PointerEvent> pointerEvents = new ArrayList<>();
-	private static HashMap<Integer, PointerEvent> activePointers = new HashMap<>();
+	private static Map<Integer, PointerEvent> activePointers = new HashMap<>();
 
 	public static synchronized void addPointerEvent(PointerEvent event) {
 		pointerEvents.add(event);
