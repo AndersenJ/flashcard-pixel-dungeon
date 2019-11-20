@@ -45,7 +45,7 @@ public class MagicWellRoom extends SpecialRoom {
 		Painter.set(level, c.x, c.y, Terrain.WELL);
 
 		Class<? extends WellWater> waterClass = overrideWater != null ? overrideWater
-				: Random.element(WATERS).getClass().asSubclass(WellWater.class);
+				: Random.element(WATERS).asSubclass(WellWater.class);
 
 		WellWater.seed(c.x + level.width() * c.y, 1, waterClass, level);
 

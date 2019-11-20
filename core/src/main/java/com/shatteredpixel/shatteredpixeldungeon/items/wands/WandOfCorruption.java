@@ -208,7 +208,7 @@ public class WandOfCorruption extends Wand {
 		}
 
 		// all buffs with a > 0 chance are flavor buffs
-		Class<? extends FlavourBuff> debuffCls = Random.chances(debuffs).getClass().asSubclass(FlavourBuff.class);
+		Class<? extends FlavourBuff> debuffCls = Random.chances(debuffs).asSubclass(FlavourBuff.class);
 
 		if (debuffCls != null) {
 			Buff.append(enemy, debuffCls, 6 + level() * 3);

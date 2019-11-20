@@ -385,8 +385,8 @@ public abstract class Level implements Bundlable {
 			viewDistance = Math.round(viewDistance / 2f);
 
 		if (bundle.contains("mobs_to_spawn")) {
-			Stream.of(bundle.getClassArray("mobs_to_spawn")).filter(mob -> mob != null)
-					.map(mob -> (Class<? extends Mob>) mob.getClass().asSubclass(Mob.class)).forEach(mob -> mobsToSpawn.add(mob));
+			Stream.of(bundle.getClassArray("mobs_to_spawn")).filter(type -> type != null)
+					.map(type -> (Class<? extends Mob>) type.asSubclass(Mob.class)).forEach(type -> mobsToSpawn.add(type));
 		}
 
 		buildFlagMaps();

@@ -420,7 +420,7 @@ public class Generator {
 			return null;
 		}
 
-		Class<? extends Artifact> art = cat.classes[i].getClass().asSubclass(Artifact.class);
+		Class<? extends Artifact> art = cat.classes[i].asSubclass(Artifact.class);
 
 		if (removeArtifact(art)) {
 			Artifact artifact = Reflection.newInstance(art);
@@ -484,8 +484,7 @@ public class Generator {
 		initArtifacts();
 
 		Stream.of(bundle.getClassArray(SPAWNED_ARTIFACTS))
-				.map(artifact -> (Class<? extends Artifact>) artifact.getClass().asSubclass(Artifact.class))
-				.forEach(artifact -> removeArtifact(artifact));
+				.map(type -> (Class<? extends Artifact>) type.asSubclass(Artifact.class)).forEach(type -> removeArtifact(type));
 
 	}
 }
