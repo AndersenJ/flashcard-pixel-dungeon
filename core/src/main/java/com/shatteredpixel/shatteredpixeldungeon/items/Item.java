@@ -96,7 +96,7 @@ public class Item implements Bundlable {
 
 	public List<String> actions(Hero hero) {
 		List<String> actions = new ArrayList<>();
-		actions.add(AC_DROP);
+		if (isTemp) {actions.add(AC_DROP);}
 		actions.add(AC_THROW);
 		return actions;
 	}

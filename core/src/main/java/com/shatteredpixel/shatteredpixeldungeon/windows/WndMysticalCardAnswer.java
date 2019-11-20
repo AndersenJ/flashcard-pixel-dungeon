@@ -2,9 +2,13 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.flashcard.IFlashQuestion;
 
 public class WndMysticalCardAnswer extends WndMysticalCard {
+
+  protected static final float FAILURE_TIME = 1.0f;
+
   WndMysticalCardAnswer(IFlashQuestion question) {
     super(question);
   }
@@ -44,7 +48,8 @@ public class WndMysticalCardAnswer extends WndMysticalCard {
 
   private void onQuestionFail() {
     question.increaseWeight();
-    GameScene.show(new WndMysticalCardQuestion(null));
+    Dungeon.hero.spendAndNext(FAILURE_TIME);
+    //GameScene.show(new WndMysticalCardQuestion(null));
   }
 
   private void onQuestionSuccess() {
