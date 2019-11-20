@@ -26,6 +26,7 @@ import com.watabou.gltextures.TextureCache;
 import com.watabou.utils.RectF;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TextureFilm {
 
@@ -36,7 +37,7 @@ public class TextureFilm {
 
 	private SmartTexture texture;
 
-	protected HashMap<Object, RectF> frames = new HashMap<>();
+	protected Map<Object, RectF> frames = new HashMap<>();
 
 	public TextureFilm(Object tx) {
 

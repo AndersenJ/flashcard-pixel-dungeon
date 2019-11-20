@@ -45,12 +45,13 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class AntiMagic extends Armor.Glyph {
 
 	private static ItemSprite.Glowing TEAL = new ItemSprite.Glowing(0x88EEFF);
 
-	public static final HashSet<Class<?>> RESISTS = new HashSet<>();
+	public static final Set<Class<?>> RESISTS = new HashSet<>();
 	static {
 		RESISTS.add(Charm.class);
 		RESISTS.add(Weakness.class);

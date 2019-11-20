@@ -32,6 +32,7 @@ import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AlchemicalCatalyst extends Potion {
 
@@ -40,7 +41,7 @@ public class AlchemicalCatalyst extends Potion {
 
 	}
 
-	private static HashMap<Class<? extends Potion>, Float> potionChances = new HashMap<>();
+	private static Map<Class<? extends Potion>, Float> potionChances = new HashMap<>();
 	static {
 		potionChances.put(PotionOfHealing.class, 3f);
 		potionChances.put(PotionOfMindVision.class, 2f);

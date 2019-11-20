@@ -29,6 +29,7 @@ import com.watabou.utils.Reflection;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Buff extends Actor {
 
@@ -48,15 +49,15 @@ public class Buff extends Actor {
 	// whether or not the buff announces its name
 	public boolean announced = false;
 
-	protected HashSet<Class<?>> resistances = new HashSet<>();
+	protected Set<Class<?>> resistances = new HashSet<>();
 
-	public HashSet<Class<?>> resistances() {
+	public Set<Class<?>> resistances() {
 		return new HashSet<>(resistances);
 	}
 
-	protected HashSet<Class<?>> immunities = new HashSet<>();
+	protected Set<Class<?>> immunities = new HashSet<>();
 
-	public HashSet<Class<?>> immunities() {
+	public Set<Class<?>> immunities() {
 		return new HashSet<>(immunities);
 	}
 

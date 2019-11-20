@@ -26,12 +26,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.watabou.noosa.Game;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class BitmapCache {
 
 	private static final String DEFAULT = "__default";
 
-	private static HashMap<String, Layer> layers = new HashMap<>();
+	private static Map<String, Layer> layers = new HashMap<>();
 
 	public static Pixmap get(String assetName) {
 		return get(DEFAULT, assetName);

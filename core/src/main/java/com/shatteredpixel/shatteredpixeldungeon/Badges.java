@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Badges {
 
@@ -89,8 +91,8 @@ public class Badges {
 		}
 	}
 
-	private static HashSet<Badge> global;
-	private static HashSet<Badge> local = new HashSet<>();
+	private static Set<Badge> global;
+	private static Set<Badge> local = new HashSet<>();
 
 	private static boolean saveNeeded = false;
 
@@ -102,21 +104,21 @@ public class Badges {
 	public static final String BADGES_FILE = "badges.dat";
 	private static final String BADGES = "badges";
 
-	private static final HashSet<String> removedBadges = new HashSet<>();
+	private static final Set<String> removedBadges = new HashSet<>();
 	static {
 		// removed in 0.6.5
 		removedBadges.addAll(Arrays.asList("RARE_ALBINO", "RARE_BANDIT", "RARE_SHIELDED", "RARE_SENIOR", "RARE_ACIDIC",
 				"RARE", "TUTORIAL_WARRIOR", "TUTORIAL_MAGE"));
 	}
 
-	private static final HashMap<String, String> renamedBadges = new HashMap<>();
+	private static final Map<String, String> renamedBadges = new HashMap<>();
 	static {
 		// 0.6.5
 		renamedBadges.put("CHAMPION", "CHAMPION_1");
 	}
 
-	public static HashSet<Badge> restore(Bundle bundle) {
-		HashSet<Badge> badges = new HashSet<>();
+	public static Set<Badge> restore(Bundle bundle) {
+		Set<Badge> badges = new HashSet<>();
 		if (bundle == null)
 			return badges;
 
@@ -137,7 +139,7 @@ public class Badges {
 		return badges;
 	}
 
-	public static void store(Bundle bundle, HashSet<Badge> badges) {
+	public static void store(Bundle bundle, Set<Badge> badges) {
 		int count = 0;
 		String names[] = new String[badges.size()];
 
@@ -748,7 +750,7 @@ public class Badges {
 		return global.contains(badge);
 	}
 
-	public static HashSet<Badge> allUnlocked() {
+	public static Set<Badge> allUnlocked() {
 		loadGlobal();
 		return new HashSet<>(global);
 	}
@@ -768,7 +770,7 @@ public class Badges {
 
 	public static List<Badge> filtered(boolean global) {
 
-		HashSet<Badge> filtered = new HashSet<>(global ? Badges.global : Badges.local);
+		Set<Badge> filtered = new HashSet<>(global ? Badges.global : Badges.local);
 
 		Iterator<Badge> iterator = filtered.iterator();
 		while (iterator.hasNext()) {
@@ -809,7 +811,7 @@ public class Badges {
 		return list;
 	}
 
-	private static void leaveBest(HashSet<Badge> list, Badge... badges) {
+	private static void leaveBest(Set<Badge> list, Badge... badges) {
 		for (int i = badges.length - 1; i > 0; i--) {
 			if (list.contains(badges[i])) {
 				for (int j = 0; j < i; j++) {

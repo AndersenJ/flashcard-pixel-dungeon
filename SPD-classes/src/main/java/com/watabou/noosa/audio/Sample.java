@@ -25,12 +25,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public enum Sample {
 
 	INSTANCE;
 
-	protected HashMap<Object, Sound> ids = new HashMap<>();
+	protected Map<Object, Sound> ids = new HashMap<>();
 
 	private boolean enabled = true;
 	private float globalVolume = 1f;

@@ -24,12 +24,13 @@ package com.watabou.utils;
 import com.badlogic.gdx.graphics.Pixmap;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class BitmapFilm {
 
 	public Pixmap bitmap;
 
-	protected HashMap<Object, Rect> frames = new HashMap<>();
+	protected Map<Object, Rect> frames = new HashMap<>();
 
 	public BitmapFilm(Pixmap bitmap) {
 		this.bitmap = bitmap;

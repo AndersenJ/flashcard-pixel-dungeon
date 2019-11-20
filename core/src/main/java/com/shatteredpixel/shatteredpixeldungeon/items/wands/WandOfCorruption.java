@@ -73,6 +73,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
 import java.util.HashMap;
+import java.util.Map;
 
 //TODO need to consider other balance adjustments here. Might want to put more emphasis into debuffs rather than less
 public class WandOfCorruption extends Wand {
@@ -88,7 +89,7 @@ public class WandOfCorruption extends Wand {
 	// itself
 
 	private static final float MINOR_DEBUFF_WEAKEN = 7 / 8f;
-	private static final HashMap<Class<? extends Buff>, Float> MINOR_DEBUFFS = new HashMap<>();
+	private static final Map<Class<? extends Buff>, Float> MINOR_DEBUFFS = new HashMap<>();
 	static {
 		MINOR_DEBUFFS.put(Weakness.class, 2f);
 		MINOR_DEBUFFS.put(Cripple.class, 1f);
@@ -106,7 +107,7 @@ public class WandOfCorruption extends Wand {
 	}
 
 	private static final float MAJOR_DEBUFF_WEAKEN = 4 / 5f;
-	private static final HashMap<Class<? extends Buff>, Float> MAJOR_DEBUFFS = new HashMap<>();
+	private static final Map<Class<? extends Buff>, Float> MAJOR_DEBUFFS = new HashMap<>();
 	static {
 		MAJOR_DEBUFFS.put(Amok.class, 3f);
 		MAJOR_DEBUFFS.put(Slow.class, 2f);
@@ -190,11 +191,11 @@ public class WandOfCorruption extends Wand {
 		}
 	}
 
-	private void debuffEnemy(Mob enemy, HashMap<Class<? extends Buff>, Float> category) {
+	private void debuffEnemy(Mob enemy, Map<Class<? extends Buff>, Float> category) {
 
 		// do not consider buffs which are already assigned, or that the enemy is immune
 		// to.
-		HashMap<Class<? extends Buff>, Float> debuffs = new HashMap<>(category);
+		Map<Class<? extends Buff>, Float> debuffs = new HashMap<>(category);
 		for (Buff existing : enemy.buffs()) {
 			if (debuffs.containsKey(existing.getClass())) {
 				debuffs.put(existing.getClass(), 0f);

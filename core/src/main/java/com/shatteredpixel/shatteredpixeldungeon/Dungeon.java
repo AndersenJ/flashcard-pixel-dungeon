@@ -77,6 +77,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Dungeon {
 
@@ -146,7 +147,7 @@ public class Dungeon {
 	public static int depth;
 	public static int gold;
 
-	public static HashSet<Integer> chapters;
+	public static Set<Integer> chapters;
 
 	public static SparseArray<List<Item>> droppedItems;
 	public static SparseArray<List<Item>> portedItems;

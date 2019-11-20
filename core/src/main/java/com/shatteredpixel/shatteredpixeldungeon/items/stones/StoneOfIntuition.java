@@ -67,6 +67,7 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.Image;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class StoneOfIntuition extends InventoryStone {
 
@@ -141,7 +142,7 @@ public class StoneOfIntuition extends InventoryStone {
 			int rows;
 			int placed = 0;
 
-			HashSet<Class<? extends Item>> unIDed = new HashSet<>();
+			Set<Class<? extends Item>> unIDed = new HashSet<>();
 			final Class<?>[] all;
 
 			final int row;
@@ -156,7 +157,7 @@ public class StoneOfIntuition extends InventoryStone {
 					for (int i = 0; i < all.length; i++) {
 						all[i] = ExoticPotion.regToExo.get(all[i]);
 					}
-					HashSet<Class<? extends Item>> exoUID = new HashSet<>();
+					Set<Class<? extends Item>> exoUID = new HashSet<>();
 					for (Class<? extends Item> i : unIDed) {
 						exoUID.add(ExoticPotion.regToExo.get(i));
 					}
@@ -172,7 +173,7 @@ public class StoneOfIntuition extends InventoryStone {
 					for (int i = 0; i < all.length; i++) {
 						all[i] = ExoticScroll.regToExo.get(all[i]);
 					}
-					HashSet<Class<? extends Item>> exoUID = new HashSet<>();
+					Set<Class<? extends Item>> exoUID = new HashSet<>();
 					for (Class<? extends Item> i : unIDed) {
 						exoUID.add(ExoticScroll.regToExo.get(i));
 					}

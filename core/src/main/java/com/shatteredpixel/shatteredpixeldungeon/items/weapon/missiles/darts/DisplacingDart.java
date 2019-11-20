@@ -31,6 +31,7 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisplacingDart extends TippedDart {
 
@@ -47,7 +48,7 @@ public class DisplacingDart extends TippedDart {
 
 			int startDist = Dungeon.level.distance(attacker.pos, defender.pos);
 
-			HashMap<Integer, List<Integer>> positions = new HashMap<>();
+			Map<Integer, List<Integer>> positions = new HashMap<>();
 
 			for (int pos = 0; pos < Dungeon.level.length(); pos++) {
 				if (Dungeon.level.heroFOV[pos] && Dungeon.level.passable[pos] && Actor.findChar(pos) == null) {

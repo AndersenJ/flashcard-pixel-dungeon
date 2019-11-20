@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -47,7 +48,7 @@ public class Bundle {
 
 	private static final String CLASS_NAME = "__className";
 
-	private static HashMap<String, String> aliases = new HashMap<>();
+	private static Map<String, String> aliases = new HashMap<>();
 
 	private JSONObject data;
 

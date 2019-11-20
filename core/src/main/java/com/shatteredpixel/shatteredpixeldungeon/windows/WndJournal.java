@@ -52,6 +52,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WndJournal extends WndTabbed {
 
@@ -622,7 +623,7 @@ public class WndJournal extends WndTabbed {
 			list.scrollTo(0, 0);
 
 			List<Class<? extends Item>> itemClasses;
-			final HashMap<Class<? extends Item>, Boolean> known = new HashMap<>();
+			final Map<Class<? extends Item>, Boolean> known = new HashMap<>();
 			if (currentItemIdx == WEAPON_IDX) {
 				itemClasses = new ArrayList<>(Catalog.WEAPONS.items());
 				for (Class<? extends Item> cls : itemClasses)

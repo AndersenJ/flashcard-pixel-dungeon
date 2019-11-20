@@ -3,9 +3,9 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -40,18 +40,7 @@ public class WndSelectEffect extends Window {
       ScrollOfRecharging.class, ScrollOfRemoveCurse.class, ScrollOfTeleportation.class, ScrollOfTerror.class,
       ScrollOfTransmutation.class);
 
-  Map<Class<? extends Item>, Integer> imageMap = new HashMap<>(Map.ofEntries(Map.entry(PotionOfExperience.class, 0),
-      Map.entry(PotionOfFrost.class, 1), Map.entry(PotionOfHaste.class, 2), Map.entry(PotionOfHealing.class, 3),
-      Map.entry(PotionOfInvisibility.class, 4), Map.entry(PotionOfLevitation.class, 5),
-      Map.entry(PotionOfLiquidFlame.class, 6), Map.entry(PotionOfMindVision.class, 7),
-      Map.entry(PotionOfParalyticGas.class, 8), Map.entry(PotionOfPurity.class, 9),
-      Map.entry(PotionOfStrength.class, 10), Map.entry(PotionOfToxicGas.class, 11),
-      Map.entry(ScrollOfIdentify.class, 0), Map.entry(ScrollOfLullaby.class, 1),
-      Map.entry(ScrollOfMagicMapping.class, 2), Map.entry(ScrollOfMirrorImage.class, 3),
-      Map.entry(ScrollOfRetribution.class, 4), Map.entry(ScrollOfRage.class, 5), Map.entry(ScrollOfRecharging.class, 6),
-      Map.entry(ScrollOfRemoveCurse.class, 7), Map.entry(ScrollOfTeleportation.class, 8),
-      Map.entry(ScrollOfTerror.class, 9), Map.entry(ScrollOfTransmutation.class, 10),
-      Map.entry(ScrollOfUpgrade.class, 11)));
+  Map<Class<? extends Item>, Integer> imageMap = getImages();
 
   static Class<? extends Item> curSelection = null;
 
@@ -96,8 +85,8 @@ public class WndSelectEffect extends Window {
     int row = action.equals(AC_USE_AS_POTION) ? 0 : 16;
     int placed = 0;
 
-    HashSet<Class<? extends Potion>> knownPotions = Potion.getKnown();
-    HashSet<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
+    Set<Class<? extends Potion>> knownPotions = Potion.getKnown();
+    Set<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
     for (int i = 0; i < classList.size(); ++i) {
       final Class<? extends Item> itemClass = classList.get(i);
       if (knownPotions.contains(itemClass) || knownScrolls.contains(itemClass)) {
@@ -135,5 +124,34 @@ public class WndSelectEffect extends Window {
   public void onBackPressed() {
     super.onBackPressed();
     new MysticalCard().collect();
+  }
+
+  private static Map<Class<? extends Item>, Integer> getImages() {
+    Map<Class<? extends Item>, Integer> images = new HashMap<>();
+    images.put(PotionOfExperience.class, 0);
+    images.put(PotionOfFrost.class, 1);
+    images.put(PotionOfHaste.class, 2);
+    images.put(PotionOfHealing.class, 3);
+    images.put(PotionOfInvisibility.class, 4);
+    images.put(PotionOfLevitation.class, 5);
+    images.put(PotionOfLiquidFlame.class, 6);
+    images.put(PotionOfMindVision.class, 7);
+    images.put(PotionOfParalyticGas.class, 8);
+    images.put(PotionOfPurity.class, 9);
+    images.put(PotionOfStrength.class, 10);
+    images.put(PotionOfToxicGas.class, 11);
+    images.put(ScrollOfIdentify.class, 0);
+    images.put(ScrollOfLullaby.class, 1);
+    images.put(ScrollOfMagicMapping.class, 2);
+    images.put(ScrollOfMirrorImage.class, 3);
+    images.put(ScrollOfRetribution.class, 4);
+    images.put(ScrollOfRage.class, 5);
+    images.put(ScrollOfRecharging.class, 6);
+    images.put(ScrollOfRemoveCurse.class, 7);
+    images.put(ScrollOfTeleportation.class, 8);
+    images.put(ScrollOfTerror.class, 9);
+    images.put(ScrollOfTransmutation.class, 10);
+    images.put(ScrollOfUpgrade.class, 11);
+    return images;
   }
 }

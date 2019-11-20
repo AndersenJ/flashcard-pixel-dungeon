@@ -173,9 +173,9 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class Generator {
@@ -323,7 +323,7 @@ public class Generator {
 	private static final float[][] floorSetTierProbs = new float[][] { { 0, 70, 20, 8, 2 }, { 0, 25, 50, 20, 5 },
 			{ 0, 10, 40, 40, 10 }, { 0, 5, 20, 50, 25 }, { 0, 2, 8, 20, 70 } };
 
-	private static HashMap<Category, Float> categoryProbs = new LinkedHashMap<>();
+	private static Map<Category, Float> categoryProbs = new LinkedHashMap<>();
 
 	public static void reset() {
 		for (Category cat : Category.values()) {

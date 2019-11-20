@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class WandOfRegrowth extends Wand {
 
@@ -60,9 +61,9 @@ public class WandOfRegrowth extends Wand {
 	}
 
 	// the actual affected cells
-	private HashSet<Integer> affectedCells;
+	private Set<Integer> affectedCells;
 	// the cells to trace growth particles to, for visual effects.
-	private HashSet<Integer> visualCells;
+	private Set<Integer> visualCells;
 	private int direction = 0;
 
 	private int totChrgUsed = 0;

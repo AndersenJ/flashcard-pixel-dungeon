@@ -91,6 +91,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public abstract class Level implements Bundlable {
@@ -133,13 +135,13 @@ public abstract class Level implements Bundlable {
 	// when a boss level has become locked.
 	public boolean locked = false;
 
-	public HashSet<Mob> mobs;
+	public Set<Mob> mobs;
 	public SparseArray<Heap> heaps;
-	public HashMap<Class<? extends Blob>, Blob> blobs;
+	public Map<Class<? extends Blob>, Blob> blobs;
 	public SparseArray<Plant> plants;
 	public SparseArray<Trap> traps;
-	public HashSet<CustomTilemap> customTiles;
-	public HashSet<CustomTilemap> customWalls;
+	public Set<CustomTilemap> customTiles;
+	public Set<CustomTilemap> customWalls;
 
 	protected List<Item> itemsToSpawn = new ArrayList<>();
 

@@ -41,6 +41,7 @@ import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class PotionOfDragonsBreath extends ExoticPotion {
 
@@ -51,9 +52,9 @@ public class PotionOfDragonsBreath extends ExoticPotion {
 	// a lot of this is copy-paste from wand of fireblast
 
 	// the actual affected cells
-	private HashSet<Integer> affectedCells;
+	private Set<Integer> affectedCells;
 	// the cells to trace fire shots to, for visual effects.
-	private HashSet<Integer> visualCells;
+	private Set<Integer> visualCells;
 	private int direction = 0;
 
 	@Override

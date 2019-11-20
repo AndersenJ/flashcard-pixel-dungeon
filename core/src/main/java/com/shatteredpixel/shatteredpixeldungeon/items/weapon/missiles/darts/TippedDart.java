@@ -48,6 +48,7 @@ import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class TippedDart extends Dart {
 
@@ -137,7 +138,7 @@ public abstract class TippedDart extends Dart {
 		return 8 * quantity;
 	}
 
-	private static HashMap<Class<? extends Plant.Seed>, Class<? extends TippedDart>> types = new HashMap<>();
+	private static Map<Class<? extends Plant.Seed>, Class<? extends TippedDart>> types = new HashMap<>();
 	static {
 		types.put(Blindweed.Seed.class, BlindingDart.class);
 		types.put(Dreamfoil.Seed.class, SleepDart.class);

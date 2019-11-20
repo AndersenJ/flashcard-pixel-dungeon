@@ -54,9 +54,9 @@ import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class Scroll extends Item {
 
@@ -71,13 +71,7 @@ public abstract class Scroll extends Item {
 			ScrollOfRage.class, ScrollOfTerror.class, ScrollOfLullaby.class, ScrollOfTransmutation.class,
 			ScrollOfRetribution.class, ScrollOfMirrorImage.class };
 
-	private static final HashMap<String, Integer> runes = new HashMap<>(Map.ofEntries(
-			Map.entry("KAUNAN", ItemSpriteSheet.SCROLL_KAUNAN), Map.entry("SOWILO", ItemSpriteSheet.SCROLL_SOWILO),
-			Map.entry("LAGUZ", ItemSpriteSheet.SCROLL_LAGUZ), Map.entry("YNGVI", ItemSpriteSheet.SCROLL_YNGVI),
-			Map.entry("GYFU", ItemSpriteSheet.SCROLL_GYFU), Map.entry("RAIDO", ItemSpriteSheet.SCROLL_RAIDO),
-			Map.entry("ISAZ", ItemSpriteSheet.SCROLL_ISAZ), Map.entry("MANNAZ", ItemSpriteSheet.SCROLL_MANNAZ),
-			Map.entry("NAUDIZ", ItemSpriteSheet.SCROLL_NAUDIZ), Map.entry("BERKANAN", ItemSpriteSheet.SCROLL_BERKANAN),
-			Map.entry("ODAL", ItemSpriteSheet.SCROLL_ODAL), Map.entry("TIWAZ", ItemSpriteSheet.SCROLL_TIWAZ)));
+	private static final Map<String, Integer> runes = getRunes();
 
 	protected static ItemStatusHandler<Scroll> handler;
 
@@ -234,11 +228,11 @@ public abstract class Scroll extends Item {
 		return isKnown();
 	}
 
-	public static HashSet<Class<? extends Scroll>> getKnown() {
+	public static Set<Class<? extends Scroll>> getKnown() {
 		return handler.known();
 	}
 
-	public static HashSet<Class<? extends Scroll>> getUnknown() {
+	public static Set<Class<? extends Scroll>> getUnknown() {
 		return handler.unknown();
 	}
 
@@ -274,8 +268,8 @@ public abstract class Scroll extends Item {
 
 	public static class ScrollToStone extends Recipe {
 
-		private static HashMap<Class<? extends Scroll>, Class<? extends Runestone>> stones = new HashMap<>();
-		private static HashMap<Class<? extends Scroll>, Integer> amnts = new HashMap<>();
+		private static Map<Class<? extends Scroll>, Class<? extends Runestone>> stones = new HashMap<>();
+		private static Map<Class<? extends Scroll>, Integer> amnts = new HashMap<>();
 		static {
 			stones.put(ScrollOfIdentify.class, StoneOfIntuition.class);
 			amnts.put(ScrollOfIdentify.class, 3);
@@ -349,5 +343,22 @@ public abstract class Scroll extends Item {
 			Scroll s = (Scroll) ingredients.get(0);
 			return Reflection.newInstance(stones.get(s.getClass())).quantity(amnts.get(s.getClass()));
 		}
+	}
+
+	private static Map<String, Integer> getRunes() {
+		Map<String, Integer> runes = new HashMap<>();
+		runes.put("KAUNAN", ItemSpriteSheet.SCROLL_KAUNAN);
+		runes.put("SOWILO", ItemSpriteSheet.SCROLL_SOWILO);
+		runes.put("LAGUZ", ItemSpriteSheet.SCROLL_LAGUZ);
+		runes.put("YNGVI", ItemSpriteSheet.SCROLL_YNGVI);
+		runes.put("GYFU", ItemSpriteSheet.SCROLL_GYFU);
+		runes.put("RAIDO", ItemSpriteSheet.SCROLL_RAIDO);
+		runes.put("ISAZ", ItemSpriteSheet.SCROLL_ISAZ);
+		runes.put("MANNAZ", ItemSpriteSheet.SCROLL_MANNAZ);
+		runes.put("NAUDIZ", ItemSpriteSheet.SCROLL_NAUDIZ);
+		runes.put("BERKANAN", ItemSpriteSheet.SCROLL_BERKANAN);
+		runes.put("ODAL", ItemSpriteSheet.SCROLL_ODAL);
+		runes.put("TIWAZ", ItemSpriteSheet.SCROLL_TIWAZ);
+		return runes;
 	}
 }

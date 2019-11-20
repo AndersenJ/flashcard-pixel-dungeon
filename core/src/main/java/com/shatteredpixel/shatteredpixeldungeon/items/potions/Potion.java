@@ -79,6 +79,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Potion extends Item {
@@ -97,15 +98,9 @@ public class Potion extends Item {
 			PotionOfMindVision.class, PotionOfPurity.class, PotionOfInvisibility.class, PotionOfHaste.class,
 			PotionOfFrost.class };
 
-	private static final HashMap<String, Integer> colors = new HashMap<>(Map.ofEntries(
-			Map.entry("crimson", ItemSpriteSheet.POTION_CRIMSON), Map.entry("amber", ItemSpriteSheet.POTION_AMBER),
-			Map.entry("golden", ItemSpriteSheet.POTION_GOLDEN), Map.entry("jade", ItemSpriteSheet.POTION_JADE),
-			Map.entry("turquoise", ItemSpriteSheet.POTION_TURQUOISE), Map.entry("azure", ItemSpriteSheet.POTION_AZURE),
-			Map.entry("indigo", ItemSpriteSheet.POTION_INDIGO), Map.entry("magenta", ItemSpriteSheet.POTION_MAGENTA),
-			Map.entry("bistre", ItemSpriteSheet.POTION_BISTRE), Map.entry("charcoal", ItemSpriteSheet.POTION_CHARCOAL),
-			Map.entry("silver", ItemSpriteSheet.POTION_SILVER), Map.entry("ivory", ItemSpriteSheet.POTION_IVORY)));
+	private static final Map<String, Integer> colors = getColors();
 
-	private static final HashSet<Class<? extends Potion>> mustThrowPots = new HashSet<>();
+	private static final Set<Class<? extends Potion>> mustThrowPots = new HashSet<>();
 	static {
 		mustThrowPots.add(PotionOfToxicGas.class);
 		mustThrowPots.add(PotionOfLiquidFlame.class);
@@ -121,7 +116,7 @@ public class Potion extends Item {
 		// also all brews, hardcoded
 	}
 
-	private static final HashSet<Class<? extends Potion>> canThrowPots = new HashSet<>();
+	private static final Set<Class<? extends Potion>> canThrowPots = new HashSet<>();
 	static {
 		canThrowPots.add(AlchemicalCatalyst.class);
 
@@ -378,11 +373,11 @@ public class Potion extends Item {
 		return false;
 	}
 
-	public static HashSet<Class<? extends Potion>> getKnown() {
+	public static Set<Class<? extends Potion>> getKnown() {
 		return handler.known();
 	}
 
-	public static HashSet<Class<? extends Potion>> getUnknown() {
+	public static Set<Class<? extends Potion>> getUnknown() {
 		return handler.unknown();
 	}
 
@@ -436,7 +431,7 @@ public class Potion extends Item {
 
 	public static class SeedToPotion extends Recipe {
 
-		public static HashMap<Class<? extends Plant.Seed>, Class<? extends Potion>> types = new HashMap<>();
+		public static Map<Class<? extends Plant.Seed>, Class<? extends Potion>> types = new HashMap<>();
 		static {
 			types.put(Blindweed.Seed.class, PotionOfInvisibility.class);
 			types.put(Dreamfoil.Seed.class, PotionOfPurity.class);
@@ -526,5 +521,22 @@ public class Potion extends Item {
 				}
 			};
 		}
+	}
+
+	private static Map<String, Integer> getColors() {
+		Map<String, Integer> colors = new HashMap<>();
+		colors.put("crimson", ItemSpriteSheet.POTION_CRIMSON);
+		colors.put("amber", ItemSpriteSheet.POTION_AMBER);
+		colors.put("golden", ItemSpriteSheet.POTION_GOLDEN);
+		colors.put("jade", ItemSpriteSheet.POTION_JADE);
+		colors.put("turquoise", ItemSpriteSheet.POTION_TURQUOISE);
+		colors.put("azure", ItemSpriteSheet.POTION_AZURE);
+		colors.put("indigo", ItemSpriteSheet.POTION_INDIGO);
+		colors.put("magenta", ItemSpriteSheet.POTION_MAGENTA);
+		colors.put("bistre", ItemSpriteSheet.POTION_BISTRE);
+		colors.put("charcoal", ItemSpriteSheet.POTION_CHARCOAL);
+		colors.put("silver", ItemSpriteSheet.POTION_SILVER);
+		colors.put("ivory", ItemSpriteSheet.POTION_IVORY);
+		return colors;
 	}
 }

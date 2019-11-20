@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Callback;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class HuntressArmor extends ClassArmor {
 
@@ -40,7 +41,7 @@ public class HuntressArmor extends ClassArmor {
 		image = ItemSpriteSheet.ARMOR_HUNTRESS;
 	}
 
-	private HashMap<Callback, Mob> targets = new HashMap<>();
+	private Map<Callback, Mob> targets = new HashMap<>();
 
 	@Override
 	public void doSpecial() {

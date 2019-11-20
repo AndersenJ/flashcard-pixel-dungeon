@@ -27,6 +27,7 @@ import com.watabou.utils.SparseArray;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class DungeonTileSheet {
 
@@ -74,7 +75,7 @@ public class DungeonTileSheet {
 	// next 15 slots are all water stitching with ground.
 
 	// These tiles can stitch with water
-	public static HashSet<Integer> waterStitcheable = new HashSet<>(
+	public static Set<Integer> waterStitcheable = new HashSet<>(
 			Arrays.asList(Terrain.EMPTY, Terrain.GRASS, Terrain.EMPTY_WELL, Terrain.ENTRANCE, Terrain.EXIT, Terrain.EMBERS,
 					Terrain.BARRICADE, Terrain.HIGH_GRASS, Terrain.FURROWED_GRASS, Terrain.SECRET_TRAP, Terrain.TRAP,
 					Terrain.INACTIVE_TRAP, Terrain.EMPTY_DECO, Terrain.SIGN, Terrain.WELL, Terrain.STATUE, Terrain.ALCHEMY,

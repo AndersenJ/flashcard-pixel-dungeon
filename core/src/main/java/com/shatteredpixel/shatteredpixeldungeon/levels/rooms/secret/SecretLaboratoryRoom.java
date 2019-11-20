@@ -43,10 +43,11 @@ import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SecretLaboratoryRoom extends SecretRoom {
 
-	private static HashMap<Class<? extends Potion>, Float> potionChances = new HashMap<>();
+	private static Map<Class<? extends Potion>, Float> potionChances = new HashMap<>();
 	static {
 		potionChances.put(PotionOfHealing.class, 1f);
 		potionChances.put(PotionOfMindVision.class, 2f);
@@ -74,7 +75,7 @@ public class SecretLaboratoryRoom extends SecretRoom {
 		Blob.seed(pot.x + level.width() * pot.y, 1 + Random.NormalIntRange(20, 30), Alchemy.class, level);
 
 		int n = Random.IntRange(2, 3);
-		HashMap<Class<? extends Potion>, Float> chances = new HashMap<>(potionChances);
+		Map<Class<? extends Potion>, Float> chances = new HashMap<>(potionChances);
 		for (int i = 0; i < n; i++) {
 			int pos;
 			do {

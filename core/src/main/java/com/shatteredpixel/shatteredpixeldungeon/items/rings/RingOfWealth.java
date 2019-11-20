@@ -40,8 +40,8 @@ import com.watabou.utils.Random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RingOfWealth extends Ring {
 
@@ -88,7 +88,7 @@ public class RingOfWealth extends Ring {
 		if (getBonus(target, Wealth.class) <= 0)
 			return null;
 
-		HashSet<Wealth> buffs = target.buffs(Wealth.class);
+		Set<Wealth> buffs = target.buffs(Wealth.class);
 		float triesToDrop = Float.MIN_VALUE;
 		int dropsToRare = Integer.MIN_VALUE;
 

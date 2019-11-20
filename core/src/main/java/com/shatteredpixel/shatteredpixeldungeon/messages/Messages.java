@@ -32,7 +32,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IllegalFormatException;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /*
 	Simple wrapper class for java resource bundles.
@@ -51,7 +53,7 @@ public class Messages {
 	 * 
 	 * ..Yes R.string would do this for me, but that's not multiplatform
 	 */
-	private static HashMap<String, String> strings;
+	private static Map<String, String> strings;
 	private static Languages lang;
 
 	public static Languages lang() {
@@ -165,7 +167,7 @@ public class Messages {
 	// Words which should not be capitalized in title case, mostly prepositions
 	// which appear ingame
 	// This list is not comprehensive!
-	private static final HashSet<String> noCaps = new HashSet<>(Arrays.asList(new String[] {
+	private static final Set<String> noCaps = new HashSet<>(Arrays.asList(new String[] {
 			// English
 			"a", "an", "and", "of", "by", "to", "the", "x" }));
 

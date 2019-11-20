@@ -29,6 +29,7 @@ import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SpellSprite extends Image {
 
@@ -56,7 +57,7 @@ public class SpellSprite extends Image {
 	private float duration;
 	private float passed;
 
-	private static HashMap<Char, SpellSprite> all = new HashMap<>();
+	private static Map<Char, SpellSprite> all = new HashMap<>();
 
 	public SpellSprite() {
 		super(Assets.SPELL_ICONS);

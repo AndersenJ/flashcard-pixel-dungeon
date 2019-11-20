@@ -53,6 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Set;
 
 public class RingOfElements extends Ring {
 
@@ -69,7 +70,7 @@ public class RingOfElements extends Ring {
 		return new Resistance();
 	}
 
-	public static final HashSet<Class<?>> RESISTS = new HashSet<>();
+	public static final Set<Class<?>> RESISTS = new HashSet<>();
 	static {
 		RESISTS.add(Burning.class);
 		RESISTS.add(Charm.class);

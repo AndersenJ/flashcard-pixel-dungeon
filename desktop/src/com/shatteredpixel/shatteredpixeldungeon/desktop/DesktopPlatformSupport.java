@@ -30,6 +30,7 @@ import com.watabou.noosa.Game;
 import com.watabou.utils.PlatformSupport;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class DesktopPlatformSupport extends PlatformSupport {
@@ -56,13 +57,13 @@ public class DesktopPlatformSupport extends PlatformSupport {
 
 	// custom pixel font, for use with Latin and Cyrillic languages
 	private static FreeTypeFontGenerator basicFontGenerator;
-	private static HashMap<Integer, BitmapFont> basicFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> basicFonts = new HashMap<>();
 
 	// droid sans fallback, for asian fonts
 	private static FreeTypeFontGenerator asianFontGenerator;
-	private static HashMap<Integer, BitmapFont> asianFonts = new HashMap<>();
+	private static Map<Integer, BitmapFont> asianFonts = new HashMap<>();
 
-	private static HashMap<FreeTypeFontGenerator, HashMap<Integer, BitmapFont>> fonts;
+	private static Map<FreeTypeFontGenerator, Map<Integer, BitmapFont>> fonts;
 
 	@Override
 	public void setupFontGenerators(int pageSize, boolean systemfont) {
