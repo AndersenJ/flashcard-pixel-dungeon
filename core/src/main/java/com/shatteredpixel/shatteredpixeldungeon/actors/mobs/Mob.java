@@ -673,7 +673,7 @@ public abstract class Mob extends Char {
 
 		} else if (loot instanceof Class<?>) {
 
-			item = Generator.random(loot.getClass().asSubclass(Item.class));
+			item = Generator.random(((Class<?>) loot).asSubclass(Item.class));
 
 		} else {
 
