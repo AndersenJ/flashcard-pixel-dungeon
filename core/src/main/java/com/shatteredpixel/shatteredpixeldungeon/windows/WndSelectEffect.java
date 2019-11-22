@@ -2,13 +2,17 @@
 package com.shatteredpixel.shatteredpixeldungeon.windows;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.items.Anonymizable;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.MysticalCard;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.*;
@@ -64,8 +68,9 @@ public class WndSelectEffect extends Window {
         super.onClick();
         hide();
         try {
-          Item selectedItem = curSelection.getDeclaredConstructor().newInstance();
+          Anonymizable selectedItem = (Anonymizable) curSelection.getDeclaredConstructor().newInstance();
           selectedItem.setTemp(true);
+          if (!selectedItem.isKnown()) {selectedItem.anonymize();}
           selectedItem.execute(Dungeon.hero);
         } catch (Exception e) {
           GLog.n(e.getMessage());
@@ -85,11 +90,11 @@ public class WndSelectEffect extends Window {
     int row = action.equals(AC_USE_AS_POTION) ? 0 : 16;
     int placed = 0;
 
-    Set<Class<? extends Potion>> knownPotions = Potion.getKnown();
-    Set<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
-    for (int i = 0; i < classList.size(); ++i) {
+    //Set<Class<? extends Potion>> knownPotions = Potion.getKnown();
+    //Set<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
+    Collections.shuffle(classList);
+    for (int i = 0; i < 3; ++i) {
       final Class<? extends Item> itemClass = classList.get(i);
-      if (knownPotions.contains(itemClass) || knownScrolls.contains(itemClass)) {
         IconButton btn = new IconButton() {
           @Override
           protected void onClick() {
@@ -114,7 +119,6 @@ public class WndSelectEffect extends Window {
           }
           top += BTN_SIZE;
         }
-      }
     }
 
     resize(WIDTH, 115);
