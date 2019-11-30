@@ -186,6 +186,11 @@ public class Potion extends Anonymizable{
 		if (!isKnown())
 			image = ItemSpriteSheet.POTION_HOLDER;
 		anonymous = true;
+	}
+
+	@Override
+	public void setTemp(boolean value) {
+		super.setTemp(value);
 		this.setAction();
 	}
 
