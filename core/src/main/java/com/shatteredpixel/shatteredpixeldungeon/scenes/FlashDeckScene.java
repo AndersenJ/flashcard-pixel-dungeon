@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.scenes;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.shatteredpixel.shatteredpixeldungeon.Chrome;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
@@ -112,12 +113,12 @@ public class FlashDeckScene extends PixelScene {
 
     public FlashDeckButton() {
       this.deckName = null;
-      set();
+      setActive();
     }
 
     public FlashDeckButton(String deckName, boolean isActive) {
       this.deckName = deckName;
-      set(isActive);
+      setActive(isActive);
     }
 
     @Override
@@ -131,11 +132,11 @@ public class FlashDeckScene extends PixelScene {
       add(name);
     }
 
-    private void set() {
-      set(false);
+    private void setActive() {
+      setActive(false);
     }
 
-    private void set(boolean isActive) {
+    private void setActive(boolean isActive) {
       if (deckName == null) {
         name.text(Messages.get(FlashDeckScene.class, "new"));
       } else {
@@ -200,6 +201,9 @@ public class FlashDeckScene extends PixelScene {
     protected void onClick() {
       if (deckName == null) {
         JFileChooser fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON Files", "json");
+				fc.addChoosableFileFilter(filter);
 
         int returnVal = fc.showOpenDialog(null);
 

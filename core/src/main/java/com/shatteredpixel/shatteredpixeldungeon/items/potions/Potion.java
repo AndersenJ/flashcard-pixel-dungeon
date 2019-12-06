@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
+import com.shatteredpixel.shatteredpixeldungeon.items.Anonymizable;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
@@ -82,7 +83,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Potion extends Item {
+public class Potion extends Anonymizable{
 
 	public static final String AC_DRINK = "DRINK";
 
@@ -180,10 +181,17 @@ public class Potion extends Item {
 	// effects
 	protected boolean anonymous = false;
 
+	@Override
 	public void anonymize() {
 		if (!isKnown())
 			image = ItemSpriteSheet.POTION_HOLDER;
 		anonymous = true;
+	}
+
+	@Override
+	public void setTemp(boolean value) {
+		super.setTemp(value);
+		this.setAction();
 	}
 
 	@Override
@@ -207,9 +215,9 @@ public class Potion extends Item {
 	}
 
 	public void setAction() {
-		if (isKnown() && mustThrowPots.contains(this.getClass())) {
+		if ((isKnown() || this.isTemp) && mustThrowPots.contains(this.getClass())) {
 			defaultAction = AC_THROW;
-		} else if (isKnown() && canThrowPots.contains(this.getClass())) {
+		} else if ((isKnown() || this.isTemp) && canThrowPots.contains(this.getClass())) {
 			defaultAction = AC_CHOOSE;
 		} else {
 			defaultAction = AC_DRINK;
@@ -351,7 +359,7 @@ public class Potion extends Item {
 
 	@Override
 	public String name() {
-		return isKnown() ? super.name() : Messages.get(this, color);
+		return isKnown() || this.isTemp ? super.name() : Messages.get(this, color);
 	}
 
 	@Override
@@ -386,7 +394,7 @@ public class Potion extends Item {
 	}
 
 	protected int splashColor() {
-		return anonymous ? 0x00AAFF : ItemSprite.pick(image, 5, 9);
+		return anonymous || this.isTemp ? 0x00AAFF : ItemSprite.pick(image, 5, 9);
 	}
 
 	protected void splash(int cell) {

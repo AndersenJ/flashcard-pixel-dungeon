@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Blindness;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MagicImmune;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.items.Anonymizable;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.ItemStatusHandler;
 import com.shatteredpixel.shatteredpixeldungeon.items.Recipe;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class Scroll extends Item {
+public abstract class Scroll extends Anonymizable {
 
 	public static final String AC_READ = "READ";
 
@@ -123,6 +124,7 @@ public abstract class Scroll extends Item {
 	// effects
 	protected boolean anonymous = false;
 
+	@Override
 	public void anonymize() {
 		if (!isKnown())
 			image = ItemSpriteSheet.SCROLL_HOLDER;
