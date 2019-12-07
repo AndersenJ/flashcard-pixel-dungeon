@@ -48,7 +48,11 @@ public abstract class WndMysticalCard extends Window {
 
     y += tb1.height() + MARGIN_BETWEEN;
 
-    tb2 = PixelScene.renderTextBlock(this.getText(), 12);
+    // Get Text Size
+    int textLength = this.getText().length();
+    int textSize = 12 - (int) Math.min(8,Math.floor(textLength / 15));
+
+    tb2 = PixelScene.renderTextBlock(this.getText(), textSize);
     tb2.maxWidth(WIDTH);
     tb2.invert();
     int centeredAnswerPos = (WIDTH - (int) tb2.width()) / 2;
