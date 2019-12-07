@@ -4,11 +4,8 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
@@ -70,7 +67,9 @@ public class WndSelectEffect extends Window {
         try {
           Anonymizable selectedItem = (Anonymizable) curSelection.getDeclaredConstructor().newInstance();
           selectedItem.setTemp(true);
-          if (!selectedItem.isKnown()) {selectedItem.anonymize();}
+          if (!selectedItem.isKnown()) {
+            selectedItem.anonymize();
+          }
           selectedItem.execute(Dungeon.hero);
         } catch (Exception e) {
           GLog.n(e.getMessage());
@@ -90,35 +89,35 @@ public class WndSelectEffect extends Window {
     int row = action.equals(AC_USE_AS_POTION) ? 0 : 16;
     int placed = 0;
 
-    //Set<Class<? extends Potion>> knownPotions = Potion.getKnown();
-    //Set<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
+    // Set<Class<? extends Potion>> knownPotions = Potion.getKnown();
+    // Set<Class<? extends Scroll>> knownScrolls = Scroll.getKnown();
     Collections.shuffle(classList);
     for (int i = 0; i < 3; ++i) {
       final Class<? extends Item> itemClass = classList.get(i);
-        IconButton btn = new IconButton() {
-          @Override
-          protected void onClick() {
-            curSelection = itemClass;
-            choose.visible = true;
-            choose.text(Messages.get(curSelection, "name"));
-            choose.enable(true);
-            super.onClick();
-          }
-        };
-        Image im = new Image(Assets.CONS_ICONS, 7 * imageMap.get(itemClass), row, 7, 8);
-        im.scale.set(2f);
-        btn.icon(im);
-        btn.setRect(left + placed * BTN_SIZE, top, BTN_SIZE, BTN_SIZE);
-        add(btn);
-
-        ++placed;
-        if (placed == ((classList.size() + 1) / 2)) {
-          placed = 0;
-          if (classList.size() % 2 == 1) {
-            left += BTN_SIZE / 2f;
-          }
-          top += BTN_SIZE;
+      IconButton btn = new IconButton() {
+        @Override
+        protected void onClick() {
+          curSelection = itemClass;
+          choose.visible = true;
+          choose.text(Messages.get(curSelection, "name"));
+          choose.enable(true);
+          super.onClick();
         }
+      };
+      Image im = new Image(Assets.CONS_ICONS, 7 * imageMap.get(itemClass), row, 7, 8);
+      im.scale.set(2f);
+      btn.icon(im);
+      btn.setRect(left + placed * BTN_SIZE, top, BTN_SIZE, BTN_SIZE);
+      add(btn);
+
+      ++placed;
+      if (placed == ((classList.size() + 1) / 2)) {
+        placed = 0;
+        if (classList.size() % 2 == 1) {
+          left += BTN_SIZE / 2f;
+        }
+        top += BTN_SIZE;
+      }
     }
 
     resize(WIDTH, 115);
