@@ -1,9 +1,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.flashcard;
 
 public interface IFlashDeck {
-	IFlashQuestion getQuestion();
+	public IFlashQuestion retrieveQuestion();
 
-	void addQuestion(IFlashQuestion newQuestion);
+	public void addQuestion(IFlashQuestion newQuestion);
 
 	public String getDeckName();
 

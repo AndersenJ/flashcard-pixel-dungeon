@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
+import com.shatteredpixel.shatteredpixeldungeon.flashcard.FlashDecks;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
@@ -556,6 +557,7 @@ public class Dungeon {
 			Actor.fixTime();
 			saveGame(GamesInProgress.curSlot);
 			saveLevel(GamesInProgress.curSlot);
+			FlashDecks.save();
 
 			GamesInProgress.set(GamesInProgress.curSlot, depth, challenges, hero);
 
