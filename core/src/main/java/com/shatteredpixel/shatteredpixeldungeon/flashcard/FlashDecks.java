@@ -26,6 +26,7 @@ public class FlashDecks {
 	}
 
 	public static List<IFlashDeck> getFlashDecks() {
+<<<<<<< HEAD
 		if (decks.isEmpty()) {
 			FlashDecks.addDeck(FlashDeck.retrieveTestDeck());
 			// More dummy data for the import UI
@@ -40,6 +41,8 @@ public class FlashDecks {
 			// FlashDecks.addDeck(deck3);
 		}
 
+=======
+>>>>>>> development
 		return Collections.unmodifiableList(decks);
 	}
 
