@@ -8,6 +8,13 @@ public class FlashQuestion implements IFlashQuestion {
 	// deck
 	private int weight;
 
+	FlashQuestion(String question, String answer, int weight)
+	{
+		this.question = question;
+		this.answer = answer;
+		this.weight = weight;
+	}
+
 	FlashQuestion(String question, String answer) {
 		this.question = question;
 		this.answer = answer;
