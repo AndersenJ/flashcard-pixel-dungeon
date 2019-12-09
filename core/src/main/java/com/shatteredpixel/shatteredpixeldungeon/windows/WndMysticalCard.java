@@ -50,7 +50,7 @@ public abstract class WndMysticalCard extends Window {
 
     // Get Text Size
     int textLength = this.getText().length();
-    int textSize = 12 - (int) Math.min(8,Math.floor(textLength / 15));
+    int textSize = 12 - (int) Math.min(8,Math.floor(textLength / 20));
 
     tb2 = PixelScene.renderTextBlock(this.getText(), textSize);
     tb2.maxWidth(WIDTH);
