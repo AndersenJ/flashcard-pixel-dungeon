@@ -32,8 +32,8 @@ import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.flashcard.FlashDecks;
 import com.shatteredpixel.shatteredpixeldungeon.flashcard.IFlashDeck;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.ui.DeckExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Archs;
-import com.shatteredpixel.shatteredpixeldungeon.ui.ExitButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RenderedTextBlock;
 import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
@@ -61,7 +61,7 @@ public class FlashDeckScene extends PixelScene {
     archs.setSize(w, h);
     add(archs);
 
-    ExitButton btnExit = new ExitButton();
+    DeckExitButton btnExit = new DeckExitButton();
     btnExit.setPos(w - btnExit.width(), 0);
     add(btnExit);
 
