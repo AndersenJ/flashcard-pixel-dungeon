@@ -14,7 +14,7 @@ public class FlashDeck implements IFlashDeck {
 		this.deckName = deckName;
 	}
 
-	public static FlashDeck getTestDeck() {
+	public static FlashDeck retrieveTestDeck() {
 		List<IFlashQuestion> multQuestions = new ArrayList<IFlashQuestion>();
 
 		for (int i = 1; i < 5; ++i) {
@@ -50,9 +50,19 @@ public class FlashDeck implements IFlashDeck {
 		questions.add(newQuestion);
 	}
 
+	public IFlashQuestion[] getQuestions()
+	{
+		IFlashQuestion[] results = new IFlashQuestion[questions.size()];
+		return questions.toArray(results);
+
+	}
+
 	// this function could definitely be made faster if it ends up slowing things
 	// down
-	public IFlashQuestion getQuestion() {
+	public IFlashQuestion retrieveQuestion() {
+		if (questions.size() == 0) {
+			return new FlashQuestion("Error: the \"" + deckName + "\" deck has no cards", "Error: the \"" + deckName + "\" deck has no cards");
+		}
 		int totalWeight = 0;
 
 		for (IFlashQuestion question : questions) {
