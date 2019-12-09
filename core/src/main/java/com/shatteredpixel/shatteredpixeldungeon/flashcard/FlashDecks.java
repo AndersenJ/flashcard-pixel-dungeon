@@ -26,23 +26,6 @@ public class FlashDecks {
 	}
 
 	public static List<IFlashDeck> getFlashDecks() {
-<<<<<<< HEAD
-		if (decks.isEmpty()) {
-			FlashDecks.addDeck(FlashDeck.retrieveTestDeck());
-			// More dummy data for the import UI
-			// FlashDeck deck1 = new FlashDeck(new ArrayList<IFlashQuestion>(), "Japanese");
-			// FlashDeck deck2 = new FlashDeck(new ArrayList<IFlashQuestion>(), "Pokemon Types");
-			// FlashDeck deck3 = new FlashDeck(new ArrayList<IFlashQuestion>(), "Trig Identities");
-			// deck1.setIsActive(true);
-			// deck2.setIsActive(false);
-			// deck3.setIsActive(true);
-			// FlashDecks.addDeck(deck1);
-			// FlashDecks.addDeck(deck2);
-			// FlashDecks.addDeck(deck3);
-		}
-
-=======
->>>>>>> development
 		return Collections.unmodifiableList(decks);
 	}
 

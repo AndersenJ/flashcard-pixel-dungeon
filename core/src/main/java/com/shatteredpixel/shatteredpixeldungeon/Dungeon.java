@@ -557,7 +557,6 @@ public class Dungeon {
 			Actor.fixTime();
 			saveGame(GamesInProgress.curSlot);
 			saveLevel(GamesInProgress.curSlot);
-			FlashDecks.save();
 
 			GamesInProgress.set(GamesInProgress.curSlot, depth, challenges, hero);
 

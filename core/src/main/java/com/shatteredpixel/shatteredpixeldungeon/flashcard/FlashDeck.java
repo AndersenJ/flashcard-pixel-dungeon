@@ -59,14 +59,10 @@ public class FlashDeck implements IFlashDeck {
 
 	// this function could definitely be made faster if it ends up slowing things
 	// down
-<<<<<<< HEAD
 	public IFlashQuestion retrieveQuestion() {
-=======
-	public IFlashQuestion getQuestion() {
 		if (questions.size() == 0) {
 			return new FlashQuestion("Error: the \"" + deckName + "\" deck has no cards", "Error: the \"" + deckName + "\" deck has no cards");
 		}
->>>>>>> development
 		int totalWeight = 0;
 
 		for (IFlashQuestion question : questions) {
